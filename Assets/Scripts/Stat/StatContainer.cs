@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using UnityEditor;
 
 public class StatContainer
 {
@@ -48,9 +50,10 @@ public class StatContainer
     private float ReCalculate()
     {
         float finalValue = baseValue;
+
         var flatValues = modifiers.Where(m => m.type == ModType.Flat).ToList();
-        var defaultValues = flatValues.Where(m => m.category == ModCategory.Default).ToList();
-        var mulValues = flatValues.Where(m => m.category == ModCategory.Multiply).ToList();
+        var defaultValues = modifiers.Where(m => m.type == ModType.Percent && m.category == ModCategory.Default).ToList();
+        var mulValues = modifiers.Where(m => m.type == ModType.Percent && m.category == ModCategory.Multiply).ToList();
 
         foreach (var stat in flatValues)
         {
@@ -63,7 +66,7 @@ public class StatContainer
             percent += stat.value;
         }
         finalValue *= (1f + percent);
-        
+
         foreach (var stat in mulValues)
         {
             finalValue *= (1f + stat.value);
