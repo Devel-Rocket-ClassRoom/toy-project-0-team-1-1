@@ -1,26 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using UnityEditor;
 
 public class StatContainer
 {
-    private float baseValue;
-    private List<StatModifier> modifiers = new List<StatModifier>();
-    private float cachedValue;
-    private bool isDirty = false;
+    private float baseValue;  // 기초값
+    private List<StatModifier> modifiers = new List<StatModifier>();  // 모디파이어 리스트
+    private float cachedValue;  // 최종값 저장
+    private bool isDirty = false;  // 모디파이어 변경 플래그
 
-    public event Action<float> OnValueChanged;
+    public event Action<float> OnValueChanged;  // 스탯 변경 이벤트
 
-    public StatContainer(float value)
+    public StatContainer(float value)  // 초기화
     {
         this.baseValue = value;
         this.cachedValue = value;
         isDirty = false;
     }
     
-    public float FinalValue
+    public float FinalValue // 최종값 계산
     {
         get
         {
@@ -33,21 +31,21 @@ public class StatContainer
         }
     }
 
-    public void AddModifier(StatModifier mod)
+    public void AddModifier(StatModifier mod)  // 모디파이어 추가
     {
         modifiers.Add(mod);
         isDirty = true;
         OnValueChanged?.Invoke(FinalValue);        
     }
 
-    public void RemoveBySource(object source)
+    public void RemoveBySource(object source)  // 모디파이어 제거
     {
         modifiers.RemoveAll(m => m.source == source);
         isDirty = true;
         OnValueChanged?.Invoke(FinalValue);
     }
 
-    private float ReCalculate()
+    private float ReCalculate()  // 스탯 계산
     {
         float finalValue = baseValue;
 
