@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public enum ModType
 {
@@ -12,10 +11,10 @@ public enum ModCategory
     Multiply     // 무조건 곱연산
 }
 
-public struct StatModifier<T>
+public struct StatModifier
 {
-    ModType type;
-    ModCategory category;
-    T value;        // 스탯 증감량
-    object source;  // 스탯을 제공한 주체
+    public ModType type;
+    public ModCategory category;
+    public float value;        // 스탯 증감량
+    public object source;  // 스탯을 제공한 주체
 }
