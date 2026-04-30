@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 9f;
-
+    private PlayerStatus status;
     private bool IsMoving;
     private Vector3 _velocity;
     private Animator animator;
@@ -11,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        status = GetComponent<PlayerStatus>();
     }
 
     private void Update()
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         var inputDir = new Vector3(h, 0f, v).normalized;
         IsMoving = inputDir.magnitude > 0.01f ? true : false;
         animator.SetBool("Run", IsMoving);
-        _velocity = inputDir * speed;
+        _velocity = inputDir * status.Speed;
         if (_velocity.sqrMagnitude > 0.01f)
         {
             transform.rotation = Quaternion.Slerp(

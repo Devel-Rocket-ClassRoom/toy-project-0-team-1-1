@@ -1,43 +1,36 @@
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class PlayerStatus : MonoBehaviour
+public class PlayerStatus : BaseEntity
 {
-    public Dictionary<string, StatContainer> stats = new Dictionary<string, StatContainer>();
     public event Action<float> OnHpChange;
-    private Animator _animator;
-    private float _currentHp;
-    public bool IsDead => _currentHp <= 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        stats[StatName.Health] = new StatContainer(100f);
-        stats[StatName.Defense] = new StatContainer(10f);
-        _currentHp = stats[StatName.Health].FinalValue;
-        _animator = gameObject.GetComponent<Animator>();
+        base.Awake();
     }
 
-    public void TakeDamage(float damage)
+    protected override void InitStats()
     {
-        float defense = stats[StatName.Defense].FinalValue;
-        float finalDamage = Mathf.Max(0, damage - defense);
-        _currentHp -= finalDamage;
-        OnHpChange?.Invoke(_currentHp);
-        if (_currentHp <= 0)
-        {
-            Die();
-        }
+        maxHp = new StatContainer(100f);
+        defense = new StatContainer(5f);
+        speed = new StatContainer(9f);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        OnHpChange?.Invoke(currentHp);
     }
 
     public void Heal(float amount)
     {
-        _currentHp = Mathf.Min(_currentHp + amount, stats[StatName.Health].FinalValue);
-        OnHpChange?.Invoke(_currentHp);
+        currentHp = Mathf.Min(currentHp + amount, maxHp.FinalValue);
+        OnHpChange?.Invoke(currentHp);
     }
 
-    private void Die()
+    protected override void Die()
     {
-        _animator.SetTrigger("Die");
+        base.Die();
     }
 }
