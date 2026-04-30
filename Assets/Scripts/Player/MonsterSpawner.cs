@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MonsterSpawner : MonoBehaviour
 {
@@ -29,12 +28,15 @@ public class MonsterSpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         Vector3 spawnPos;
+        int maxAttempts = 10; // 맵크기가 작아 발생하는 무한루프 방지
+
         do
         {
             float x = Random.Range(-mapWidth / 2f, mapWidth / 2f);
             float z = Random.Range(-mapHeight / 2f, mapHeight / 2f);
             spawnPos = new Vector3(x, 0f, z);
-        } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist);
+            maxAttempts--;
+        } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
         GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
         PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
     }
