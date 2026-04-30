@@ -10,13 +10,21 @@ public abstract class WeaponBase : MonoBehaviour
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
+    protected StatContainer damageStat;
+    protected StatContainer cooldownStat;
+    protected StatContainer rangeStat;
+
     private float attackTimer;
 
-    //나중에 스탯컨테이너 변경시 바꿀값
-    protected virtual float Damage => baseDamage;
-    protected virtual float Cooldown => baseCooldown;
-    protected virtual float Range => baseRange;
-
+    protected float Damage => damageStat.FinalValue;
+    protected float Cooldown => cooldownStat.FinalValue;
+    protected float Range => rangeStat.FinalValue;
+    protected virtual void Awake()
+    {
+        damageStat = new StatContainer(baseDamage);
+        cooldownStat = new StatContainer(baseCooldown);
+        rangeStat = new StatContainer(baseRange);
+    }
     protected virtual void Update()
     {
         attackTimer += Time.deltaTime;
@@ -28,53 +36,5 @@ public abstract class WeaponBase : MonoBehaviour
         }
     }
 
-    //모든 무기는 이걸 구현해야 함, 상속받고 진행
     protected abstract void Attack();
-
-    // ==============================
-    // 타겟 탐색 함수
-    // ==============================
-
-    protected Transform FindNearestTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, Range, targetLayer);
-
-        Transform nearest = null;
-        float nearestDistance = Mathf.Infinity;
-
-        foreach (Collider hit in hits)
-        {
-            float dist = (hit.transform.position - transform.position).sqrMagnitude;
-
-            if (dist < nearestDistance)
-            {
-                nearestDistance = dist;
-                nearest = hit.transform;
-            }
-        }
-
-        return nearest;
-    }
-
-    protected Transform FindRandomTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, Range, targetLayer);
-
-        if (hits.Length == 0)
-            return null;
-
-        int index = Random.Range(0, hits.Length);
-        return hits[index].transform;
-    }
-
-    // ==============================
-    // 방향 계산 (3D 핵심)
-    // ==============================
-
-    protected Vector3 GetDirectionToTarget(Transform target)
-    {
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0f;
-        return dir.normalized;
-    }
 }
