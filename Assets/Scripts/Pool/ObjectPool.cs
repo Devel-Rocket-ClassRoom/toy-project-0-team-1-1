@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ObjectPool<T> where T : Component
 {
-    private readonly T prefab;
-    private readonly Transform parent;
-    private readonly Queue<T> inActive = new Queue<T>();
+    private readonly T prefab; // 생성할 프리팹
+    private readonly Transform parent; // 부모 (생성한 주체)
+    private readonly Queue<T> inActive = new Queue<T>(); // 생성된 객체 저장
 
     public ObjectPool(T prefab, Transform parent, int preLoadCount)
     {
@@ -16,7 +16,7 @@ public class ObjectPool<T> where T : Component
         {
             var obj = Object.Instantiate(this.prefab, this.parent);
             obj.gameObject.SetActive(false);
-            inActive.Enqueue(obj);
+            inActive.Enqueue(obj); // 미리 생성된 객체는 모두 inActive에 저장
         }
     }
 
@@ -25,7 +25,7 @@ public class ObjectPool<T> where T : Component
         T obj;
         if (inActive.Count > 0)
         {
-            obj = inActive.Dequeue();
+            obj = inActive.Dequeue(); // 스폰될 때 Queue에서 제거됨
         }
         else
         {
@@ -38,6 +38,6 @@ public class ObjectPool<T> where T : Component
     public void Return(T obj)
     {
         obj.gameObject.SetActive(false);
-        inActive.Enqueue(obj);
+        inActive.Enqueue(obj); // 디스폰되면 다시 Queue로 돌아옴
     }
 }
