@@ -11,13 +11,35 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, IAutoAttackWeapon
     [SerializeField] protected LayerMask targetLayer;
 
     private float attackTimer;
+    protected bool isActive = false;
 
     protected virtual float Damage => baseDamage;
     public virtual float Cooldown => baseCooldown;
     public virtual float Range => baseRange;
 
+    public virtual void Activate()
+    {
+        isActive = true;
+        attackTimer = Cooldown;
+        OnActivate();
+    }
+
+    public virtual void Deactivate()
+    {
+        isActive = false;
+        OnDeactivate();
+    }
+
+    protected virtual void OnActivate() { }
+    protected virtual void OnDeactivate() { }
+
     protected virtual void Update()
     {
+        if (!isActive)
+            return;
+
+        UpdateWeapon();
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= Cooldown)
@@ -26,6 +48,8 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, IAutoAttackWeapon
             Attack();
         }
     }
+
+    protected virtual void UpdateWeapon() { }
 
     public abstract void Attack();
 }
