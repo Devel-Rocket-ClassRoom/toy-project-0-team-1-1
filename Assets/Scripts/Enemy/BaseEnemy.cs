@@ -14,7 +14,6 @@ public abstract class BaseEnemy : BaseEntity
 
     protected override void Awake()
     {
-        isDead = true;
         base.Awake();
         player = GameObject.FindWithTag("Player").transform;
     }

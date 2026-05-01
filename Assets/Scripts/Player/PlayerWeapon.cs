@@ -15,5 +15,6 @@ public class PlayerWeapon : MonoBehaviour
         GameObject obj = Instantiate(weaponPrefab, transform);
         WeaponBase weapon = obj.GetComponent<WeaponBase>();
         _weapons.Add(weapon);
+        weapon.Activate();
     }
 }
