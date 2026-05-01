@@ -1,6 +1,7 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
-public class HealItem : Item
+public class ExpItem : Item
 {
     public override void GetEffect(Transform player)
     {
