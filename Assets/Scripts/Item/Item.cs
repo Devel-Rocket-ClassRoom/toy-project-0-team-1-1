@@ -30,34 +30,42 @@ public abstract class Item : MonoBehaviour, ILootable
         coPickedUp = null;
     }
 
+    private enum LootPhase { Idle, Pullback, Rush }
+    private LootPhase phase = LootPhase.Idle;
+    private float currentSpeed;
+
     private void Update()
     {
-        if (!isPickedUp)
+        if (phase == LootPhase.Idle)
         {
             float y = Mathf.Sin(Time.time * floatFrequency + floatPhase) * floatAmplitude;
             transform.position = basePosition + Vector3.up * y;
             transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
         }
-        else
+        else if (phase == LootPhase.Pullback)
         {
-            timer += Time.deltaTime / duration;
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / pullbackDuration);
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+            transform.position = Vector3.Lerp(p0, p1, eased);
 
-            float eased = Mathf.Pow(timer, 3f);
-
-            Vector3 p3 = target.position;
-            Vector3 dirToItem = (p0 - p3).normalized;
-            Vector3 p2 = p3 + dirToItem * 2f;
-
-            transform.position = CubicBezier(p0, p1, p2, p3, eased);
+            if (t >= 1f)
+            {
+                phase = LootPhase.Rush;
+                currentSpeed = rushSpeed;
+            }
+        }
+        else if (phase == LootPhase.Rush)
+        {
+            currentSpeed += rushAcceleration * Time.deltaTime;
+            Vector3 dir = (target.position - transform.position).normalized;
+            transform.position += dir * currentSpeed * Time.deltaTime;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
-        Debug.Log($"아이템 획득: {gameObject.name}");
-        //Destroy(gameObject);
         coPickedUp = StartCoroutine(CoPickedUp());
     }
     private IEnumerator CoPickedUp()
@@ -72,19 +80,23 @@ public abstract class Item : MonoBehaviour, ILootable
             transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, t);
             yield return null;
         }
+        coPickedUp = null;
+        GetEffect(target);
         Destroy(gameObject); // Despawn으로 가야함
+        // PoolManager.Instance.Despawn(itemData.prefab, gameObject);
     }
 
     public void StartLooting(Transform player)
     {
-        if (isPickedUp) return;
-        isPickedUp = true;
+        if (phase != LootPhase.Idle) return;
         target = player;
         timer = 0f;
         p0 = transform.position;
 
         Vector3 dirAway = (p0 - player.position).normalized;
         p1 = p0 + dirAway * pullbackDistance;
+
+        phase = LootPhase.Pullback;
     }
 
     private static Vector3 CubicBezier(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)

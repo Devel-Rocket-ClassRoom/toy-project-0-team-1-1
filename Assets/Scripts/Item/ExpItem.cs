@@ -5,6 +5,6 @@ public class ExpItem : Item
 {
     public override void GetEffect(Transform player)
     {
-        player.GetComponent<PlayerStatus>().Heal(itemData.effectValue);
+        player.GetComponent<PlayerLevel>().GainExp(itemData.effectValue);
     }
 }
