@@ -3,9 +3,9 @@ using UnityEngine;
 public abstract class BaseEnemy : BaseEntity
 {
     protected StatContainer attack = new StatContainer(10f);
-    [SerializeField] protected float attackDistance = 2f; 
-    [SerializeField] protected float attackInterval = 1f;
-    private float _attackTimer;
+    protected float attackDistance = 2f; 
+    protected float attackInterval = 1f;
+    protected float _attackTimer;
 
     public float Attack => attack.FinalValue;
 
@@ -17,7 +17,7 @@ public abstract class BaseEnemy : BaseEntity
         base.Awake();
         player = GameObject.FindWithTag("Player").transform;
     }
-
+    
     protected override void InitStats()
     {
         maxHp = new StatContainer(50f);

@@ -107,3 +107,8 @@ InitTestScene*.unity*
 
 .vscode/
 Assets/Imported/
+
+Assets/Scenes/TestScene-ymj.unity
+Assets/Scenes/TestScene-ymj.unity.meta
+Assets/TestPrefabs-ymj/
+Assets/TestPrefabs-ymj.meta
