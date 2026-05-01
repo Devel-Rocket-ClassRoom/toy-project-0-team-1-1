@@ -10,6 +10,7 @@ public abstract class BaseEnemy : BaseEntity
     public float Attack => attack.FinalValue;
 
     protected Transform player;
+    [SerializeField] private LayerMask enemyLayer;
 
     protected override void Awake()
     {
@@ -49,6 +50,17 @@ public abstract class BaseEnemy : BaseEntity
         {
             animator.SetBool("Run", false);
             DoAttak();
+        }
+        Separate();
+    }
+    private void Separate()
+    {
+        Collider[] neighbors = Physics.OverlapSphere(transform.position, 1f, enemyLayer);
+        foreach (var neighbor in neighbors)
+        {
+            if (neighbor.gameObject == gameObject) continue;
+            Vector3 pushDir = transform.position - neighbor.transform.position;
+            transform.position += pushDir.normalized * 0.05f;
         }
     }
 
