@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -38,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
             maxAttempts--;
         } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
         GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
+        GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
+        obj.GetComponent<BaseEnemy>().SetPrefab(prefab);
     }
 }

@@ -20,6 +20,7 @@ public abstract class BaseEntity : MonoBehaviour
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
+        isDead = true;
         InitStats();
         currentHp = maxHp.FinalValue;
     }
