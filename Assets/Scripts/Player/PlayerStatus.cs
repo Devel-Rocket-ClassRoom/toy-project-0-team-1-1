@@ -12,9 +12,12 @@ public class PlayerStatus : BaseEntity
 
     protected override void InitStats()
     {
-        maxHp = new StatContainer(100f);
-        defense = new StatContainer(5f);
-        speed = new StatContainer(9f);
+        stats[StatType.MaxHp] = new StatContainer(100f);
+        stats[StatType.Defense] = new StatContainer(5f);
+        stats[StatType.Speed] = new StatContainer(9f);
+        //maxHp = new StatContainer(100f);
+        //defense = new StatContainer(5f);
+        //speed = new StatContainer(9f);
     }
 
     public override void TakeDamage(float damage)
@@ -25,7 +28,7 @@ public class PlayerStatus : BaseEntity
 
     public void Heal(float amount)
     {
-        currentHp = Mathf.Min(currentHp + amount, maxHp.FinalValue);
+        currentHp = Mathf.Min(currentHp + amount, stats[StatType.MaxHp].FinalValue);
         OnHpChange?.Invoke(currentHp);
     }
 
