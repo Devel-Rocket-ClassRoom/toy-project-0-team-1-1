@@ -6,19 +6,6 @@ public class MolotovWeapon : AreaWeaponBase
     [SerializeField] private float thorwRange = 8f; // 던지는 반지름
     [SerializeField] private int level = 1;
     [SerializeField] private int maxLevel = 5;
-
-    private float _timer;
-
-    private void Update()
-    {
-        _timer += Time.deltaTime;
-        if (_timer >= Cooldown)
-        {
-            _timer = 0f;
-            Attack();
-        }
-    }
-
     public override void Attack()
     {
         float startAngle = Random.Range(0f, 360f);
