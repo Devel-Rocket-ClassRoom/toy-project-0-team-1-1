@@ -38,6 +38,14 @@ public abstract class BaseEntity : MonoBehaviour
         }
     }
 
+    public void RemoveBySource(StatType type, object source)
+    {
+        if (stats.ContainsKey(type))
+        {
+            stats[type].RemoveBySource(source);
+        }
+    }
+
     public virtual void TakeDamage(float damage)
     {
         if (isDead) return;
