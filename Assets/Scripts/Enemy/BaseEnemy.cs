@@ -3,10 +3,10 @@ using UnityEngine;
 public abstract class BaseEnemy : BaseEntity
 {
     protected StatContainer attack = new StatContainer(10f);
-    [SerializeField] protected float attackDistance = 2f; 
-    [SerializeField] protected float attackInterval = 1f;
-    private float _attackTimer;
-
+    protected float attackDistance = 2f;
+    protected float attackInterval = 1f;
+    protected float _attackTimer;
+    private GameObject _prefab;
     public float Attack => attack.FinalValue;
 
     protected Transform player;
@@ -17,6 +17,7 @@ public abstract class BaseEnemy : BaseEntity
         base.Awake();
         player = GameObject.FindWithTag("Player").transform;
     }
+    public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
     protected override void InitStats()
     {
@@ -28,29 +29,32 @@ public abstract class BaseEnemy : BaseEntity
 
     protected virtual void Update()
     {
-        if (!isDead) Move();
+        var distance = Vector3.Distance(transform.position, player.position);
+        if (!isDead)
+        {
+            if (distance > attackDistance)
+            {
+                animator.SetBool("Run", true);
+                Move();
+            }
+            else
+            {
+                animator.SetBool("Run", false);
+                DoAttak();
+            }
+        }
     }
 
     protected virtual void Move()
     {
         var dir = (player.position - transform.position).normalized;
-        var distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance > attackDistance)
-        {
-            animator.SetBool("Run", true);
-            transform.position += dir * speed.FinalValue * Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.LookRotation(dir),
-                15f * Time.deltaTime
+        animator.SetBool("Run", true);
+        transform.position += dir * speed.FinalValue * Time.deltaTime;
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(dir),
+            15f * Time.deltaTime
             );
-        }
-        else
-        {
-            animator.SetBool("Run", false);
-            DoAttak();
-        }
         Separate();
     }
     private void Separate()
@@ -84,5 +88,6 @@ public abstract class BaseEnemy : BaseEntity
     {
         animator.SetBool("Run", false);
         base.Die();
+        PoolManager.Instance.Despawn(_prefab, gameObject);
     }
 }
