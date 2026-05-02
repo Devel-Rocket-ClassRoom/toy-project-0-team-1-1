@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class BaseEnemy : BaseEntity
@@ -6,6 +7,7 @@ public abstract class BaseEnemy : BaseEntity
     protected float attackDistance = 2f;
     protected float attackInterval = 1f;
     protected float _attackTimer;
+    [SerializeField] private GameObject expItemPrefab;
     private GameObject _prefab;
     public float Attack => stats[StatType.Attack].FinalValue;
 
@@ -89,5 +91,9 @@ public abstract class BaseEnemy : BaseEntity
         animator.SetBool("Run", false);
         base.Die();
         PoolManager.Instance.Despawn(_prefab, gameObject);
+        if(expItemPrefab != null)
+        {
+            PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
+        }
     }
 }
