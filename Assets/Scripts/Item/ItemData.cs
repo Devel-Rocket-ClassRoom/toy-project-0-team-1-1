@@ -7,7 +7,7 @@ public enum ItemEffectType
     Magnetic,
 }
 
-[CreateAssetMenu(fileName = "ItemData", menuName = "Scriptable Objects/ItemData")]
+[CreateAssetMenu(fileName = "ItemData", menuName = "Game/ItemData")]
 public class ItemData : ScriptableObject
 {
     public string itemName;

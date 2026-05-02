@@ -10,7 +10,7 @@ public enum ModCategory
     Default = 0, // 합연산
     Multiply     // 무조건 곱연산
 }
-
+[System.Serializable]
 public struct StatModifier
 {
     public ModType type;
