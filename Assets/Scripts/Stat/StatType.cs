@@ -1,3 +1,4 @@
+[System.Serializable]
 public enum StatType
 {
     MaxHp,
@@ -11,5 +12,5 @@ public enum StatType
     AttackSpeed,
     KnockBack,
     Resistance,
-    
+    ProjectileCount,
 }

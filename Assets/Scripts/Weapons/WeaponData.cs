@@ -13,10 +13,7 @@ public class WeaponData : ScriptableObject
 [System.Serializable]
 public class WeaponLevelStats
 {
-    public float damage;
-    public float speed;
-    public float cooldown;
-    public int projectileCount;
-    public float area;
-    [TextArea] public string description;
+    public List<StatModifier> modifiers = new List<StatModifier>();
+    public List<StatType> types = new List<StatType>();
+    public string description;
 }
