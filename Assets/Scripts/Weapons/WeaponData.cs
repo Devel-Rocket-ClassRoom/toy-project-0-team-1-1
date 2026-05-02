@@ -6,6 +6,11 @@ public class WeaponData : ScriptableObject
 {
     public string weaponName;
     public GameObject prefab;
+    public float damage;
+    public float speed;
+    public float size;
+    public float cooldown;
+    public int projectileCount;
     public int maxLevel = 8;
 
     public List<WeaponLevelStats> levelStats;
