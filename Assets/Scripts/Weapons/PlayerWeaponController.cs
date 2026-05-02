@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    [SerializeField] private WeaponBase startWeapon;
     [SerializeField] private List<WeaponBase> weapons = new List<WeaponBase>();
 
     private readonly Dictionary<WeaponBase, float> timers = new();
@@ -12,9 +13,12 @@ public class PlayerWeaponController : MonoBehaviour
         foreach (var weapon in weapons)
         {
             if (weapon == null) continue;
-
-            weapon.Activate();
             timers[weapon] = weapon.Cooldown;
+        }
+
+        if (startWeapon != null)
+        {
+            ActivateWeapon(startWeapon);
         }
     }
 
@@ -34,12 +38,16 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    public void AddWeapon(WeaponBase weapon)
+    public void ActivateWeapon(WeaponBase weapon)
     {
-        if (weapon == null || weapons.Contains(weapon)) return;
+        if (weapon == null) return;
 
-        weapons.Add(weapon);
-        timers[weapon] = weapon.Cooldown;
+        if (!weapons.Contains(weapon))
+            weapons.Add(weapon);
+
+        if (!timers.ContainsKey(weapon))
+            timers[weapon] = weapon.Cooldown;
+
         weapon.Activate();
     }
 }
