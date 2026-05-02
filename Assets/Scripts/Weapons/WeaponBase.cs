@@ -10,17 +10,18 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, IAutoAttackWeapon
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
-    private float attackTimer;
     protected bool isActive = false;
 
     protected virtual float Damage => baseDamage;
     public virtual float Cooldown => baseCooldown;
     public virtual float Range => baseRange;
 
+    //외부에서 상태 확인용
+    public bool IsActive => isActive;
+
     public virtual void Activate()
     {
         isActive = true;
-        attackTimer = Cooldown;
         OnActivate();
     }
 
@@ -33,23 +34,14 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, IAutoAttackWeapon
     protected virtual void OnActivate() { }
     protected virtual void OnDeactivate() { }
 
-    protected virtual void Update()
+    //PlayerWeaponController가 호출하는 함수
+    public void Use()
     {
         if (!isActive)
             return;
 
-        UpdateWeapon();
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= Cooldown)
-        {
-            attackTimer = 0f;
-            Attack();
-        }
+        Attack();
     }
-
-    protected virtual void UpdateWeapon() { }
 
     public abstract void Attack();
 }

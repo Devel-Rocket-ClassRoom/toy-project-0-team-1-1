@@ -1,6 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MonsterSpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private float spawnInterval = 3f;
@@ -38,6 +39,7 @@ public class MonsterSpawner : MonoBehaviour
             maxAttempts--;
         } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
         GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
+        GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
+        obj.GetComponent<BaseEnemy>().SetPrefab(prefab);
     }
 }

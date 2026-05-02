@@ -2,12 +2,12 @@ using UnityEngine;
 
 public abstract class BaseEnemy : BaseEntity
 {
-    protected StatContainer attack = new StatContainer(10f);
-    [SerializeField] protected float attackDistance = 2f; 
-    [SerializeField] protected float attackInterval = 1f;
-    private float _attackTimer;
-
-    public float Attack => attack.FinalValue;
+    //protected StatContainer attack = new StatContainer(10f);
+    protected float attackDistance = 2f;
+    protected float attackInterval = 1f;
+    protected float _attackTimer;
+    private GameObject _prefab;
+    public float Attack => stats[StatType.Attack].FinalValue;
 
     protected Transform player;
     [SerializeField] private LayerMask enemyLayer;
@@ -17,40 +17,44 @@ public abstract class BaseEnemy : BaseEntity
         base.Awake();
         player = GameObject.FindWithTag("Player").transform;
     }
+    public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
     protected override void InitStats()
     {
-        maxHp = new StatContainer(50f);
-        defense = new StatContainer(5f);
-        speed = new StatContainer(5f);
-        attack = new StatContainer(10f);
+        stats[StatType.MaxHp] = new StatContainer(50f);
+        stats[StatType.Defense] = new StatContainer(5f);
+        stats[StatType.Speed] = new StatContainer(5f);
+        stats[StatType.Attack] = new StatContainer(10f);
     }
 
     protected virtual void Update()
     {
-        if (!isDead) Move();
+        var distance = Vector3.Distance(transform.position, player.position);
+        if (!isDead)
+        {
+            if (distance > attackDistance)
+            {
+                animator.SetBool("Run", true);
+                Move();
+            }
+            else
+            {
+                animator.SetBool("Run", false);
+                DoAttak();
+            }
+        }
     }
 
     protected virtual void Move()
     {
         var dir = (player.position - transform.position).normalized;
-        var distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance > attackDistance)
-        {
-            animator.SetBool("Run", true);
-            transform.position += dir * speed.FinalValue * Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.LookRotation(dir),
-                15f * Time.deltaTime
+        animator.SetBool("Run", true);
+        transform.position += dir * stats[StatType.Speed].FinalValue * Time.deltaTime;
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(dir),
+            15f * Time.deltaTime
             );
-        }
-        else
-        {
-            animator.SetBool("Run", false);
-            DoAttak();
-        }
         Separate();
     }
     private void Separate()
@@ -76,7 +80,7 @@ public abstract class BaseEnemy : BaseEntity
         var playerStatus = player.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
-            playerStatus.TakeDamage(attack.FinalValue);
+            playerStatus.TakeDamage(stats[StatType.Attack].FinalValue);
         }
     }
 
@@ -84,5 +88,6 @@ public abstract class BaseEnemy : BaseEntity
     {
         animator.SetBool("Run", false);
         base.Die();
+        PoolManager.Instance.Despawn(_prefab, gameObject);
     }
 }
