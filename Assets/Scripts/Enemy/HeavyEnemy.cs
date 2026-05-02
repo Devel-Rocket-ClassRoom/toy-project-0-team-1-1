@@ -9,9 +9,9 @@ public class HeavyEnemy : BaseEnemy
     }
     protected override void InitStats()
     {
-        maxHp = new StatContainer(200f);
-        speed = new StatContainer(4f);
-        defense = new StatContainer(10f);
-        attack = new StatContainer(15f);
+        stats[StatType.MaxHp] = new StatContainer(200f);
+        stats[StatType.Speed] = new StatContainer(4f);
+        stats[StatType.Defense] = new StatContainer(10f);
+        stats[StatType.Attack] = new StatContainer(15f);
     }
 }

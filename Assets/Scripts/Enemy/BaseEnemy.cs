@@ -2,12 +2,12 @@ using UnityEngine;
 
 public abstract class BaseEnemy : BaseEntity
 {
-    protected StatContainer attack = new StatContainer(10f);
+    //protected StatContainer attack = new StatContainer(10f);
     protected float attackDistance = 2f;
     protected float attackInterval = 1f;
     protected float _attackTimer;
     private GameObject _prefab;
-    public float Attack => attack.FinalValue;
+    public float Attack => stats[StatType.Attack].FinalValue;
 
     protected Transform player;
     [SerializeField] private LayerMask enemyLayer;
@@ -21,10 +21,10 @@ public abstract class BaseEnemy : BaseEntity
 
     protected override void InitStats()
     {
-        maxHp = new StatContainer(50f);
-        defense = new StatContainer(5f);
-        speed = new StatContainer(5f);
-        attack = new StatContainer(10f);
+        stats[StatType.MaxHp] = new StatContainer(50f);
+        stats[StatType.Defense] = new StatContainer(5f);
+        stats[StatType.Speed] = new StatContainer(5f);
+        stats[StatType.Attack] = new StatContainer(10f);
     }
 
     protected virtual void Update()
@@ -49,7 +49,7 @@ public abstract class BaseEnemy : BaseEntity
     {
         var dir = (player.position - transform.position).normalized;
         animator.SetBool("Run", true);
-        transform.position += dir * speed.FinalValue * Time.deltaTime;
+        transform.position += dir * stats[StatType.Speed].FinalValue * Time.deltaTime;
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
             Quaternion.LookRotation(dir),
@@ -80,7 +80,7 @@ public abstract class BaseEnemy : BaseEntity
         var playerStatus = player.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
-            playerStatus.TakeDamage(attack.FinalValue);
+            playerStatus.TakeDamage(stats[StatType.Attack].FinalValue);
         }
     }
 
