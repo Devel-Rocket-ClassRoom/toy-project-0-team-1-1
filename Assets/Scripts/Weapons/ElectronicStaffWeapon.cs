@@ -12,7 +12,7 @@ public class ElectronicStaffWeapon : AreaWeaponBase
 
     public override void Attack()
     {
-        Collider[] hits = FindTargetsInRange(transform.position, chainRange);
+        Collider[] hits = FindTargetsInRange(transform.position, Range);
         if (hits.Length <= 0) return;
 
         BaseEnemy current = hits[Random.Range(0, hits.Length)].GetComponent<BaseEnemy>();
@@ -22,7 +22,7 @@ public class ElectronicStaffWeapon : AreaWeaponBase
 
         for(int i = 0; i < ChainCount; i++)
         {
-            if (current == null) return;
+            if (current == null) break;
             current.TakeDamage(Damage);
             attacked.Add(current);
             current = FindNextTarget(current, attacked);

@@ -34,7 +34,6 @@ public class PlayerProjectile : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        Debug.Log("충돌: " + other.name);
         var enemy = other.GetComponent<BaseEnemy>();
         if (enemy == null) return;
         enemy.TakeDamage(_damage);
