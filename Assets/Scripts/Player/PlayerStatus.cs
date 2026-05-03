@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStatus : BaseEntity
 {
     public event Action<float> OnHpChange;
-    public List<(UpgradeItemData itemData, int level)> upgradeItems = new List<(UpgradeItemData, int)>();
+    public Dictionary<UpgradeItemData, int> upgradeItems = new Dictionary<UpgradeItemData, int>();
 
     protected override void Awake()
     {
