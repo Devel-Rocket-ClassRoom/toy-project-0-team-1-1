@@ -17,6 +17,6 @@ public class RangedEnemy : BaseEnemy
 
         var dir = (player.position - transform.position).normalized;
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, transform.position, Quaternion.LookRotation(dir));
-        obj.GetComponent<Projectile>().Init(projectilePrefab, Attack, dir);
+        obj.GetComponent<EnemyProjectile>().Init(projectilePrefab, Attack, dir);
     }
 }

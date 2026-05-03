@@ -24,7 +24,11 @@ public abstract class BaseEntity : MonoBehaviour
     {
         InitStats();
         animator = GetComponent<Animator>();
-        isDead = true;
+    }
+
+    private void OnEnable()
+    {
+        isDead = false;
         currentHp = stats[StatType.MaxHp].FinalValue;
     }
 
