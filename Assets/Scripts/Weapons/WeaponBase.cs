@@ -10,11 +10,14 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon, IAutoAttackWeapon
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
+    [SerializeField] protected WeaponData weaponData;
+
     protected bool isActive = false;
 
     protected virtual float Damage => baseDamage;
     public virtual float Cooldown => baseCooldown;
     public virtual float Range => baseRange;
+    public virtual WeaponData WeaponData => weaponData;
 
     //외부에서 상태 확인용
     public bool IsActive => isActive;

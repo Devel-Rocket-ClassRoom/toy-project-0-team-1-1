@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
 public class PlayerStatus : BaseEntity
 {
     public event Action<float> OnHpChange;
+    public List<(UpgradeItemData itemData, int level)> upgradeItems = new List<(UpgradeItemData, int)>();
 
     protected override void Awake()
     {
