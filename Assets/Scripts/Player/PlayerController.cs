@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerStatus status;
-    private bool IsMoving;
+    private PlayerStatus _status;
+    private bool _isMoving;
     private Vector3 _velocity;
-    private Animator animator;
+    private Animator _animator;
+    private CharacterController _cc;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        status = GetComponent<PlayerStatus>();
+        _animator = GetComponent<Animator>();
+        _status = GetComponent<PlayerStatus>();
+        _cc = GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -23,9 +25,9 @@ public class PlayerController : MonoBehaviour
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         var inputDir = new Vector3(h, 0f, v).normalized;
-        IsMoving = inputDir.magnitude > 0.01f ? true : false;
-        animator.SetBool("Run", IsMoving);
-        _velocity = inputDir * status.Speed;
+        _isMoving = inputDir.magnitude > 0.01f ? true : false;
+        _animator.SetBool("Run", _isMoving);
+        _velocity = inputDir * _status.Speed;
         if (_velocity.sqrMagnitude > 0.01f)
         {
             transform.rotation = Quaternion.Slerp(
@@ -34,6 +36,6 @@ public class PlayerController : MonoBehaviour
                 15f * Time.deltaTime
             );
         }
-        transform.position += _velocity * Time.deltaTime;
+        _cc.Move(_velocity * Time.deltaTime);
     }
 }
