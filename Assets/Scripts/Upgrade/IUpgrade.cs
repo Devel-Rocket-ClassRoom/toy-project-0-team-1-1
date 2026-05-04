@@ -3,7 +3,13 @@ using System.Collections;
 
 public interface IUpgrade
 {
+    UpgradeItemType type { get; }
     string Name { get; }
     Sprite Icon { get; }
-    void Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon);
+    int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon);
+}
+public enum UpgradeItemType
+{
+    Weapon,
+    Passive
 }

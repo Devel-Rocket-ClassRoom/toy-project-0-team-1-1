@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private PlayerStatus playerStatus;                                               // 현재 플레이어의 업그레이드 아이템 불러오기
     [SerializeField] private PlayerLevel playerLevel;
     [SerializeField] private UpgradeUI upgradeUI;
-
+    public event System.Action<IUpgrade> OnFirstGet;
     private void Awake()
     {
         playerLevel.OnLevelUp += ShowUpgradeSelection;
@@ -65,6 +66,10 @@ public class UpgradeManager : MonoBehaviour
 
     public void ApplyUpgrade(IUpgrade upgrade)
     {
-        upgrade.Apply(playerStatus, playerWeapon);
+        int level = upgrade.Apply(playerStatus, playerWeapon);
+        if (level == 1) // 처음 획득하는 아이템일 경우
+        {
+            OnFirstGet?.Invoke(upgrade);
+        }
     }
 }
