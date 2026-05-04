@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlashProjectile : ProjectileBase //기본 공격 검기 투사체 프리펩 코드
+public class SlashProjectile : ProjectileBase
 {
+    [Header("Slash")]
     [SerializeField] private float lifeTime = 0.25f;
     [SerializeField] private float swingAngle = 90f;
     [SerializeField] private float radius = 2f;
 
     private float timer;
     private Quaternion centerRotation;
+
     private readonly HashSet<Collider> damagedTargets = new();
 
     public override void Init(

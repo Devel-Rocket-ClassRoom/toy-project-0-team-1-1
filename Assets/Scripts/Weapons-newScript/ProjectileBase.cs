@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ProjectileBase : MonoBehaviour //투사체 베이스 코드
+public abstract class ProjectileBase : MonoBehaviour
 {
     protected Transform owner;
     protected Vector3 direction;
