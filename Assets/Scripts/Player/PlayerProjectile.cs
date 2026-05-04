@@ -37,6 +37,5 @@ public class PlayerProjectile : MonoBehaviour
         var enemy = other.GetComponent<BaseEnemy>();
         if (enemy == null) return;
         enemy.TakeDamage(_damage);
-        PoolManager.Instance.Despawn(_prefab, gameObject);
     }
 }

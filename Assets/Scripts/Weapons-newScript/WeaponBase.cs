@@ -10,6 +10,7 @@ public abstract class WeaponBase : MonoBehaviour
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
+    [SerializeField] protected WeaponData weaponData;
     protected StatContainer damageStat;
     protected StatContainer cooldownStat;
     protected StatContainer rangeStat;
@@ -17,7 +18,7 @@ public abstract class WeaponBase : MonoBehaviour
     public bool IsActive { get; private set; }
 
     //무기 레벨 관리용
-    public int Level { get; private set; } = 0;
+    public int Level { get; private set; } = 4;
 
     public float Damage => damageStat.FinalValue;
     public float Cooldown => cooldownStat.FinalValue;
@@ -25,9 +26,15 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        damageStat = new StatContainer(baseDamage);
-        cooldownStat = new StatContainer(baseCooldown);
-        rangeStat = new StatContainer(baseRange);
+        //damageStat = new StatContainer(baseDamage);
+        //cooldownStat = new StatContainer(baseCooldown);
+        //rangeStat = new StatContainer(baseRange);
+        if (weaponData != null)
+        {
+            damageStat = new StatContainer(weaponData.damage);
+            cooldownStat = new StatContainer(weaponData.cooldown);
+            rangeStat = new StatContainer(weaponData.size);
+        }
     }
 
     public virtual void Activate()

@@ -6,6 +6,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected Vector3 direction;
     protected float damage;
     protected LayerMask targetLayer;
+    protected GameObject _prefab; // 
 
     public virtual void Init(
         Transform owner,
@@ -33,5 +34,11 @@ public abstract class ProjectileBase : MonoBehaviour
 
         // 나중에 몬스터 구현 후
         // other.GetComponent<IDamageable>()?.OnDamage(damage);
+    }
+    protected void ReturnToPool()
+    {
+        if (_prefab == null) return;
+
+        PoolManager.Instance.Despawn(_prefab, gameObject);
     }
 }
