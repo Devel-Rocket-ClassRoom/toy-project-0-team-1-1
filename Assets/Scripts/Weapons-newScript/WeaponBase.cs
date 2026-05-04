@@ -10,16 +10,26 @@ public abstract class WeaponBase : MonoBehaviour
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
+    protected StatContainer damageStat;
+    protected StatContainer cooldownStat;
+    protected StatContainer rangeStat;
+
     public bool IsActive { get; private set; }
 
-    public float Damage => baseDamage;
-    public float Cooldown => baseCooldown;
-    public float Range => baseRange;
+    public float Damage => damageStat.FinalValue;
+    public float Cooldown => cooldownStat.FinalValue;
+    public float Range => rangeStat.FinalValue;
+
+    protected virtual void Awake()
+    {
+        damageStat = new StatContainer(baseDamage);
+        cooldownStat = new StatContainer(baseCooldown);
+        rangeStat = new StatContainer(baseRange);
+    }
 
     public virtual void Activate()
     {
-        if (IsActive)
-            return;
+        if (IsActive) return;
 
         IsActive = true;
         OnActivate();
@@ -27,8 +37,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public virtual void Deactivate()
     {
-        if (!IsActive)
-            return;
+        if (!IsActive) return;
 
         IsActive = false;
         OnDeactivate();
@@ -36,8 +45,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public void Use()
     {
-        if (!IsActive)
-            return;
+        if (!IsActive) return;
 
         Attack();
     }
@@ -46,6 +54,28 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected virtual void OnActivate() { }
     protected virtual void OnDeactivate() { }
+
+    public void AddDamageModifier(StatModifier modifier)
+    {
+        damageStat.AddModifier(modifier);
+    }
+
+    public void AddCooldownModifier(StatModifier modifier)
+    {
+        cooldownStat.AddModifier(modifier);
+    }
+
+    public void AddRangeModifier(StatModifier modifier)
+    {
+        rangeStat.AddModifier(modifier);
+    }
+
+    public void RemoveModifiersBySource(object source)
+    {
+        damageStat.RemoveBySource(source);
+        cooldownStat.RemoveBySource(source);
+        rangeStat.RemoveBySource(source);
+    }
 
     protected Collider[] FindTargetsInRange(Vector3 center, float radius)
     {
@@ -73,18 +103,10 @@ public abstract class WeaponBase : MonoBehaviour
         return nearest;
     }
 
-    protected Transform FindRandomTarget()
+    protected Vector3 GetDirectionToNearestTarget()
     {
-        Collider[] hits = FindTargetsInRange(transform.position, Range);
+        Transform target = FindNearestTarget();
 
-        if (hits.Length == 0)
-            return null;
-
-        return hits[Random.Range(0, hits.Length)].transform;
-    }
-
-    protected Vector3 GetDirectionToTarget(Transform target)
-    {
         if (target == null)
             return transform.forward;
 
@@ -95,11 +117,5 @@ public abstract class WeaponBase : MonoBehaviour
             return transform.forward;
 
         return dir.normalized;
-    }
-
-    protected Vector3 GetDirectionToNearestTarget()
-    {
-        Transform target = FindNearestTarget();
-        return GetDirectionToTarget(target);
     }
 }
