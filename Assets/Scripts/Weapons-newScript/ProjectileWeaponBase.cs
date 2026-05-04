@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class ProjectileWeaponBase : WeaponBase
 {
     [Header("Projectile")]
-    [SerializeField] protected ProjectileBase projectilePrefab;
+    [SerializeField] protected GameObject projectilePrefab;
     [SerializeField] protected Transform firePoint;
 
     protected ProjectileBase SpawnProjectile(Vector3 direction)
@@ -16,12 +16,8 @@ public abstract class ProjectileWeaponBase : WeaponBase
 
         Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
 
-        ProjectileBase projectile = Instantiate(
-            projectilePrefab,
-            spawnPos,
-            Quaternion.LookRotation(direction)
-        );
-
+        GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
+        ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
         projectile.Init(
             owner: transform,
             direction: direction,

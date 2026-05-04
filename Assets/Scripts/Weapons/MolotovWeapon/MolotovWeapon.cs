@@ -1,25 +1,25 @@
 using UnityEngine;
 
-//public class MolotovWeapon : AreaWeaponBase
-//{
-//    [SerializeField] private GameObject molotovProjectilePrefab;
-//    [SerializeField] private float thorwRange = 8f; // 던지는 반지름
-//    [SerializeField] private int level = 1;
-//    [SerializeField] private int maxLevel = 5;
-//    public override void Attack()
-//    {
-//        float startAngle = Random.Range(0f, 360f);
-//        for(int i = 0; i < level; i++)
-//        {
-//            Vector3 targetPos = GetThrowPosition(i, startAngle);
-//            GameObject obj = PoolManager.Instance.Spawn(molotovProjectilePrefab, transform.position, Quaternion.identity);
-//            obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage);
-//        }
-//    }
-//    public Vector3 GetThrowPosition(int index, float startAngle)
-//    {
-//        float angle = startAngle + (360 / level) * index;
-//        float rad = angle * Mathf.Deg2Rad;
-//        return transform.position + new Vector3(Mathf.Cos(rad) , 0f, Mathf.Sin(rad)) * thorwRange;
-//    }
-//}
+public class MolotovWeapon : WeaponBase
+{
+    [SerializeField] private GameObject molotovProjectilePrefab;
+    [SerializeField] private float throwRange = 8f;
+    protected override void Attack()
+    {
+        int count = weaponData != null ? weaponData.projectileCount + Level : Level + 1;
+        float startAngle = Random.Range(0f, 360f);
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 targetPos = GetThrowPosition(i, count, startAngle);
+            GameObject obj = PoolManager.Instance.Spawn(molotovProjectilePrefab, transform.position, Quaternion.identity);
+            obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage);
+        }
+    }
+
+    private Vector3 GetThrowPosition(int index, int count, float startAngle)
+    {
+        float angle = startAngle + (360f / count) * index;
+        float rad = angle * Mathf.Deg2Rad;
+        return transform.position + new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * throwRange;
+    }
+}
