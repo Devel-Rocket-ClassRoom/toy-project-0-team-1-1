@@ -13,8 +13,8 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected Dictionary<StatType, StatContainer> stats = new Dictionary<StatType, StatContainer>();
 
-    public float Damage => stats.ContainsKey(StatType.Damage) ? stats[StatType.Damage].FinalValue : 0f;
-    public float Cooldown => stats.ContainsKey(StatType.Cooldown) ? stats[StatType.Cooldown].FinalValue : 1f;
+    public float Damage => stats.ContainsKey(StatType.Attack) ? stats[StatType.Attack].FinalValue : 0f;
+    public float Cooldown => stats.ContainsKey(StatType.Cool) ? stats[StatType.Cool].FinalValue : 1f;
     public float Range => stats.ContainsKey(StatType.Range) ? stats[StatType.Range].FinalValue : 0f;
 
     private float _timer;
@@ -32,8 +32,8 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected virtual void InitStats()
     {
-        stats[StatType.Damage] = new StatContainer(weaponData.damage);
-        stats[StatType.Cooldown] = new StatContainer(weaponData.cooldown);
+        stats[StatType.Attack] = new StatContainer(weaponData.damage);
+        stats[StatType.Cool] = new StatContainer(weaponData.cooldown);
         stats[StatType.Range] = new StatContainer(weaponData.Range); 
     }
 
