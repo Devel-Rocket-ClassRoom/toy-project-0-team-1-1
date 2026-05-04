@@ -23,7 +23,7 @@ public abstract class ProjectileWeaponBase : WeaponBase
             direction: direction,
             damage: Damage,
             targetLayer: targetLayer,
-            speed: weaponData.speed
+            speed: weaponData.projectileSpeed
         );
 
         return projectile;

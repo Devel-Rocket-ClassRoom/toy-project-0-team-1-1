@@ -9,12 +9,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected LayerMask targetLayer;
     protected GameObject _prefab;
 
-    public virtual void Init(
-        Transform owner,
-        Vector3 direction,
-        float damage,
-        float speed,
-        LayerMask targetLayer)
+    public virtual void Init(Transform owner, Vector3 direction, float damage,  float speed, LayerMask targetLayer)
     {
         this.owner = owner;
         this.direction = direction.normalized;

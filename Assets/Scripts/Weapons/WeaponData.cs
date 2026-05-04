@@ -9,13 +9,14 @@ public class WeaponData : ScriptableObject, IUpgrade
     public string weaponName;
     public Sprite icon;
     public float damage;
-    public float speed;
+    public float projectileSpeed;
     public float size;
+    public float Range;
     public float cooldown;
     public int projectileCount;
     public int maxLevel = 8;
 
-    public List<WeaponLevelStats> levelStats;
+    public List<LevelStats> levelStats;
 
     public string Name => weaponName;
     public Sprite Icon => icon;
