@@ -4,11 +4,6 @@ public class RangedEnemy : BaseEnemy
 {
     [SerializeField] private GameObject projectilePrefab; // 원거리 발사체 프리팹
 
-    private void Awake()
-    {
-        base.Awake();
-        attackDistance = 10f;
-    }
     protected override void DoAttak()
     {
         _attackTimer -= Time.deltaTime;
