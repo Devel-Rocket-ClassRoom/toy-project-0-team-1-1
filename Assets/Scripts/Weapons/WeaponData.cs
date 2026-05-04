@@ -1,20 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum StatTypes //업그레이드할 수단 추후 필요시 추가 가능
-{
-    Damage,
-    Cooldown,
-    Range, 
-}
+
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Game/WeaponData")]
 public class WeaponData : ScriptableObject, IUpgrade
 {
+    public GameObject weaponPrefab;
     public string weaponName;
     public Sprite icon;
     public float damage;
-    public float speed;
+    public float projectileSpeed;
     public float size;
+    public float Range;
     public float cooldown;
     public int projectileCount;
     public int maxLevel = 8;
@@ -22,24 +19,25 @@ public class WeaponData : ScriptableObject, IUpgrade
     public List<LevelStats> levelStats;
 
     public string Name => weaponName;
-
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Weapon;
+
     public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
-        int currentLevel = playerWeapon.Weapons.ContainsKey(this) ? playerWeapon.Weapons[this].Level : 0;
-        if (currentLevel < maxLevel)
+        if (!playerWeapon.HasWeapon(this))
         {
-            LevelStats stats = levelStats[currentLevel];
-            for (int i = 0; i < stats.modifiers.Count; i++)
-            {
-                StatModifier modifier = stats.modifiers[i];
-                StatType type = stats.types[i];
-                //playerWeapon.AddModifier(type, modifier);
-            }
-            playerWeapon.Weapons[this].LevelUp();
+            playerWeapon.Equip(this);
         }
 
-        return playerWeapon.Weapons[this].Level;
+        var weapon = playerWeapon.GetWeaponByData(this);
+        if (weapon == null) return 0;
+        if (weapon.Level >= maxLevel) return weapon.Level;
+
+        var stats = levelStats[weapon.Level];
+        for (int i = 0; i < stats.modifiers.Count; i++)
+            weapon.AddModifier(stats.types[i], stats.modifiers[i]);
+
+        weapon.LevelUp();
+        return weapon.Level;
     }
 }
