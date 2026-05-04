@@ -2,15 +2,11 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
-    [Header("Base Stats")]
-    [SerializeField] protected float baseDamage = 10f;
-    [SerializeField] protected float baseCooldown = 1f;
-    [SerializeField] protected float baseRange = 5f;
-
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
 
     [SerializeField] protected WeaponData weaponData;
+    public WeaponData WeaponData => weaponData;
     protected StatContainer damageStat;
     protected StatContainer cooldownStat;
     protected StatContainer rangeStat;
@@ -18,22 +14,34 @@ public abstract class WeaponBase : MonoBehaviour
     public bool IsActive { get; private set; }
 
     //무기 레벨 관리용
-    public int Level { get; private set; } = 4;
+    public int Level { get; private set; }
 
     public float Damage => damageStat.FinalValue;
     public float Cooldown => cooldownStat.FinalValue;
     public float Range => rangeStat.FinalValue;
 
+    private float _timer;
+
     protected virtual void Awake()
     {
-        //damageStat = new StatContainer(baseDamage);
-        //cooldownStat = new StatContainer(baseCooldown);
-        //rangeStat = new StatContainer(baseRange);
-        if (weaponData != null)
+        if (weaponData == null)
         {
-            damageStat = new StatContainer(weaponData.damage);
-            cooldownStat = new StatContainer(weaponData.cooldown);
-            rangeStat = new StatContainer(weaponData.size);
+            Debug.LogError("WeaponData 없음");
+        }
+        damageStat = new StatContainer(weaponData.damage);
+        cooldownStat = new StatContainer(weaponData.cooldown);
+        rangeStat = new StatContainer(weaponData.size);
+    }
+    private void Update()
+    {
+        if (!IsActive) return;
+        if (cooldownStat == null) return;
+
+        _timer += Time.deltaTime;
+        if (_timer >= Cooldown)
+        {
+            _timer = 0f;
+            Attack();
         }
     }
 
@@ -42,6 +50,7 @@ public abstract class WeaponBase : MonoBehaviour
         if (IsActive) return;
 
         IsActive = true;
+        _timer = 0f;
         OnActivate();
     }
 
@@ -51,13 +60,6 @@ public abstract class WeaponBase : MonoBehaviour
 
         IsActive = false;
         OnDeactivate();
-    }
-
-    public void Use()
-    {
-        if (!IsActive) return;
-
-        Attack();
     }
 
     protected abstract void Attack();
@@ -71,42 +73,30 @@ public abstract class WeaponBase : MonoBehaviour
         Level++;
     }
 
-    public void AddDamageModifier(StatModifier modifier)
-    {
-        damageStat.AddModifier(modifier);
-    }
+    //public void AddDamageModifier(StatModifier modifier)
+    //{
+    //    damageStat.AddModifier(modifier);
+    //}
 
-    public void AddCooldownModifier(StatModifier modifier)
-    {
-        cooldownStat.AddModifier(modifier);
-    }
+    //public void AddCooldownModifier(StatModifier modifier)
+    //{
+    //    cooldownStat.AddModifier(modifier);
+    //}
 
-    public void AddRangeModifier(StatModifier modifier)
-    {
-        rangeStat.AddModifier(modifier);
-    }
+    //public void AddRangeModifier(StatModifier modifier)
+    //{
+    //    rangeStat.AddModifier(modifier);
+    //}
 
     // WeaponData의 StatType에 따라 알맞은 스탯 컨테이너에 Modifier 적용
-    public void AddModifier(StatTypes type, StatModifier modifier)
+    public void AddModifier(WeaponStatType type, StatModifier modifier)
     {
         switch (type)
         {
-            case StatTypes.Damage:
-                AddDamageModifier(modifier);
-                break;
-
-            case StatTypes.Cooldown:
-                AddCooldownModifier(modifier);
-                break;
-
-            case StatTypes.Range:
-                AddRangeModifier(modifier);
-                break;
-
-            
-            default:
-                Debug.LogWarning($"지원하지 않는 무기 스탯 타입: {type}");
-                break;
+            case WeaponStatType.Damage: damageStat.AddModifier(modifier); break;
+            case WeaponStatType.Cooldown: cooldownStat.AddModifier(modifier); break;
+            case WeaponStatType.Range: rangeStat.AddModifier(modifier); break;
+            default: Debug.LogWarning($"지원하지 않는 무기 스탯 타입: {type}"); break;
         }
     }
 

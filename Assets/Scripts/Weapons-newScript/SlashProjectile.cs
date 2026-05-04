@@ -13,17 +13,17 @@ public class SlashProjectile : ProjectileBase
 
     private readonly HashSet<Collider> damagedTargets = new();
 
-    public override void Init(
-        Transform owner,
-        Vector3 direction,
-        float damage,
-        LayerMask targetLayer)
-    {
-        base.Init(owner, direction, damage, targetLayer);
+    //public override void Init(
+    //    Transform owner,
+    //    Vector3 direction,
+    //    float damage,
+    //    LayerMask targetLayer)
+    //{
+    //    base.Init(owner, direction, damage, targetLayer);
 
-        centerRotation = Quaternion.LookRotation(direction);
-        transform.rotation = centerRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
-    }
+    //    centerRotation = Quaternion.LookRotation(direction);
+    //    transform.rotation = centerRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
+    //}
 
     private void Update()
     {
