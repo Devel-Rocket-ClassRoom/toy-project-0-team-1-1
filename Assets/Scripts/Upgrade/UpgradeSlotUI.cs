@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class UpgradeSlotUI : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text descText;
-    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI descText;
+    [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Button button;
 
     private IUpgrade upgrade;

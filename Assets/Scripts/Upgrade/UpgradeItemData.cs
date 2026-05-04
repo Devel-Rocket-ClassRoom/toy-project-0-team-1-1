@@ -8,7 +8,7 @@ public class UpgradeItemData : ScriptableObject, IUpgrade
     public string itemName;
     public int maxLevel = 5;
     public List<LevelStats> levelStats = new List<LevelStats>();
-
+    
     public string Name => itemName;
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Passive;

@@ -15,12 +15,10 @@ public abstract class Item : MonoBehaviour, ILootable
 
     private float floatPhase;
     private Vector3 basePosition;
-    private bool isPickedUp = false;
     private Transform target;
     private Vector3 p0;
     private Vector3 p1;
     private float timer;
-    private float duration;
     private Coroutine coPickedUp;
 
     private void OnEnable()

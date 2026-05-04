@@ -22,7 +22,8 @@ public abstract class ProjectileWeaponBase : WeaponBase
             owner: transform,
             direction: direction,
             damage: Damage,
-            targetLayer: targetLayer
+            targetLayer: targetLayer,
+            speed: weaponData.projectileSpeed
         );
 
         return projectile;

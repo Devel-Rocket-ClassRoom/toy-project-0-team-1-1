@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: ExpGain
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: ExpItem
-  prefab: {fileID: 0}
-  effectType: 1
+  prefab: {fileID: 5014890117957274953, guid: a10aeebe1575882469141ac51812c128, type: 3}
   effectValue: 10
