@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: HealItem
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: HealItem
-  prefab: {fileID: 0}
-  effectType: 0
+  prefab: {fileID: 8803445106162601700, guid: d1000dcd832ff5c4dadb9ffaf131fdca, type: 3}
   effectValue: 30
