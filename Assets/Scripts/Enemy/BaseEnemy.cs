@@ -30,6 +30,11 @@ public abstract class BaseEnemy : BaseEntity
 
         _renderers = GetComponentsInChildren<Renderer>();
     }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _agent.isStopped = false;
+    }
     public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
     protected override void InitStats()
@@ -95,7 +100,12 @@ public abstract class BaseEnemy : BaseEntity
         if (dir.sqrMagnitude > 0.001f)
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 15f * Time.deltaTime);
     }
-
+    protected override void Die()
+    {
+        _agent.isStopped = true;
+        _agent.velocity = Vector3.zero;
+        base.Die();
+    }
     protected override void OnDie()
     {
         if (_prefab != null)
