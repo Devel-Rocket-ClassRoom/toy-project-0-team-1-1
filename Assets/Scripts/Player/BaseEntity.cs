@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class BaseEntity : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public abstract class BaseEntity : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         isDead = false;
         currentHp = stats[StatType.MaxHp].FinalValue;
@@ -62,5 +63,14 @@ public abstract class BaseEntity : MonoBehaviour
     {
         isDead = true;
         animator.SetTrigger("Die");
+        GetComponent<Collider>().enabled = false;
+        StartCoroutine(DieRoutine());
     }
+    protected virtual IEnumerator DieRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        OnDie();
+    }
+
+    protected virtual void OnDie() { }
 }
