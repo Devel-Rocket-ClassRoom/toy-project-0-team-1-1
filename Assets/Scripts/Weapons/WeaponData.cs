@@ -1,6 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum StatTypes //업그레이드할 수단 추후 필요시 추가 가능
+{
+    Damage,
+    Cooldown,
+    Range, 
+}
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Game/WeaponData")]
 public class WeaponData : ScriptableObject, IUpgrade
 {
