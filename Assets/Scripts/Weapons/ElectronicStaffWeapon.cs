@@ -1,47 +1,94 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectronicStaffWeapon : AreaWeaponBase
+public class ElectronicStaffWeapon : WeaponBase
 {
+    [Header("Staff")]
     [SerializeField] private int level = 1;
     [SerializeField] private float chainRange = 5f;
 
-    private int[] chainCount = { 3, 4, 5, 6, 7 };
-    private int ChainCount => chainCount[level - 1];
+    private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
 
-    public override void Attack()
+    private int ChainCount
     {
-        Collider[] hits = FindTargetsInRange(transform.position, Range);
-        if (hits.Length <= 0) return;
+        get
+        {
+            int index = Mathf.Clamp(level - 1, 0, chainCounts.Length - 1);
+            return chainCounts[index];
+        }
+    }
 
-        BaseEnemy current = hits[Random.Range(0, hits.Length)].GetComponent<BaseEnemy>();
-        if(current ==  null) return;
+    protected override void Attack()
+    {
+        BaseEnemy firstTarget = FindRandomEnemyInRange(transform.position, Range);
 
+        if (firstTarget == null)
+            return;
+
+        ChainAttack(firstTarget);
+    }
+
+    private void ChainAttack(BaseEnemy startTarget)
+    {
+        BaseEnemy current = startTarget;
         List<BaseEnemy> attacked = new List<BaseEnemy>();
 
-        for(int i = 0; i < ChainCount; i++)
+        for (int i = 0; i < ChainCount; i++)
         {
-            if (current == null) break;
+            if (current == null)
+                break;
+
             current.TakeDamage(Damage);
             attacked.Add(current);
+
+            Debug.Log($"스태프 연쇄 타격: {current.name} / 데미지: {Damage}");
+
             current = FindNextTarget(current, attacked);
         }
     }
 
-    public BaseEnemy FindNextTarget(BaseEnemy from, List<BaseEnemy> attacked)
+    private BaseEnemy FindNextTarget(BaseEnemy from, List<BaseEnemy> attacked)
     {
         Collider[] hits = FindTargetsInRange(from.transform.position, chainRange);
 
         List<BaseEnemy> candidates = new List<BaseEnemy>();
-        foreach (var hit in hits)
+
+        foreach (Collider hit in hits)
         {
             BaseEnemy enemy = hit.GetComponent<BaseEnemy>();
-            if (enemy == null || attacked.Contains(enemy)) continue;
+
+            if (enemy == null)
+                continue;
+
+            if (attacked.Contains(enemy))
+                continue;
+
             candidates.Add(enemy);
         }
 
-        if (candidates.Count == 0) return null;
+        if (candidates.Count == 0)
+            return null;
+
         return candidates[Random.Range(0, candidates.Count)];
+    }
+
+    private BaseEnemy FindRandomEnemyInRange(Vector3 center, float radius)
+    {
+        Collider[] hits = FindTargetsInRange(center, radius);
+
+        List<BaseEnemy> enemies = new List<BaseEnemy>();
+
+        foreach (Collider hit in hits)
+        {
+            BaseEnemy enemy = hit.GetComponent<BaseEnemy>();
+
+            if (enemy != null)
+                enemies.Add(enemy);
+        }
+
+        if (enemies.Count == 0)
+            return null;
+
+        return enemies[Random.Range(0, enemies.Count)];
     }
 }
