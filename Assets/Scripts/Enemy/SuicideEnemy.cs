@@ -19,11 +19,6 @@ public class SuicideEnemy : BaseEnemy
         }
         base.OnDie();
     }
-    protected override IEnumerator DieRoutine()
-    {
-        OnDie();
-        yield return null;
-    }
     protected override void Die()
     {
         isDead = true;

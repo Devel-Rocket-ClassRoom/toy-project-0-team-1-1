@@ -3,23 +3,20 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] private WeaponBase[] allWeapons;
-    public Dictionary<WeaponData, WeaponBase> Weapons = new Dictionary<WeaponData, WeaponBase>();
     [SerializeField] private int maxWeaponCount = 6;
+    public Dictionary<WeaponData, WeaponBase> Weapons = new Dictionary<WeaponData, WeaponBase>();
+
     public bool IsFull => Weapons.Count >= maxWeaponCount;
 
-    private void Awake()
-    {
-        foreach (var weapon in allWeapons)
-        {
-            weapon.gameObject.SetActive(false);
-        }
-    }
-    public void Equip(WeaponData weaponData, WeaponBase weapon)
+    public void Equip(WeaponData data)
     {
         if (IsFull) return;
-        weapon.gameObject.SetActive(true);
+        GameObject obj = Instantiate(data.weaponPrefab, transform);
+        WeaponBase weapon = obj.GetComponent<WeaponBase>();
+        Weapons[data] = weapon;
         weapon.Activate();
-        Weapons[weaponData] = weapon;
     }
+
+    public WeaponBase GetWeaponByData(WeaponData data) => Weapons.ContainsKey(data) ? Weapons[data] : null;
+    public bool HasWeapon(WeaponData data) => Weapons.ContainsKey(data);
 }
