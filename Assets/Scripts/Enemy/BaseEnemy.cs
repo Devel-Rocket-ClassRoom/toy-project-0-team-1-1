@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class BaseEnemy : BaseEntity
 {
@@ -10,13 +12,23 @@ public abstract class BaseEnemy : BaseEntity
     private GameObject _prefab;
     public float Attack => stats[StatType.Attack].FinalValue;
 
-    protected Transform player;
+    protected Transform _player;
     [SerializeField] private LayerMask enemyLayer;
+
+    private NavMeshAgent _agent;
+
+    private Renderer[] _renderers;
+    private Coroutine _hitRoutine;
 
     protected override void Awake()
     {
         base.Awake();
-        player = GameObject.FindWithTag("Player").transform;
+        _player = GameObject.FindWithTag("Player").transform;
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = stats[StatType.Speed].FinalValue;
+        _agent.stoppingDistance = attackDistance;
+
+        _renderers = GetComponentsInChildren<Renderer>();
     }
     public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
@@ -37,7 +49,7 @@ public abstract class BaseEnemy : BaseEntity
 
     protected virtual void Update()
     {
-        var distance = Vector3.Distance(transform.position, player.position);
+        var distance = Vector3.Distance(transform.position, _player.position);
         if (!isDead)
         {
             if (distance > attackDistance)
@@ -48,6 +60,7 @@ public abstract class BaseEnemy : BaseEntity
             else
             {
                 animator.SetBool("Run", false);
+                LookAtPlayer();
                 DoAttak();
             }
         }
@@ -55,25 +68,8 @@ public abstract class BaseEnemy : BaseEntity
 
     protected virtual void Move()
     {
-        var dir = (player.position - transform.position).normalized;
         animator.SetBool("Run", true);
-        transform.position += dir * stats[StatType.Speed].FinalValue * Time.deltaTime;
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.LookRotation(dir),
-            15f * Time.deltaTime
-            );
-        Separate();
-    }
-    private void Separate()
-    {
-        Collider[] neighbors = Physics.OverlapSphere(transform.position, 1f, enemyLayer);
-        foreach (var neighbor in neighbors)
-        {
-            if (neighbor.gameObject == gameObject) continue;
-            Vector3 pushDir = transform.position - neighbor.transform.position;
-            transform.position += pushDir.normalized * 0.05f;
-        }
+        _agent.SetDestination(_player.position);
     }
 
     protected virtual void DoAttak()
@@ -85,17 +81,23 @@ public abstract class BaseEnemy : BaseEntity
         }
         _attackTimer = attackInterval;
 
-        var playerStatus = player.GetComponent<PlayerStatus>();
+        var playerStatus = _player.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
             playerStatus.TakeDamage(stats[StatType.Attack].FinalValue);
         }
     }
 
-    protected override void Die()
+    protected virtual void LookAtPlayer()
     {
-        animator.SetBool("Run", false);
-        base.Die();
+        Vector3 dir = (_player.position - transform.position).normalized;
+        dir.y = 0f;
+        if (dir.sqrMagnitude > 0.001f)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 15f * Time.deltaTime);
+    }
+
+    protected override void OnDie()
+    {
         if (_prefab != null)
         {
             PoolManager.Instance.Despawn(_prefab, gameObject);
@@ -104,5 +106,35 @@ public abstract class BaseEnemy : BaseEntity
         {
             PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
         }
+    }
+    public override void TakeDamage(float damage)
+    {
+        if (IsDead) return;
+        base.TakeDamage(damage);
+        if (_hitRoutine != null)
+        {
+            StopCoroutine(_hitRoutine);
+        }
+        _hitRoutine = StartCoroutine(HitRoutine());
+    }
+    
+
+    protected virtual IEnumerator HitRoutine()
+    {
+        foreach (var renderer in _renderers)
+            foreach (var mat in renderer.materials)
+            {
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.white);
+            }
+
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (var renderer in _renderers)
+            foreach (var mat in renderer.materials)
+            {
+                mat.SetColor("_EmissionColor", Color.black);
+                mat.DisableKeyword("_EMISSION");
+            }
     }
 }
