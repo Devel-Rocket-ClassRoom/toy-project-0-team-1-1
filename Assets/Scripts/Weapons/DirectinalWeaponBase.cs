@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class DirectionalWeaponBase : WeaponBase, IDirectionalAttackWeapon
+public abstract class DirectionalWeaponBase : WeaponBase
 {
     public Vector3 GetAttackDirection()
     {
@@ -18,24 +18,24 @@ public abstract class DirectionalWeaponBase : WeaponBase, IDirectionalAttackWeap
         return dir.normalized;
     }
 
-    protected Transform FindNearestTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, Range, targetLayer);
+    //protected Transform FindNearestTarget()
+    //{
+    //    Collider[] hits = Physics.OverlapSphere(transform.position, Range, targetLayer);
 
-        Transform nearest = null;
-        float nearestDist = Mathf.Infinity;
+    //    Transform nearest = null;
+    //    float nearestDist = Mathf.Infinity;
 
-        foreach (Collider hit in hits)
-        {
-            float dist = (hit.transform.position - transform.position).sqrMagnitude;
+    //    foreach (Collider hit in hits)
+    //    {
+    //        float dist = (hit.transform.position - transform.position).sqrMagnitude;
 
-            if (dist < nearestDist)
-            {
-                nearestDist = dist;
-                nearest = hit.transform;
-            }
-        }
+    //        if (dist < nearestDist)
+    //        {
+    //            nearestDist = dist;
+    //            nearest = hit.transform;
+    //        }
+    //    }
 
-        return nearest;
-    }
+    //    return nearest;
+    //}
 }
