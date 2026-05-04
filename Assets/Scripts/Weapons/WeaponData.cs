@@ -18,8 +18,8 @@ public class WeaponData : ScriptableObject, IUpgrade
     public string Name => weaponName;
 
     public Sprite Icon => icon;
-
-    public void Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
+    public UpgradeItemType type => UpgradeItemType.Weapon;
+    public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
         int currentLevel = playerWeapon.Weapons.ContainsKey(this) ? playerWeapon.Weapons[this].Level : 0;
         if (currentLevel < maxLevel)
@@ -33,5 +33,7 @@ public class WeaponData : ScriptableObject, IUpgrade
             }
             playerWeapon.Weapons[this].LevelUp();
         }
+
+        return playerWeapon.Weapons[this].Level;
     }
 }
