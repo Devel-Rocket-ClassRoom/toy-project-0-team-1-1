@@ -13,4 +13,5 @@ public enum StatType
     KnockBack,          // 넉백
     Resistance,         // 저항력
     ProjectileCount,    // 투사체 수
+    ExistTime,          // 투사체 지속 시간
 }

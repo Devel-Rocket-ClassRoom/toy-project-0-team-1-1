@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public abstract class BaseEnemy : BaseEntity
 {
-    //protected StatContainer attack = new StatContainer(10f);
-    protected float attackDistance = 2f;
-    protected float attackInterval = 1f;
+    [SerializeField] private EnemyData enemyData;
+    protected float attackDistance;
+    protected float attackInterval;
     protected float _attackTimer;
     [SerializeField] private GameObject expItemPrefab;
     private GameObject _prefab;
@@ -23,10 +22,17 @@ public abstract class BaseEnemy : BaseEntity
 
     protected override void InitStats()
     {
-        stats[StatType.MaxHp] = new StatContainer(50f);
-        stats[StatType.Defense] = new StatContainer(5f);
-        stats[StatType.Speed] = new StatContainer(5f);
-        stats[StatType.Attack] = new StatContainer(10f);
+        if (enemyData == null)
+        {
+            Debug.LogError($"{gameObject.name}에 EnemyData가 없어요");
+            return;
+        }
+        stats[StatType.MaxHp] = new StatContainer(enemyData.maxHp);
+        stats[StatType.Defense] = new StatContainer(enemyData.defense);
+        stats[StatType.Speed] = new StatContainer(enemyData.speed);
+        stats[StatType.Attack] = new StatContainer(enemyData.attack);
+        attackDistance = enemyData.attackDistance;
+        attackInterval = enemyData.attackInterval;
     }
 
     protected virtual void Update()
@@ -90,8 +96,11 @@ public abstract class BaseEnemy : BaseEntity
     {
         animator.SetBool("Run", false);
         base.Die();
-        PoolManager.Instance.Despawn(_prefab, gameObject);
-        if(expItemPrefab != null)
+        if (_prefab != null)
+        {
+            PoolManager.Instance.Despawn(_prefab, gameObject);
+        }
+        if (expItemPrefab != null)
         {
             PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
         }
