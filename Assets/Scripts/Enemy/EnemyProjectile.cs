@@ -35,6 +35,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         var playerStatus = other.GetComponent<PlayerStatus>();
         if (playerStatus == null) return;
+        Debug.Log("투사체 충돌: " + other.name);
         playerStatus.TakeDamage(_damage);
         ReturnToPool();
     }

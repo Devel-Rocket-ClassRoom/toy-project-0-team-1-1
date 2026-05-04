@@ -10,8 +10,11 @@ public class RangedEnemy : BaseEnemy
         if (_attackTimer > 0) return;
         _attackTimer = attackInterval;
 
-        var dir = (player.position - transform.position).normalized;
-        GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, transform.position, Quaternion.LookRotation(dir));
+        Vector3 spawnPos = transform.position + Vector3.up * 1f;
+        Vector3 targetPos = new Vector3(_player.position.x, spawnPos.y, _player.position.z);
+        var dir = (targetPos - spawnPos).normalized;
+        GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(dir));
         obj.GetComponent<EnemyProjectile>().Init(projectilePrefab, Attack, dir);
+
     }
 }
