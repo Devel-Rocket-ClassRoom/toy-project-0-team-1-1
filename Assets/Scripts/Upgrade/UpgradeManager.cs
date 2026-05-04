@@ -72,4 +72,9 @@ public class UpgradeManager : MonoBehaviour
             OnFirstGet?.Invoke(upgrade);
         }
     }
+
+    public string GetItemDesc(IUpgrade upgrade) // 여기 작성
+    {
+        return "";
+    }
 }

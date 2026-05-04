@@ -14,8 +14,8 @@ public enum StatType
     Resistance,         // 저항력
     ProjectileCount,    // 투사체 수
     ExistTime,          // 투사체 지속 시간
-    Damage,             // 데미지
-    Cooldown,           // 쿨타임
+    //Damage,             // 데미지 // 공격력과 동일하므로 제거
+    //Cooldown,           // 쿨타임 // Cool과 동일하므로 제거
     Range,              // 사거리
-    ProjectileSpeed,    // 투사체 속도
+    //ProjectileSpeed,    // 투사체 속도 // 공격 범위와 동일하므로 제거
 }
