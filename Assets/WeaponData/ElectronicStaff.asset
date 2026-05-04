@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ElectronicStaff
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: ElectronicStaff
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b50bd53042605474a9e62915b783e7ad, type: 3}
   damage: 15
   speed: 0
   size: 10
