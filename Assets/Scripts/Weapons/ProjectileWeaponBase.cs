@@ -3,18 +3,16 @@ using UnityEngine;
 public abstract class ProjectileWeaponBase : DirectionalWeaponBase
 {
     [Header("Projectile")]
-    [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected ProjectileBase projectilePrefab;
     [SerializeField] protected Transform firePoint;
 
-    protected GameObject SpawnProjectile(Vector3 direction)
+    protected ProjectileBase SpawnProjectile(Vector3 direction)
     {
         Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
 
-        GameObject projectile = Instantiate(
-            projectilePrefab,
-            spawnPos,
-            Quaternion.LookRotation(direction)
-        );
+        ProjectileBase projectile = Instantiate(projectilePrefab,spawnPos,Quaternion.LookRotation(direction));
+
+        projectile.Init(owner: transform, direction: direction, damage: Damage, targetLayer: targetLayer);
 
         return projectile;
     }

@@ -1,14 +1,20 @@
 using UnityEngine;
 
-public abstract class WeaponProjectileBase : MonoBehaviour
+public abstract class ProjectileBase : MonoBehaviour
 {
+    protected Transform owner;
+    protected Vector3 direction;
     protected float damage;
     protected LayerMask targetLayer;
-    protected Transform owner;
 
-    public virtual void Init(Transform owner, float damage, LayerMask targetLayer)
+    public virtual void Init(
+        Transform owner,
+        Vector3 direction,
+        float damage,
+        LayerMask targetLayer)
     {
         this.owner = owner;
+        this.direction = direction.normalized;
         this.damage = damage;
         this.targetLayer = targetLayer;
     }
@@ -25,6 +31,7 @@ public abstract class WeaponProjectileBase : MonoBehaviour
 
         Debug.Log($"{name} 타격: {other.name} / 데미지: {damage}");
 
-        
+        // 나중에 몬스터 구현 후
+        // other.GetComponent<IDamageable>()?.OnDamage(damage);
     }
 }
