@@ -16,12 +16,4 @@ public class UIExpBar : MonoBehaviour
         float ratio = playerLevel.ExpRatio;
         expBar.value = ratio;
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            expBar.value += 0.1f;
-            Debug.Log(expBar.value);
-        }
-    }
 }
