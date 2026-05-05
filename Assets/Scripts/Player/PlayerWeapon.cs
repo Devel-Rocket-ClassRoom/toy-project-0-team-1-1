@@ -8,6 +8,20 @@ public class PlayerWeapon : MonoBehaviour
 
     public bool IsFull => Weapons.Count >= maxWeaponCount;
 
+    //테스트용
+    [SerializeField] private WeaponData[] testWeaponDatas; // 인스펙터에서 연결
+
+    private void Start()
+    {
+        if (testWeaponDatas != null)
+        {
+            foreach (var weaponData in testWeaponDatas)
+            {
+                Equip(weaponData);
+            }
+        }
+    }
+    //여기까지
     public void Equip(WeaponData data)
     {
         if (IsFull) return;

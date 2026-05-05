@@ -9,13 +9,14 @@ public abstract class ProjectileBase : MonoBehaviour
     protected LayerMask targetLayer;
     protected GameObject _prefab;
 
-    public virtual void Init(Transform owner, Vector3 direction, float damage,  float speed, LayerMask targetLayer)
+    public virtual void Init(Transform owner, Vector3 direction, float damage,  float speed, LayerMask targetLayer, GameObject prefab)
     {
         this.owner = owner;
         this.direction = direction.normalized;
         this.damage = damage;
         this.speed = speed;
         this.targetLayer = targetLayer;
+        this._prefab = prefab;
     }
 
     protected bool IsTarget(Collider other)

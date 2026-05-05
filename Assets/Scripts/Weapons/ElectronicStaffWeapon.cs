@@ -4,6 +4,7 @@ using UnityEngine;
 public class ElectronicStaffWeapon : WeaponBase
 {
     [SerializeField] private float chainRange = 5f;
+    [SerializeField] private GameObject lightningPrefab; // 라이트닝스크립트 붙어있는 프리팹
 
     private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
 
@@ -21,12 +22,48 @@ public class ElectronicStaffWeapon : WeaponBase
         BaseEnemy current = startTarget;
         List<BaseEnemy> attacked = new List<BaseEnemy>();
 
+        // 첫 번째는 플레이어 → 첫 타겟
+        if (lightningPrefab != null)
+        {
+            GameObject lightning = Instantiate(lightningPrefab, transform.position, Quaternion.identity);
+            Transform hostTransform = lightning.transform.Find("Host");
+            if (hostTransform != null)
+            {
+                LighteningScript script = hostTransform.GetComponent<LighteningScript>();
+                if (script != null)
+                {
+                    script.target = current.gameObject;
+                    script.Initialize();
+                }
+            }
+            Destroy(lightning, 0.3f);
+        }
+
         for (int i = 0; i < ChainCount; i++)
         {
             if (current == null) break;
+
             current.TakeDamage(Damage);
             attacked.Add(current);
-            current = FindNextTarget(current, attacked);
+
+            BaseEnemy next = FindNextTarget(current, attacked);
+            if (next != null && lightningPrefab != null)
+            {
+                GameObject lightning = Instantiate(lightningPrefab, current.transform.position, Quaternion.identity);
+                Transform hostTransform = lightning.transform.Find("Host");
+                if (hostTransform != null)
+                {
+                    LighteningScript script = hostTransform.GetComponent<LighteningScript>();
+                    if (script != null)
+                    {
+                        script.target = next.gameObject;
+                        script.Initialize();
+                    }
+                }
+                Destroy(lightning, 0.3f);
+            }
+
+            current = next;
         }
     }
 

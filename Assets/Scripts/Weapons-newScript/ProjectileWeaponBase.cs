@@ -14,17 +14,11 @@ public abstract class ProjectileWeaponBase : WeaponBase
             return null;
         }
 
-        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
+        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
 
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
-        projectile.Init(
-            owner: transform,
-            direction: direction,
-            damage: Damage,
-            targetLayer: targetLayer,
-            speed: weaponData.projectileSpeed
-        );
+        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, projectilePrefab );
 
         return projectile;
     }
