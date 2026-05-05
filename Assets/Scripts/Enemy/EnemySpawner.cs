@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -91,7 +92,18 @@ public class EnemySpawner : MonoBehaviour
         {
             float x = Random.Range(-mapWidth / 2f, mapWidth / 2f);
             float z = Random.Range(-mapHeight / 2f, mapHeight / 2f);
-            spawnPos = new Vector3(x, 0f, z);
+            Vector3 randomPos = new Vector3(x, 0f, z);
+
+            // NavMesh 위에서 가장 가까운 위치 찾기
+            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            {
+                spawnPos = hit.position;
+            }
+            else
+            {
+                spawnPos = randomPos;
+            }
+
             maxAttempts--;
         } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
 
