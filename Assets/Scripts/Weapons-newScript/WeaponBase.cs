@@ -5,6 +5,7 @@ public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
+    [SerializeField] protected LayerMask obstacleLayer;
     [SerializeField] protected WeaponData weaponData;
 
     public WeaponData WeaponData => weaponData;
@@ -120,7 +121,7 @@ public abstract class WeaponBase : MonoBehaviour
         if (target == null) return transform.forward;
 
         Vector3 dir = target.position - transform.position;
-        dir.y = 0f;
+        //dir.y = 0f;
         return dir.sqrMagnitude <= 0.001f ? transform.forward : dir.normalized;
     }
 }
