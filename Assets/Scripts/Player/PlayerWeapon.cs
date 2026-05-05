@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private int maxWeaponCount = 6;
+    [SerializeField] private WeaponData defaultWeapon;
     public Dictionary<WeaponData, WeaponBase> Weapons = new Dictionary<WeaponData, WeaponBase>();
 
     public bool IsFull => Weapons.Count >= maxWeaponCount;
@@ -21,9 +22,8 @@ public class PlayerWeapon : MonoBehaviour
         //        Equip(weaponData);
         //    }
         //}
-        var first = WeaponManager.Instance.Weapons.Keys.First();
-        Equip(first);
-        UpgradeManager.Instance.IconUpdate(first);
+        Equip(defaultWeapon);
+        UpgradeManager.Instance.IconUpdate(defaultWeapon);
     }
     //여기까지
     public void Equip(WeaponData weaponData)
@@ -32,6 +32,7 @@ public class PlayerWeapon : MonoBehaviour
         GameObject obj = Instantiate(WeaponManager.Instance.Weapons[weaponData], transform);
         WeaponBase weapon = obj.GetComponent<WeaponBase>();
         Weapons[weaponData] = weapon;
+        weapon.LevelUp();
         weapon.Activate();
     }
 

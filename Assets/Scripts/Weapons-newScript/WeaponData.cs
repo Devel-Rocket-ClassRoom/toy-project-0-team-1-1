@@ -14,6 +14,7 @@ public class WeaponData : ScriptableObject, IUpgrade
     public float cooldown;
     public int projectileCount;
     public int maxLevel = 8;
+    public string Description;
 
     public List<LevelStats> levelStats;
 
