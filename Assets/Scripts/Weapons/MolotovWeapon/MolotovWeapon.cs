@@ -6,7 +6,7 @@ public class MolotovWeapon : WeaponBase
     [SerializeField] private float throwRange = 8f;
     protected override void Attack()
     {
-        int count = weaponData != null ? weaponData.projectileCount + Level : Level + 1;
+        int count = weaponData.projectileCount;
         float startAngle = Random.Range(0f, 360f);
         for (int i = 0; i < count; i++)
         {

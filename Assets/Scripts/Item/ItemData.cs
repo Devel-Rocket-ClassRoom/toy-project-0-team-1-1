@@ -12,4 +12,5 @@ public class ItemData : ScriptableObject
 {
     public string itemName;
     public float effectValue;
+    public GameObject prefab;
 }

@@ -19,12 +19,27 @@ public class PlayerStatus : BaseEntity
         base.Awake();
         _renderers = GetComponentsInChildren<Renderer>();
     }
+    public void Update()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats[StatType.LootingArea].FinalValue, LayerMask.GetMask("Item"));
+        foreach (Collider collider in hitColliders)
+        {
+            collider.GetComponent<ILootable>()?.StartLooting(this.transform);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, 2f);
+    }
 
     protected override void InitStats()
     {
         stats[StatType.MaxHp] = new StatContainer(100f);
         stats[StatType.Defense] = new StatContainer(5f);
         stats[StatType.Speed] = new StatContainer(9f);
+        stats[StatType.LootingArea] = new StatContainer(2f);
     }
 
     public override void TakeDamage(float damage)
