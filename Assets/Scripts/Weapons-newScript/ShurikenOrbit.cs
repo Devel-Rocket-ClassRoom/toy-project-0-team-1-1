@@ -1,27 +1,30 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ShurikenOrbit : MonoBehaviour
+public class ShurikenOrbit : ProjectileBase
 {
-    private Transform owner;
     private float radius;
-    private float rotateSpeed;
-    private float damage;
-    private LayerMask targetLayer;
     private float angle;
 
-    public void Init(
+    private readonly HashSet<Collider> hitTargets = new();
+
+    public override void Init(
         Transform owner,
-        float radius,
-        float rotateSpeed,
+        Vector3 direction,
         float damage,
+        float speed,
         LayerMask targetLayer,
-        float startAngle)
+        LayerMask obstacleLayer,
+        GameObject prefab)
     {
-        this.owner = owner;
+        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab);
+
+        hitTargets.Clear();
+    }
+
+    public void SetOrbitData(float radius, float startAngle)
+    {
         this.radius = radius;
-        this.rotateSpeed = rotateSpeed;
-        this.damage = damage;
-        this.targetLayer = targetLayer;
         this.angle = startAngle;
     }
 
@@ -29,11 +32,11 @@ public class ShurikenOrbit : MonoBehaviour
     {
         if (owner == null)
         {
-            Destroy(gameObject);
+            Return();
             return;
         }
 
-        angle += rotateSpeed * Time.deltaTime;
+        angle += speed * Time.deltaTime;
 
         float rad = angle * Mathf.Deg2Rad;
 
@@ -48,12 +51,31 @@ public class ShurikenOrbit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & targetLayer) == 0)
+        
+
+        if (!IsTarget(other))
+            return;
+        Debug.Log($"충돌 감지됨: {other.name}");
+        if (hitTargets.Contains(other))
             return;
 
-        Debug.Log($"수리검 타격: {other.name} / 데미지: {damage}");
+        hitTargets.Add(other);
 
-        // 나중에 몬스터 구현 후
-        // other.GetComponent<IDamageable>()?.OnDamage(damage);
+        Debug.Log($"타겟 맞음: {other.name}");
+
+        Hit(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (hitTargets.Contains(other))
+        {
+            hitTargets.Remove(other);
+        }
+    }
+
+    public void Return()
+    {
+        ReturnToPool();
     }
 }
