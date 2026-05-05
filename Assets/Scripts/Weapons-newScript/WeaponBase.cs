@@ -120,7 +120,7 @@ public abstract class WeaponBase : MonoBehaviour
         if (target == null) return transform.forward;
 
         Vector3 dir = target.position - transform.position;
-        dir.y = 0f;
+        //dir.y = 0f;
         return dir.sqrMagnitude <= 0.001f ? transform.forward : dir.normalized;
     }
 }

@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _velocity;
     private Animator _animator;
     private CharacterController _cc;
+    private float _verticalVelocity;
 
     private void Awake()
     {
@@ -17,6 +18,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!_cc.isGrounded)
+        {
+            _verticalVelocity += Physics.gravity.y * Time.deltaTime;
+        }
+        else
+        {
+            _verticalVelocity = -2f; // 바닥에 붙어있게
+        }
         HandleMove();
     }
 
@@ -36,6 +45,7 @@ public class PlayerController : MonoBehaviour
                 15f * Time.deltaTime
             );
         }
+        _velocity.y = _verticalVelocity;
         _cc.Move(_velocity * Time.deltaTime);
     }
 }
