@@ -18,7 +18,7 @@ public abstract class ProjectileWeaponBase : WeaponBase
 
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
-        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, projectilePrefab );
+        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, obstacleLayer, projectilePrefab );
 
         return projectile;
     }

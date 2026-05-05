@@ -23,6 +23,14 @@ public class ExplosiveProjectile : ProjectileBase
 
     private void OnTriggerEnter(Collider other)
     {
+        // 장애물이면 터지기만 하고 끝
+        if (((1 << other.gameObject.layer) & _obstacleLayer) != 0)
+        {
+            Explode(); // 폭발 이펙트 + 주변 적 데미지
+            ReturnToPool();
+            return;
+        }
+
         if (!IsTarget(other)) return;
 
         Explode();

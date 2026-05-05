@@ -5,6 +5,7 @@ public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] protected LayerMask targetLayer;
+    [SerializeField] protected LayerMask obstacleLayer;
     [SerializeField] protected WeaponData weaponData;
 
     public WeaponData WeaponData => weaponData;

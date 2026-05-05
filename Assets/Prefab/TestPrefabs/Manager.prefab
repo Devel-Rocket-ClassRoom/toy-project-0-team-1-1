@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3122691008657398504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6989250299763431887}
+  - component: {fileID: 7515109451453848577}
+  - component: {fileID: 2310033215194855511}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6989250299763431887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122691008657398504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.92734, y: 0, z: 17.50329}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7515109451453848577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122691008657398504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c465103979f2a58458bf8ba91375b2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoolManager
+  configs:
+  - prefab: {fileID: 2956513264916818313, guid: 2f92f97a91b07354b819f6675fd485b1, type: 3}
+    preloadCount: 30
+  - prefab: {fileID: 6760166541670497596, guid: 3d9170d66f345fb4f9af287575e18eb5, type: 3}
+    preloadCount: 30
+  - prefab: {fileID: 6413249027189822215, guid: cf49b66a27fc2b34bb6138479df80451, type: 3}
+    preloadCount: 30
+  - prefab: {fileID: 1924225392321231239, guid: 2f622b87c6fe6064b96b5857bb962fb3, type: 3}
+    preloadCount: 30
+  - prefab: {fileID: 7202723835409965446, guid: 2a34e5c5ad2e6a146b002d4de1befc94, type: 3}
+    preloadCount: 50
+  - prefab: {fileID: 8700355698098175137, guid: 1de00bd3a562bb34d89ab11c5dfab1af, type: 3}
+    preloadCount: 50
+--- !u!114 &2310033215194855511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122691008657398504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17089bbe4930a6244b4be05925f0898d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  waves:
+  - enemyPrefabs:
+    - {fileID: 6413249027189822215, guid: cf49b66a27fc2b34bb6138479df80451, type: 3}
+    enemyCount: 20
+    spawnInterval: 0.5
+  - enemyPrefabs:
+    - {fileID: 6413249027189822215, guid: cf49b66a27fc2b34bb6138479df80451, type: 3}
+    - {fileID: 6760166541670497596, guid: 3d9170d66f345fb4f9af287575e18eb5, type: 3}
+    enemyCount: 15
+    spawnInterval: 0.5
+  - enemyPrefabs:
+    - {fileID: 1924225392321231239, guid: 2f622b87c6fe6064b96b5857bb962fb3, type: 3}
+    - {fileID: 6760166541670497596, guid: 3d9170d66f345fb4f9af287575e18eb5, type: 3}
+    - {fileID: 6413249027189822215, guid: cf49b66a27fc2b34bb6138479df80451, type: 3}
+    enemyCount: 20
+    spawnInterval: 0.5
+  - enemyPrefabs:
+    - {fileID: 1924225392321231239, guid: 2f622b87c6fe6064b96b5857bb962fb3, type: 3}
+    - {fileID: 6413249027189822215, guid: cf49b66a27fc2b34bb6138479df80451, type: 3}
+    - {fileID: 2956513264916818313, guid: 2f92f97a91b07354b819f6675fd485b1, type: 3}
+    - {fileID: 6760166541670497596, guid: 3d9170d66f345fb4f9af287575e18eb5, type: 3}
+    enemyCount: 25
+    spawnInterval: 0.5
+  waveCooldown: 5
+  minSpawnDist: 15
+  mapWidth: 50
+  mapHeight: 50
