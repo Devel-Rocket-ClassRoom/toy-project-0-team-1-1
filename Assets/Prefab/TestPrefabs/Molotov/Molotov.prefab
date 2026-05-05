@@ -48,5 +48,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   weaponData: {fileID: 11400000, guid: e984e123d59f38b4baf2f1df3b798c3f, type: 2}
-  molotovProjectilePrefab: {fileID: 612400604654089553, guid: 06ae7cd0535bcc3489fa5ce7ed9f8790, type: 3}
+  molotovProjectilePrefab: {fileID: 1766793178658689980, guid: 7228aa3dcff532844ae2459e27812699, type: 3}
   throwRange: 8
