@@ -6,9 +6,17 @@ public class UpgradeUI : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private UpgradeSlotUI[] slots;
+    [SerializeField] private GameObject player;
+    private PlayerStatus playerStatus;
+    private PlayerWeapon playerWeapon;
 
     private System.Action<IUpgrade> onSelected;
 
+    private void Awake()
+    {
+        playerStatus = player.GetComponent<PlayerStatus>();
+        playerWeapon = player.GetComponent<PlayerWeapon>();
+    }
     public void Show(List<IUpgrade> choices, System.Action<IUpgrade> onSelected)
     {
         this.onSelected = onSelected;
@@ -22,7 +30,33 @@ public class UpgradeUI : MonoBehaviour
             {
                 slots[i].gameObject.SetActive(true);
                 var upgrade = choices[i];
-                slots[i].Setup(upgrade, OnSlotSelected, "", "");
+                if (upgrade is WeaponData weapon)
+                {
+                    if (playerWeapon.HasWeapon(weapon))
+                    {
+                        var thisWeapon = playerWeapon.GetWeaponByData(weapon);
+                        slots[i].Setup(upgrade, OnSlotSelected, weapon.levelStats[thisWeapon.Level].description, $"Lv.{thisWeapon.Level}");
+                    }
+                    else
+                    {
+                        slots[i].Setup(upgrade, OnSlotSelected, "신규획득", "Lv.0");
+                    }
+                }
+                else if (upgrade is UpgradeItemData itemData)
+                {
+                    if (playerStatus.upgradeItems.ContainsKey(itemData))
+                    {
+                        slots[i].Setup(upgrade, OnSlotSelected, itemData.levelStats[playerStatus.upgradeItems[itemData]].description, $"Lv.{playerStatus.upgradeItems[itemData]}");
+                    }
+                    else
+                    {
+                        slots[i].Setup(upgrade, OnSlotSelected, "신규획득", "Lv.0");
+                    }
+                }
+                else
+                {
+                    slots[i].Setup(upgrade, OnSlotSelected, "", "");
+                }
             }
             else
             {

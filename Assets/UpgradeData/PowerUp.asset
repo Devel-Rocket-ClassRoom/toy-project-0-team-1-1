@@ -15,4 +15,10 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 2be1a234edf35af43873060429d439bd, type: 3}
   itemName: "\uC0C8\uBD80\uB9AC"
   maxLevel: 5
-  levelStats: []
+  levelStats:
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 04000000
+    description: "\uACF5\uACA9\uB825 10% \uC99D\uAC00"

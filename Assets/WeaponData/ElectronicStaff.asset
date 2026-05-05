@@ -20,6 +20,18 @@ MonoBehaviour:
   size: 10
   Range: 20
   cooldown: 2
-  projectileCount: 0
+  projectileCount: 1
   maxLevel: 5
-  levelStats: []
+  levelStats:
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 3
+    types: 04000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: -0.1
+    types: 07000000
+    description: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"

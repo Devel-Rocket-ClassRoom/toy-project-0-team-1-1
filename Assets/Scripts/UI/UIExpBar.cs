@@ -8,7 +8,7 @@ public class UIExpBar : MonoBehaviour
     private void Awake()
     {
         expBar = GetComponent<Slider>();
-        playerLevel.OnLevelUp += SetExpBar;
+        playerLevel.OnGainExp += SetExpBar;
         expBar.value = 0f;
     }
     private void SetExpBar()

@@ -17,7 +17,9 @@ public class UpgradeManager : MonoBehaviour
     public event System.Action<IUpgrade> OnFirstGet;
     private void Awake()
     {
+        Instance = this;
         playerLevel.OnLevelUp += ShowUpgradeSelection;
+        upgradeUI.gameObject.SetActive(false);
     }
     public List<IUpgrade> GetRandomChoices(int count = 3)
     {
@@ -37,7 +39,9 @@ public class UpgradeManager : MonoBehaviour
                     tempDataList = weaponList;
                 foreach (var weapon in tempDataList)
                 {
-                    if (playerWeapon.Weapons[weapon].Level < weapon.maxLevel)
+                    if (!playerWeapon.HasWeapon(weapon))
+                        upgradableList.Add(weapon);
+                    else if (playerWeapon.Weapons[weapon].Level < weapon.maxLevel)
                         upgradableList.Add(weapon);
                 }
                 int index = Random.Range(0, upgradableList.Count);
@@ -48,7 +52,9 @@ public class UpgradeManager : MonoBehaviour
                 List<UpgradeItemData> upgradableList = new List<UpgradeItemData>();
                 foreach (var item in upgradeItemList)
                 {
-                    if (playerStatus.upgradeItems[item] < item.maxLevel)
+                    if (!playerStatus.upgradeItems.ContainsKey(item))
+                        upgradableList.Add(item);
+                    else if (playerStatus.upgradeItems[item] < item.maxLevel)
                         upgradableList.Add(item);
                 }
                 int index = Random.Range(0, upgradableList.Count);
