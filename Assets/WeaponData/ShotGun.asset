@@ -22,4 +22,16 @@ MonoBehaviour:
   cooldown: 1
   projectileCount: 3
   maxLevel: 5
-  levelStats: []
+  levelStats:
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0.2
+    types: 0d000000
+    description: "\uACF5\uACA9\uBC94\uC704 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0.2
+    types: 0d000000
+    description: "\uACF5\uACA9\uBC94\uC704 \uC99D\uAC00"
