@@ -5,6 +5,7 @@ public class MolotovProjectile : MonoBehaviour
     [SerializeField] private GameObject flamePrefab; // 장판 프리팹
     [SerializeField] private float arcHeight = 3f; // 포물선 높이
     [SerializeField] private float speed = 8f;
+    [SerializeField] private float rotationSpeed = 360f;
 
     private GameObject _prefab;
     private Vector3 _startPos;
@@ -32,7 +33,9 @@ public class MolotovProjectile : MonoBehaviour
         float height = Mathf.Sin(_progress * Mathf.PI) * arcHeight;
         transform.position = flatPos + Vector3.up * height;
 
-        if(_progress >= 1)
+        transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+
+        if (_progress >= 1)
         {
             GameObject flame = PoolManager.Instance.Spawn(flamePrefab, _targetPos, Quaternion.identity);
             flame.GetComponent<MolotovFlame>().Init(flamePrefab, _damage);

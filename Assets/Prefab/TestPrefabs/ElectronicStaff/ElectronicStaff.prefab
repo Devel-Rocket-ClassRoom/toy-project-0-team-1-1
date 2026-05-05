@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElectronicStaffWeapon
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   weaponData: {fileID: 11400000, guid: dc6cf8e2025f5df4c895f2c09544705e, type: 2}
   chainRange: 5
+  lightningPrefab: {fileID: 3518478473292896148, guid: 2c907eb0122d4a646b4c0742c68d186a, type: 3}

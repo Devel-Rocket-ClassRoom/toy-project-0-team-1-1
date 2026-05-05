@@ -1706,11 +1706,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   enemyData: {fileID: 11400000, guid: 860546fe2f07dcc4484bf7d05f00f643, type: 2}
-  expItemPrefab: {fileID: 7202723835409965446, guid: 8ef5d5344e0601341b7a0ee60ce023c7, type: 3}
+  expItemPrefab: {fileID: 7202723835409965446, guid: aca9739814626204bac9126fa7715b2f, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
-  projectilePrefab: {fileID: 7202723835409965446, guid: 24eaaf814e68c1947bcc2719547b3205, type: 3}
+  projectilePrefab: {fileID: 7202723835409965446, guid: 2a34e5c5ad2e6a146b002d4de1befc94, type: 3}
 --- !u!136 &-3766269490065571004
 CapsuleCollider:
   m_ObjectHideFlags: 0
