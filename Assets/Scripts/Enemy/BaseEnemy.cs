@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public abstract class BaseEnemy : BaseEntity
 {
@@ -34,6 +35,19 @@ public abstract class BaseEnemy : BaseEntity
     {
         base.OnEnable();
         _agent.isStopped = false;
+        foreach (var renderer in _renderers)
+        {
+            foreach (var mat in renderer.materials)
+            {
+                mat.SetColor("_EmissionColor", Color.black);
+                mat.DisableKeyword("_EMISSION");
+            }
+        }
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
     }
     public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
