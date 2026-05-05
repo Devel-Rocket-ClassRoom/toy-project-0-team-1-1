@@ -7,6 +7,7 @@ public class PlayerLevel : MonoBehaviour
     private float _maxExp = 100f;
     private float _currentExp = 0f;
     private float _expMultiplier = 1.2f;
+    public event Action OnGainExp;
     public event Action OnLevelUp;
 
     public int Level => _level;
@@ -15,6 +16,7 @@ public class PlayerLevel : MonoBehaviour
     public void GainExp(float amount)
     {
         _currentExp += amount;
+        OnGainExp?.Invoke();
         if (_currentExp > _maxExp)
         {
             LevelUp();
