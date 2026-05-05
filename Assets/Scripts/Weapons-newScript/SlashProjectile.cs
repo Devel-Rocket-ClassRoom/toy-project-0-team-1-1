@@ -5,43 +5,54 @@ public class SlashProjectile : ProjectileBase
 {
     [Header("Slash")]
     [SerializeField] private float lifeTime = 0.25f;
-    [SerializeField] private float swingAngle = 90f;
     [SerializeField] private float radius = 2f;
+    [SerializeField] private float swingAngle = 90f;
 
     private float timer;
-    private Quaternion centerRotation;
+    private Quaternion baseRotation;
+    private readonly HashSet<Collider> hitTargets = new();
 
-    private readonly HashSet<Collider> damagedTargets = new();
-
-    //public override void Init(
-    //    Transform owner,
-    //    Vector3 direction,
-    //    float damage,
-    //    LayerMask targetLayer)
-    //{
-    //    base.Init(owner, direction, damage, targetLayer);
-
-    //    centerRotation = Quaternion.LookRotation(direction);
-    //    transform.rotation = centerRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
-    //}
-
-    private void Update()
+    public override void Init(
+        Transform owner,
+        Vector3 direction,
+        float damage,
+        float speed,
+        LayerMask targetLayer,
+        GameObject prefab)
     {
-        timer += Time.deltaTime;
+        base.Init(owner, direction, damage, speed, targetLayer, prefab);
 
-        float t = timer / lifeTime;
-        float angle = Mathf.Lerp(-swingAngle * 0.5f, swingAngle * 0.5f, t);
+        timer = 0f;
+        hitTargets.Clear();
 
-        transform.rotation = centerRotation * Quaternion.Euler(0f, angle, 0f);
+        baseRotation = Quaternion.LookRotation(direction);
+        transform.rotation = baseRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
 
         if (owner != null)
         {
             transform.position = owner.position + transform.forward * radius;
         }
+    }
+
+    private void Update()
+    {
+        if (owner == null)
+        {
+            ReturnToPool();
+            return;
+        }
+
+        timer += Time.deltaTime;
+
+        float t = timer / lifeTime;
+        float angle = Mathf.Lerp(-swingAngle * 0.5f, swingAngle * 0.5f, t);
+
+        transform.rotation = baseRotation * Quaternion.Euler(0f, angle, 0f);
+        transform.position = owner.position + transform.forward * radius;
 
         if (timer >= lifeTime)
         {
-            Destroy(gameObject);
+            ReturnToPool();
         }
     }
 
@@ -50,10 +61,10 @@ public class SlashProjectile : ProjectileBase
         if (!IsTarget(other))
             return;
 
-        if (damagedTargets.Contains(other))
+        if (hitTargets.Contains(other))
             return;
 
-        damagedTargets.Add(other);
+        hitTargets.Add(other);
         Hit(other);
     }
 }
