@@ -137,8 +137,8 @@ public abstract class BaseEnemy : BaseEntity
     {
         if (IsDead) return;
         base.TakeDamage(damage);
-        Vector3 pos = transform.position + Vector3.up * 2f;
-        var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
+        // Vector3 pos = transform.position + Vector3.up * 2f;
+        var popup = PoolManager.Instance.Spawn(damagePopupPrefab, transform.position, Quaternion.identity);
         popup.GetComponent<DamagePopup>().Setup((int)damage);
         if (_hitRoutine != null)
         {
