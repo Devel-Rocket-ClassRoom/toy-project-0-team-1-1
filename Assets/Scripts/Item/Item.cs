@@ -23,11 +23,13 @@ public abstract class Item : MonoBehaviour, ILootable
 
     private void OnEnable()
     {
-        basePosition = transform.position;
         floatPhase = Random.Range(0f, Mathf.PI * 2f);
         coPickedUp = null;
     }
-
+    public void Init(Vector3 spawnPosition)
+    {
+        basePosition = spawnPosition;
+    }
     private enum LootPhase { Idle, Pullback, Rush }
     private LootPhase phase = LootPhase.Idle;
     private float currentSpeed;
@@ -80,8 +82,8 @@ public abstract class Item : MonoBehaviour, ILootable
         }
         coPickedUp = null;
         GetEffect(target);
-        Destroy(gameObject); // Despawn으로 가야함
-        // PoolManager.Instance.Despawn(itemData.prefab, gameObject);
+        // Destroy(gameObject); // Despawn으로 가야함
+        PoolManager.Instance.Despawn(itemData.prefab, gameObject);
     }
 
     public void StartLooting(Transform player)

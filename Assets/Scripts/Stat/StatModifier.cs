@@ -17,4 +17,12 @@ public struct StatModifier
     public ModCategory category;
     public float value;        // 스탯 증감량
     public object source;  // 스탯을 제공한 주체
+
+    public StatModifier(ModType type, float value, object source, ModCategory category = ModCategory.Default)
+    {
+        this.value = value;
+        this.type = type;
+        this.source = source;
+        this.category = category;
+    }
 }

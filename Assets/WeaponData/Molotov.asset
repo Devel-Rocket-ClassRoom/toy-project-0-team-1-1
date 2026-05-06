@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbff61f527b5c614889e83438ebcfa66, type: 3}
   m_Name: Molotov
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponPrefab: {fileID: 72520145658449428, guid: 3b474fd27dd72ef4aa73e9077701c397, type: 3}
-  weaponName: Molotov
+  weaponName: "\uD654\uC5FC\uBCD1"
   icon: {fileID: 21300000, guid: 10074011650a8504780fc243b0d61250, type: 3}
   damage: 8
   projectileSpeed: 0
@@ -32,6 +31,6 @@ MonoBehaviour:
   - modifiers:
     - type: 0
       category: 0
-      value: 0.1
+      value: 1
     types: 0b000000
     description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
