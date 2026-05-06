@@ -14560,7 +14560,7 @@ GameObject:
   - component: {fileID: 7481917846156071870}
   m_Layer: 0
   m_Name: SwordAuraEffect
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

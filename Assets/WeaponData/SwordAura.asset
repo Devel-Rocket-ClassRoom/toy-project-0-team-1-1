@@ -16,10 +16,10 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9433a5ca94182da42a0382452727c847, type: 3}
   damage: 1000
   projectileSpeed: 20
-  size: 1
+  size: 3.4
   range: 20
   cooldown: 1
-  projectileCount: 3
+  projectileCount: 1
   maxLevel: 8
   existTime: 0
   Description: 

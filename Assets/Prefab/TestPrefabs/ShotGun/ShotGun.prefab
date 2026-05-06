@@ -53,3 +53,4 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: 32b404d2b38421046825055ffdafb64a, type: 2}
   projectilePrefab: {fileID: 8700355698098175137, guid: 1de00bd3a562bb34d89ab11c5dfab1af, type: 3}
   firePoint: {fileID: 461937289438950685, guid: 137c7561a8ad86f42983e572b51183ad, type: 3}
+  fireEffectPrefab: {fileID: 5611677355746808325, guid: 0a31bbce83aa52547a7bbdbb64314c38, type: 3}
