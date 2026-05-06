@@ -25,22 +25,16 @@ MonoBehaviour:
   Description: 
   levelStats:
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
       value: 1
-    - type: 0
-      category: 0
-      value: 1
-    types: 060000000b000000
+    types: 06000000
     description: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00 \uD06C"
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
       value: 1
-    - type: 0
-      category: 0
-      value: 1
-    types: 060000000b000000
+    types: 06000000
     description: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00 \uD06C"
   - modifiers:
     - type: 0
