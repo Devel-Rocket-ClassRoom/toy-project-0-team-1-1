@@ -5,7 +5,7 @@ public class ShurikenWeapon : WeaponBase
 {
     [Header("Shuriken")]
     [SerializeField] private ShurikenOrbit shurikenPrefab;
-    
+
 
     private readonly List<ShurikenOrbit> shurikens = new();
 
@@ -54,7 +54,8 @@ public class ShurikenWeapon : WeaponBase
                 speed: RotateSpeed,
                 targetLayer: targetLayer,
                 obstacleLayer: obstacleLayer,
-                prefab: shurikenPrefab.gameObject
+                prefab: shurikenPrefab.gameObject,
+                size: Size
             );
 
             shuriken.SetOrbitData(

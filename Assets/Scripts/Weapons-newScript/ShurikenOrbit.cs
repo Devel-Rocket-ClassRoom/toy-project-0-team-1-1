@@ -15,7 +15,8 @@ public class ShurikenOrbit : ProjectileBase
         float speed,
         LayerMask targetLayer,
         LayerMask obstacleLayer,
-        GameObject prefab)
+        GameObject prefab,
+        float size)
     {
         base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab);
 

@@ -19,7 +19,8 @@ public class SlashProjectile : ProjectileBase
         float speed,
         LayerMask targetLayer,
         LayerMask obstacleMask,
-        GameObject prefab)
+        GameObject prefab,
+        float size)
     {
         base.Init(owner, direction, damage, speed, targetLayer, obstacleMask, prefab);
 
