@@ -19,12 +19,12 @@ public abstract class ProjectileWeaponBase : WeaponBase
             Debug.LogError($"{name}: Projectile Prefab이 비어있음");
             return null;
         }
-
+        
         Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
 
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
-        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, obstacleLayer, projectilePrefab );
+        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, obstacleLayer, projectilePrefab, Size);
 
         if (projectile is ExplosiveProjectile explosive)
         {

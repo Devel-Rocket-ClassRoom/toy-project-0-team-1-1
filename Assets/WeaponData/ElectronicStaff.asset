@@ -17,12 +17,12 @@ MonoBehaviour:
   damage: 15
   projectileSpeed: 0
   size: 0
-  range: 10
+  range: 20
   cooldown: 2
   projectileCount: 3
   maxLevel: 8
   existTime: 0
-  Description: 
+  Description: "\uC801\uB4E4\uC5D0\uAC8C \uD37C\uC9C0\uB294 \uC804\uAE30\uACF5\uACA9"
   levelStats:
   - modifiers:
     - type: 0

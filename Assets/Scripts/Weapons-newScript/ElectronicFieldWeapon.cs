@@ -8,7 +8,7 @@ public class ElectricFieldWeapon : WeaponBase
     protected override void Awake()
     {
         base.Awake();
-        effectObject = transform.Find("ElectronicFieldEffect")?.gameObject;
+        effectObject = transform.Find("SwordAuraEffect")?.gameObject;
     }
 
     protected override void Attack()

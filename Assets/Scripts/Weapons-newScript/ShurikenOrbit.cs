@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class ShurikenOrbit : ProjectileBase
 {
+    [Header("Visual")]
+    [SerializeField] private Transform visual;
+    [SerializeField] private Vector3 visualRotationOffset = new Vector3(90f, 0f, 0f);
+
     private float radius;
     private float angle;
 
@@ -15,17 +19,25 @@ public class ShurikenOrbit : ProjectileBase
         float speed,
         LayerMask targetLayer,
         LayerMask obstacleLayer,
-        GameObject prefab)
+        GameObject prefab,
+        float size)
     {
         base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab);
 
         hitTargets.Clear();
+
+        if (visual != null)
+            visual.localRotation = Quaternion.Euler(visualRotationOffset);
+
+        UpdateOrbitPosition();
     }
 
     public void SetOrbitData(float radius, float startAngle)
     {
         this.radius = radius;
         this.angle = startAngle;
+
+        UpdateOrbitPosition();
     }
 
     private void Update()
@@ -37,6 +49,12 @@ public class ShurikenOrbit : ProjectileBase
         }
 
         angle += speed * Time.deltaTime;
+        UpdateOrbitPosition();
+    }
+
+    private void UpdateOrbitPosition()
+    {
+        if (owner == null) return;
 
         float rad = angle * Mathf.Deg2Rad;
 
@@ -51,27 +69,16 @@ public class ShurikenOrbit : ProjectileBase
 
     private void OnTriggerEnter(Collider other)
     {
-        
-
-        if (!IsTarget(other))
-            return;
-        Debug.Log($"충돌 감지됨: {other.name}");
-        if (hitTargets.Contains(other))
-            return;
+        if (!IsTarget(other)) return;
+        if (hitTargets.Contains(other)) return;
 
         hitTargets.Add(other);
-
-        Debug.Log($"타겟 맞음: {other.name}");
-
         Hit(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (hitTargets.Contains(other))
-        {
-            hitTargets.Remove(other);
-        }
+        hitTargets.Remove(other);
     }
 
     public void Return()

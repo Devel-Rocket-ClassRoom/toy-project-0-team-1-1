@@ -22,7 +22,7 @@ MonoBehaviour:
   projectileCount: 3
   maxLevel: 5
   existTime: 0
-  Description: 
+  Description: "\uC720\uD0C4\uC744 \uC7A5\uCC29\uD55C \uC0F7\uAC74 \uBC1C\uC0AC"
   levelStats:
   - modifiers:
     - type: 0

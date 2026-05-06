@@ -51,4 +51,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   weaponData: {fileID: 11400000, guid: 0ff56065a14b4b145b66da37e86784dd, type: 2}
-  shurikenPrefab: {fileID: 6074111791054973668, guid: 3e56b8663f7f5aa4e8c65dbc517f19e6, type: 3}
+  trapPrefab: {fileID: 2586841540065305162, guid: 3e56b8663f7f5aa4e8c65dbc517f19e6, type: 3}
