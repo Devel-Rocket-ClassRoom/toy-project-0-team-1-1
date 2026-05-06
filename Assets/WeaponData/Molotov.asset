@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: "\uD654\uC5FC\uBCD1"
   icon: {fileID: 21300000, guid: 10074011650a8504780fc243b0d61250, type: 3}
-  damage: 8
+  damage: 1000
   projectileSpeed: 0
-  size: 8
-  Range: 0
+  size: 4
+  range: 0
   cooldown: 4
   projectileCount: 1
   maxLevel: 8

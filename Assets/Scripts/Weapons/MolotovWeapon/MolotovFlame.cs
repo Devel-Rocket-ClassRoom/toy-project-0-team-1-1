@@ -20,6 +20,13 @@ public class MolotovFlame : MonoBehaviour
         _damage = damage;
         _timer = 0f;
         _tickTimer = 0f;
+
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var ps in particles)
+        {
+            var main = ps.main;
+            main.startSizeMultiplier = flameSize / 0.4f;
+        }
     }
     private void OnEnable()
     {

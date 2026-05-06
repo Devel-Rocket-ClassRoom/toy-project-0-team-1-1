@@ -20,6 +20,8 @@ public abstract class WeaponBase : MonoBehaviour
     public float ExistTime => stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
     public float Size => stats.ContainsKey(StatType.Size) ? stats[StatType.Size].FinalValue : 0f;
 
+    public int ProjectileCount => stats.ContainsKey(StatType.ProjectileCount) ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue) : 0;
+
     private float _timer;
 
     protected virtual void Awake()
@@ -37,9 +39,10 @@ public abstract class WeaponBase : MonoBehaviour
     {
         stats[StatType.Attack] = new StatContainer(weaponData.damage);
         stats[StatType.Cool] = new StatContainer(weaponData.cooldown);
-        stats[StatType.Range] = new StatContainer(weaponData.Range); 
+        stats[StatType.Range] = new StatContainer(weaponData.range); 
         stats[StatType.ExistTime] = new StatContainer(weaponData.existTime);
         stats[StatType.Size] = new StatContainer(weaponData.size);
+        stats[StatType.ProjectileCount] = new StatContainer(weaponData.projectileCount);
     }
 
     private void Update()
@@ -54,7 +57,7 @@ public abstract class WeaponBase : MonoBehaviour
         }
     }
 
-    public void AddModifier(StatType type, StatModifier modifier)
+    public virtual void AddModifier(StatType type, StatModifier modifier)
     {
         if (stats.TryGetValue(type, out var container))
         {

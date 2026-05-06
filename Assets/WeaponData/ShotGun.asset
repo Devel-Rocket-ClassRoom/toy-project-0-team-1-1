@@ -16,8 +16,8 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a67c2f4e5edd9e843aca860c5d563fca, type: 3}
   damage: 20
   projectileSpeed: 30
-  size: 30
-  Range: 50
+  size: 5
+  range: 30
   cooldown: 1
   projectileCount: 3
   maxLevel: 5

@@ -7,8 +7,8 @@ public class ElectronicStaffWeapon : WeaponBase
 
     //private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
 
-    private int ChainCount => weaponData.projectileCount; // 에너미 타격 수
-    private float ChainRange => weaponData.Range; // 무기 발동 거리
+    private int ChainCount => ProjectileCount; // 에너미 타격 수
+    private float ChainRange => Range; // 무기 발동 거리
 
     protected override void Attack()
     {

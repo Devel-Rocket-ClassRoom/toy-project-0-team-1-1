@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class ShotgunWeapon : ProjectileWeaponBase
 {
-    //private readonly float[] spreadAngles = { 30f, 35f, 40f, 45f, 50f };
-    private float SpreadAngle => weaponData.Range; // 발사 각도
-    private int BulletCount => weaponData.projectileCount;
+    private float SpreadAngle => Range; // 발사 각도
+    private int BulletCount => ProjectileCount;
 
     protected override void Attack()
     {

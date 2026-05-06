@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject, IUpgrade
     public float damage;
     public float projectileSpeed;
     public float size;
-    public float Range;
+    public float range;
     public float cooldown;
     public int projectileCount;
     public int maxLevel = 8;
@@ -27,13 +27,21 @@ public class WeaponData : ScriptableObject, IUpgrade
     {
         var weapon = playerWeapon.GetWeaponByData(this);
         if (weapon == null) return 0;
+
+        Debug.Log($"{weaponName} 현재 레벨: {weapon.Level}, 최대 레벨: {maxLevel}");
         if (weapon.Level >= maxLevel) return weapon.Level;
 
+        Debug.Log($"levelStats 개수: {levelStats.Count}, 현재 레벨: {weapon.Level}");
         var stats = levelStats[weapon.Level];
+        Debug.Log($"적용할 모디파이어 개수: {stats.modifiers.Count}");
         for (int i = 0; i < stats.modifiers.Count; i++)
+        {
+            Debug.Log($"모디파이어 적용: {stats.types[i]}, 값: {stats.modifiers[i].value}");
             weapon.AddModifier(stats.types[i], stats.modifiers[i]);
+        }
 
         weapon.LevelUp();
+        Debug.Log($"{weaponName} 레벨업 완료: {weapon.Level}");
         return weapon.Level;
     }
 }
