@@ -35,7 +35,7 @@ public abstract class BaseEntity : MonoBehaviour
 
     protected abstract void InitStats();
 
-    public void AddModifier(StatType type, StatModifier mod)
+    public virtual void AddModifier(StatType type, StatModifier mod)
     {
         if (stats.ContainsKey(type))
         {

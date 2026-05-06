@@ -39,7 +39,7 @@ public class UpgradeUI : MonoBehaviour
                     }
                     else
                     {
-                        slots[i].Setup(upgrade, OnSlotSelected, "신규획득", "Lv.0");
+                        slots[i].Setup(upgrade, OnSlotSelected, weapon.Description, "Lv.0");
                     }
                 }
                 else if (upgrade is UpgradeItemData itemData)
@@ -50,7 +50,7 @@ public class UpgradeUI : MonoBehaviour
                     }
                     else
                     {
-                        slots[i].Setup(upgrade, OnSlotSelected, "신규획득", "Lv.0");
+                        slots[i].Setup(upgrade, OnSlotSelected, itemData.levelStats[0].description, "Lv.0");
                     }
                 }
                 else

@@ -4,7 +4,7 @@ public class ShotgunWeapon : ProjectileWeaponBase
 {
     private readonly float[] spreadAngles = { 30f, 35f, 40f, 45f, 50f };
     private float SpreadAngle => spreadAngles[Level];
-    private int BulletCount => weaponData != null ? weaponData.projectileCount + Level : Level + 3;
+    private int BulletCount => (int)stats[StatType.ProjectileCount].FinalValue;
 
     protected override void Attack()
     {

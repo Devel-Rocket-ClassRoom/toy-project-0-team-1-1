@@ -8,11 +8,12 @@ public class PlayerStatus : BaseEntity
 {
     public event Action<float> OnHpChange;
     public Dictionary<UpgradeItemData, int> upgradeItems = new Dictionary<UpgradeItemData, int>();
-
+    private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
     [SerializeField] private float invincibleTime = 3f;
     private bool _isInvincible = false;
 
+    public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
     protected override void Awake()
     {
@@ -48,6 +49,23 @@ public class PlayerStatus : BaseEntity
         base.TakeDamage(damage);
         OnHpChange?.Invoke(currentHp);
         StartCoroutine(InvincibleRoutine());
+    }
+
+    public override void AddModifier(StatType type, StatModifier mod)
+    {
+        if (stats.ContainsKey(type))
+        {
+            stats[type].AddModifier(mod);
+        }
+        else
+        {
+            weaponModifiers.Add((type, mod));
+            var weapons = this.GetComponent<PlayerWeapon>().Weapons.Values.ToList();
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                weapons[i].AddModifier(type, mod);
+            }
+        }
     }
 
     public void Heal(float amount)
