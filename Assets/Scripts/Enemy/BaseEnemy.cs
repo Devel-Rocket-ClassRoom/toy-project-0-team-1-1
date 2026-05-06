@@ -122,13 +122,14 @@ public abstract class BaseEnemy : BaseEntity
     }
     protected override void OnDie()
     {
+        if (expItemPrefab != null)
+        {
+            var item = PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
+            item.GetComponent<Item>().Init(transform.position);
+        }
         if (_prefab != null)
         {
             PoolManager.Instance.Despawn(_prefab, gameObject);
-        }
-        if (expItemPrefab != null)
-        {
-            PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
         }
     }
     public override void TakeDamage(float damage)

@@ -10,7 +10,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public WeaponData WeaponData => weaponData;
     public bool IsActive { get; private set; }
-    public int Level { get; private set; } = 1;
+    public int Level { get; private set; }
 
     protected Dictionary<StatType, StatContainer> stats = new Dictionary<StatType, StatContainer>();
 

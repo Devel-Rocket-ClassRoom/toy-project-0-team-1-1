@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbff61f527b5c614889e83438ebcfa66, type: 3}
-  m_Name: Shotgun
+  m_Name: ShotGun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponPrefab: {fileID: 4465837478809569762, guid: f24ac813a81ace344ad1d4d8953f2069, type: 3}
-  weaponName: Shotgun
+  weaponName: "\uC0F7\uAC74"
   icon: {fileID: 21300000, guid: a67c2f4e5edd9e843aca860c5d563fca, type: 3}
   damage: 20
   projectileSpeed: 30
