@@ -9,8 +9,9 @@ public abstract class ProjectileBase : MonoBehaviour
     protected LayerMask targetLayer;
     protected LayerMask _obstacleLayer;
     protected GameObject _prefab;
+    protected float _size;
 
-    public virtual void Init(Transform owner, Vector3 direction, float damage,  float speed, LayerMask targetLayer, LayerMask obstacleLayer, GameObject prefab)
+    public virtual void Init(Transform owner, Vector3 direction, float damage,  float speed, LayerMask targetLayer, LayerMask obstacleLayer, GameObject prefab, float size = 1f)
     {
         this.owner = owner;
         this.direction = direction.normalized;
@@ -19,6 +20,7 @@ public abstract class ProjectileBase : MonoBehaviour
         this.targetLayer = targetLayer;
         this._prefab = prefab;
         _obstacleLayer = obstacleLayer;
+        _size = size;
     }
 
     protected bool IsTarget(Collider other)
@@ -29,7 +31,6 @@ public abstract class ProjectileBase : MonoBehaviour
     protected virtual void Hit(Collider other)
     {
         if (!IsTarget(other)) return;
-        Debug.Log($"{gameObject.name} 타격: {other.name} / 데미지: {damage}");
         other.GetComponent<BaseEnemy>()?.TakeDamage(damage);
     }
 
