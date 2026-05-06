@@ -26,9 +26,8 @@ public class DamagePopup : MonoBehaviour
         _text.text = damage.ToString();
         _baseColor = isCritical ? Color.yellow : Color.white;
         _text.color = _baseColor;
-        _text.fontSize = isCritical ? 48 : 36;
+        _text.fontSize = isCritical ? 30 : 8;
 
-        // 같은 위치에 겹치지 않도록 약간의 랜덤 오프셋
         Vector3 offset = new(
             Random.Range(-randomOffsetRange.x, randomOffsetRange.x),
             Random.Range(0, randomOffsetRange.y),
@@ -47,7 +46,6 @@ public class DamagePopup : MonoBehaviour
         // 위로 떠오르기
         transform.position += _floatDir * floatSpeed * Time.deltaTime;
 
-        // 카메라 향하게 (Billboard)
         if (_cam != null)
             transform.rotation = _cam.transform.rotation;
 
@@ -57,7 +55,7 @@ public class DamagePopup : MonoBehaviour
         c.a = Mathf.Lerp(1f, 0f, t);
         _text.color = c;
 
-        if (_elapsed >= lifetime) PoolManager.Instance.Despawn(popupData.damagePopup, this.gameObject);
-            // Destroy(gameObject); // 풀링 쓰면 ReturnToPool로 교체
+        if (_elapsed >= lifetime) 
+            PoolManager.Instance.Despawn(popupData.damagePopup, this.gameObject); 
     }
 }

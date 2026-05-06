@@ -23,6 +23,7 @@ public class WeaponData : ScriptableObject, IUpgrade
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Weapon;
 
+
     public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
         var weapon = playerWeapon.GetWeaponByData(this);
@@ -32,7 +33,7 @@ public class WeaponData : ScriptableObject, IUpgrade
         if (weapon.Level >= maxLevel) return weapon.Level;
 
         Debug.Log($"levelStats 개수: {levelStats.Count}, 현재 레벨: {weapon.Level}");
-        var stats = levelStats[weapon.Level];
+        var stats = levelStats[weapon.Level - 1];
         Debug.Log($"적용할 모디파이어 개수: {stats.modifiers.Count}");
         for (int i = 0; i < stats.modifiers.Count; i++)
         {

@@ -82,8 +82,9 @@ public class UpgradeManager : MonoBehaviour
         }
         else
         {
-            upgrade.Apply(playerStatus, playerWeapon);
-            IconUpdate(upgrade);
+            int level = upgrade.Apply(playerStatus, playerWeapon);
+            if (level == 1)
+                IconUpdate(upgrade);
         }
     }
     public void IconUpdate(IUpgrade upgrade)

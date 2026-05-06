@@ -35,6 +35,7 @@ public class UpgradeUI : MonoBehaviour
                     if (playerWeapon.HasWeapon(weapon))
                     {
                         var thisWeapon = playerWeapon.GetWeaponByData(weapon);
+                        Debug.Log(thisWeapon.Level - 1);
                         slots[i].Setup(upgrade, OnSlotSelected, weapon.levelStats[thisWeapon.Level - 1].description, $"Lv.{thisWeapon.Level}");
                     }
                     else
