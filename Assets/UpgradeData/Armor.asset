@@ -22,3 +22,27 @@ MonoBehaviour:
       value: 1
     types: 01000000
     description: "\uBC29\uC5B4\uB825 1 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 01000000
+    description: "\uBC29\uC5B4\uB825 1 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 01000000
+    description: "\uBC29\uC5B4\uB825 1 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 01000000
+    description: "\uBC29\uC5B4\uB825 1 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 2
+    types: 01000000
+    description: "\uBC29\uC5B4\uB825 2 \uC99D\uAC00"

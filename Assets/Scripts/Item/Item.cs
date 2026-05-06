@@ -5,44 +5,48 @@ using Unity.VisualScripting;
 public abstract class Item : MonoBehaviour, ILootable
 {
     [SerializeField] private float floatAmplitude = 0.2f;
-    [SerializeField] private float floatFrequency = 2f;  
-    [SerializeField] private float rotateSpeed = 60f; 
+    [SerializeField] private float floatFrequency = 2f;
+    [SerializeField] private float rotateSpeed = 60f;
     [SerializeField] private float pullbackDistance = 1.5f;
     [SerializeField] private float pullbackDuration = 0.25f;
     [SerializeField] private float rushSpeed = 15f;
     [SerializeField] private float rushAcceleration = 30f;
+    [SerializeField] private float arriveDistance = 0.3f;   // 도착 판정 거리
     [SerializeField] protected ItemData itemData;
 
-    private float floatPhase;
-    private Vector3 basePosition;
     private Transform target;
     private Vector3 p0;
     private Vector3 p1;
     private float timer;
+    //private float floatPhase;
+    //private Vector3 basePosition;
     private Coroutine coPickedUp;
 
     private void OnEnable()
     {
-        floatPhase = Random.Range(0f, Mathf.PI * 2f);
+        //floatPhase = Random.Range(0f, Mathf.PI * 2f);
         coPickedUp = null;
+        phase = LootPhase.Idle;
     }
     public void Init(Vector3 spawnPosition)
     {
-        basePosition = spawnPosition;
+        //basePosition = spawnPosition;
     }
-    private enum LootPhase { Idle, Pullback, Rush }
+    private enum LootPhase { Idle, Pullback, Rush, PickedUp }
     private LootPhase phase = LootPhase.Idle;
     private float currentSpeed;
 
     private void Update()
     {
-        if (phase == LootPhase.Idle)
-        {
-            float y = Mathf.Sin(Time.time * floatFrequency + floatPhase) * floatAmplitude;
-            transform.position = basePosition + Vector3.up * y;
-            transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
-        }
-        else if (phase == LootPhase.Pullback)
+        if (phase == LootPhase.PickedUp) return;
+
+        //if (phase == LootPhase.Idle)
+        //{
+        //    float y = Mathf.Sin(Time.time * floatFrequency + floatPhase) * floatAmplitude;
+        //    transform.position = basePosition + Vector3.up * y;
+        //    transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
+        //}
+        if (phase == LootPhase.Pullback)
         {
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / pullbackDuration);
@@ -57,17 +61,33 @@ public abstract class Item : MonoBehaviour, ILootable
         }
         else if (phase == LootPhase.Rush)
         {
+            Vector3 toTarget = target.position - transform.position;
+            float distance = toTarget.magnitude;
+
+            // 도착 판정
+            if (distance <= arriveDistance)
+            {
+                phase = LootPhase.PickedUp;
+                coPickedUp = StartCoroutine(CoPickedUp());
+                return;
+            }
+
+            // 이번 프레임 이동량이 남은 거리보다 크면 클램프해서 오버슈트 방지
             currentSpeed += rushAcceleration * Time.deltaTime;
-            Vector3 dir = (target.position - transform.position).normalized;
-            transform.position += dir * currentSpeed * Time.deltaTime;
+            float step = currentSpeed * Time.deltaTime;
+            if (step >= distance)
+            {
+                transform.position = target.position;
+                phase = LootPhase.PickedUp;
+                coPickedUp = StartCoroutine(CoPickedUp());
+                return;
+            }
+
+            Vector3 dir = toTarget / distance;
+            transform.position += dir * step;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-        coPickedUp = StartCoroutine(CoPickedUp());
-    }
     private IEnumerator CoPickedUp()
     {
         float pickedUpDuration = 0.5f;
@@ -82,7 +102,6 @@ public abstract class Item : MonoBehaviour, ILootable
         }
         coPickedUp = null;
         GetEffect(target);
-        // Destroy(gameObject); // Despawn으로 가야함
         PoolManager.Instance.Despawn(itemData.prefab, gameObject);
     }
 

@@ -10,6 +10,7 @@ public abstract class BaseEnemy : BaseEntity
     protected float attackInterval;
     protected float _attackTimer;
     [SerializeField] private GameObject expItemPrefab;
+    [SerializeField] private GameObject damagePopupPrefab;
     private GameObject _prefab;
     public float Attack => stats[StatType.Attack].FinalValue;
 
@@ -136,6 +137,9 @@ public abstract class BaseEnemy : BaseEntity
     {
         if (IsDead) return;
         base.TakeDamage(damage);
+        Vector3 pos = transform.position + Vector3.up * 2f;
+        var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
+        popup.GetComponent<DamagePopup>().Setup((int)damage);
         if (_hitRoutine != null)
         {
             StopCoroutine(_hitRoutine);

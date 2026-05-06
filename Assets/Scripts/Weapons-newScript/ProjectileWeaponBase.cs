@@ -6,6 +6,12 @@ public abstract class ProjectileWeaponBase : WeaponBase
     [SerializeField] protected GameObject projectilePrefab;
     [SerializeField] protected Transform firePoint;
 
+    protected override void InitStats()
+    {
+        base.InitStats();
+        stats[StatType.ProjectileCount] = new StatContainer(weaponData.projectileCount);
+    }
+
     protected ProjectileBase SpawnProjectile(Vector3 direction)
     {
         if (projectilePrefab == null)

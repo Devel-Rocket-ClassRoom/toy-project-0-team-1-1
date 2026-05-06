@@ -17,8 +17,32 @@ MonoBehaviour:
   maxLevel: 5
   levelStats:
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
-      value: 5
+      value: 0.1
     types: 02000000
-    description: "\uC774\uB3D9\uC18D\uB3C4 5 \uC99D\uAC00"
+    description: "\uC774\uB3D9\uC18D\uB3C4 10% \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 02000000
+    description: "\uC774\uB3D9\uC18D\uB3C4 10% \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 02000000
+    description: "\uC774\uB3D9\uC18D\uB3C4 10% \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 02000000
+    description: "\uC774\uB3D9\uC18D\uB3C4 10% \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 02000000
+    description: "\uC774\uB3D9\uC18D\uB3C4 10% \uC99D\uAC00"

@@ -32,6 +32,11 @@ public class PlayerWeapon : MonoBehaviour
         GameObject obj = Instantiate(WeaponManager.Instance.Weapons[weaponData], transform);
         WeaponBase weapon = obj.GetComponent<WeaponBase>();
         Weapons[weaponData] = weapon;
+        var modifiers = this.GetComponent<PlayerStatus>().WeaponModifiers;
+        foreach (var modifier in modifiers)
+        {
+            Weapons[weaponData].AddModifier(modifier.type, modifier.mod);
+        }
         weapon.LevelUp();
         weapon.Activate();
     }
