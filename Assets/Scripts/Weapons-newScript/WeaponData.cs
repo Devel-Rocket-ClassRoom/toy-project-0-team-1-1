@@ -23,6 +23,7 @@ public class WeaponData : ScriptableObject, IUpgrade
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Weapon;
 
+
     public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
         var weapon = playerWeapon.GetWeaponByData(this);
