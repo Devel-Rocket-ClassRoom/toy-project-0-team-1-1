@@ -26,16 +26,16 @@ public class DamagePopup : MonoBehaviour
         _text.text = damage.ToString();
         _baseColor = isCritical ? Color.yellow : Color.white;
         _text.color = _baseColor;
-        _text.fontSize = isCritical ? 30 : 22;
+        _text.fontSize = isCritical ? 30 : 8;
 
-        //Vector3 offset = new(
-        //    Random.Range(-randomOffsetRange.x, randomOffsetRange.x),
-        //    Random.Range(0, randomOffsetRange.y),
-        //    0f
-        //);
-        //transform.position += offset;
+        Vector3 offset = new(
+            Random.Range(-randomOffsetRange.x, randomOffsetRange.x),
+            Random.Range(0, randomOffsetRange.y),
+            0f
+        );
+        transform.position += offset;
 
-        _floatDir = (Vector3.up/* + offset.normalized * 0.5f*/).normalized;
+        _floatDir = (Vector3.up + offset.normalized * 0.5f).normalized;
         _elapsed = 0f;
     }
 
