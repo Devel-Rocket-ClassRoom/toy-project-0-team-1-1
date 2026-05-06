@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbff61f527b5c614889e83438ebcfa66, type: 3}
   m_Name: Shuriken
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponPrefab: {fileID: 0}
-  weaponName: 
-  icon: {fileID: 0}
-  damage: 0
-  projectileSpeed: 0
-  size: 0
-  Range: 0
+  weaponName: Shuriken
+  icon: {fileID: 21300000, guid: 19ebf32e7167c7e4f98272a1a62ed77b, type: 3}
+  damage: 10
+  projectileSpeed: 180
+  size: 1
+  Range: 3
   cooldown: 0
   projectileCount: 0
   maxLevel: 8
+  Description: 
   levelStats:
   - modifiers:
     - type: 0
@@ -35,3 +35,33 @@ MonoBehaviour:
       value: 0.2
     types: 08000000
     description: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0.2
+    types: 08000000
+    description: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 0b000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 0b000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 2
+    types: 0d000000
+    description: "\uD68C\uC804 \uBC94\uC704 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 1
+      value: 2
+    types: 0b000000
+    description: "[MAX]\uD22C\uC0AC\uCCB4 \uC218 \uB300\uB7C9 \uC99D\uAC00"

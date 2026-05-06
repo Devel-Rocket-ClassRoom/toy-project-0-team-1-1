@@ -26,6 +26,11 @@ public abstract class ProjectileWeaponBase : WeaponBase
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
         projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, obstacleLayer, projectilePrefab );
 
+        if (projectile is ExplosiveProjectile explosive)
+        {
+            explosive.SetExplosionRadius(Size);
+        }
+
         return projectile;
     }
 }

@@ -18,10 +18,10 @@ public class SlashProjectile : ProjectileBase
         float damage,
         float speed,
         LayerMask targetLayer,
-        LayerMask obstacleLayer,
+        LayerMask obstacleMask,
         GameObject prefab)
     {
-        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab);
+        base.Init(owner, direction, damage, speed, targetLayer, obstacleMask, prefab);
 
         timer = 0f;
         hitTargets.Clear();

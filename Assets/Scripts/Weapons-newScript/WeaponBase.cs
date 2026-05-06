@@ -10,13 +10,17 @@ public abstract class WeaponBase : MonoBehaviour
 
     public WeaponData WeaponData => weaponData;
     public bool IsActive { get; private set; }
-    public int Level { get; private set; } = 0;
+    public int Level { get; private set; }
 
     protected Dictionary<StatType, StatContainer> stats = new Dictionary<StatType, StatContainer>();
 
     public float Damage => stats.ContainsKey(StatType.Attack) ? stats[StatType.Attack].FinalValue : 0f;
     public float Cooldown => stats.ContainsKey(StatType.Cool) ? stats[StatType.Cool].FinalValue : 1f;
     public float Range => stats.ContainsKey(StatType.Range) ? stats[StatType.Range].FinalValue : 0f;
+    public float ExistTime => stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
+    public float Size => stats.ContainsKey(StatType.Size) ? stats[StatType.Size].FinalValue : 0f;
+
+    public int ProjectileCount => stats.ContainsKey(StatType.ProjectileCount) ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue) : 0;
 
     private float _timer;
 
@@ -35,7 +39,10 @@ public abstract class WeaponBase : MonoBehaviour
     {
         stats[StatType.Attack] = new StatContainer(weaponData.damage);
         stats[StatType.Cool] = new StatContainer(weaponData.cooldown);
-        stats[StatType.Range] = new StatContainer(weaponData.Range); 
+        stats[StatType.Range] = new StatContainer(weaponData.range); 
+        stats[StatType.ExistTime] = new StatContainer(weaponData.existTime);
+        stats[StatType.Size] = new StatContainer(weaponData.size);
+        stats[StatType.ProjectileCount] = new StatContainer(weaponData.projectileCount);
     }
 
     private void Update()
@@ -50,7 +57,7 @@ public abstract class WeaponBase : MonoBehaviour
         }
     }
 
-    public void AddModifier(StatType type, StatModifier modifier)
+    public virtual void AddModifier(StatType type, StatModifier modifier)
     {
         if (stats.TryGetValue(type, out var container))
         {

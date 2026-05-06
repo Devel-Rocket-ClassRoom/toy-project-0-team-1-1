@@ -1,87 +1,81 @@
-//using System.Collections.Generic;
-//using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class ShurikenWeapon : WeaponBase
-//{
-//    [Header("Shuriken")]
-//    [SerializeField] private GameObject shurikenPrefab;
-//    [SerializeField] private float rotateSpeed = 180f;
-//    [SerializeField] private int shurikenCount = 1;
+public class ShurikenWeapon : WeaponBase
+{
+    [Header("Shuriken")]
+    [SerializeField] private ShurikenOrbit shurikenPrefab;
+    
 
-//    private readonly List<ShurikenOrbit> shurikens = new List<ShurikenOrbit>();
+    private readonly List<ShurikenOrbit> shurikens = new();
 
-//    protected override void OnActivate()
-//    {
-//        SpawnShurikens();
-//    }
+    private int ShurikenCount => weaponData != null ? weaponData.projectileCount + Level : 1 + Level;
+    private float RotateSpeed => weaponData != null ? weaponData.projectileSpeed : 180f;
 
-//    protected override void OnDeactivate()
-//    {
-//        ClearShurikens();
-//    }
+    protected override void OnActivate()
+    {
+        SpawnShurikens();
+    }
 
-//    public override void Attack()
-//    {
-//        // 수리검은 쿨타임 공격이 아니라
-//        // 생성된 오브젝트가 계속 회전하며 공격함
-//    }
+    protected override void OnDeactivate()
+    {
+        ClearShurikens();
+    }
 
-//    private void SpawnShurikens()
-//    {
-//        ClearShurikens();
+    protected override void Attack()
+    {
+        // 수리검은 쿨타임마다 공격하지 않음
+        // 생성된 ShurikenOrbit이 계속 회전하면서 충돌 데미지 처리
+    }
 
-//        if (shurikenPrefab == null)
-//        {
-//            Debug.LogError("Shuriken Prefab이 비어있음");
-//            return;
-//        }
+    private void SpawnShurikens()
+    {
+        ClearShurikens();
 
-//        float angleStep = 360f / shurikenCount;
+        if (shurikenPrefab == null)
+        {
+            Debug.LogError($"{name}: Shuriken Prefab이 비어있음");
+            return;
+        }
 
-//        for (int i = 0; i < shurikenCount; i++)
-//        {
-//            float startAngle = angleStep * i;
+        int count = Mathf.Max(1, ShurikenCount);
+        float angleStep = 360f / count;
 
-//            GameObject obj = Instantiate(shurikenPrefab);
+        for (int i = 0; i < count; i++)
+        {
+            float startAngle = angleStep * i;
 
-//            ShurikenOrbit orbit = obj.GetComponent<ShurikenOrbit>();
+            ShurikenOrbit shuriken = Instantiate(shurikenPrefab);
 
-//            if (orbit == null)
-//            {
-//                Debug.LogError("ShurikenPrefab에 ShurikenOrbit이 없음");
-//                Destroy(obj);
-//                continue;
-//            }
+            shuriken.Init(
+                owner: transform,
+                direction: Vector3.forward,
+                damage: Damage,
+                speed: RotateSpeed,
+                targetLayer: targetLayer,
+                obstacleLayer: obstacleLayer,
+                prefab: shurikenPrefab.gameObject
+            );
 
-//            orbit.Init(
-//                transform,
-//                Range,
-//                rotateSpeed,
-//                Damage,
-//                targetLayer,
-//                startAngle
-//            );
+            shuriken.SetOrbitData(
+                radius: Range,
+                startAngle: startAngle
+            );
 
-//            shurikens.Add(orbit);
-//        }
-//    }
+            shurikens.Add(shuriken);
+        }
+    }
 
-//    private void ClearShurikens()
-//    {
-//        foreach (ShurikenOrbit shuriken in shurikens)
-//        {
-//            if (shuriken != null)
-//                Destroy(shuriken.gameObject);
-//        }
+    private void ClearShurikens()
+    {
+        foreach (ShurikenOrbit shuriken in shurikens)
+        {
+            if (shuriken != null)
+            {
+                shuriken.Return();
+            }
+        }
 
-//        shurikens.Clear();
-//    }
-
-//    public void SetLevel(int level)
-//    {
-//        shurikenCount = Mathf.Max(1, level);
-
-//        if (IsActive)
-//            SpawnShurikens();
-//    }
-//}
+        shurikens.Clear();
+    }
+}

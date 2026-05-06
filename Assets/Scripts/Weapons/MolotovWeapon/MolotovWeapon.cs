@@ -6,13 +6,13 @@ public class MolotovWeapon : WeaponBase
     [SerializeField] private float throwRange = 8f;
     protected override void Attack()
     {
-        int count = weaponData.projectileCount;
+        int count = ProjectileCount;
         float startAngle = Random.Range(0f, 360f);
         for (int i = 0; i < count; i++)
         {
             Vector3 targetPos = GetThrowPosition(i, count, startAngle);
             GameObject obj = PoolManager.Instance.Spawn(molotovProjectilePrefab, transform.position, Quaternion.identity);
-            obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage);
+            obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage, Size, ExistTime);
         }
     }
 
