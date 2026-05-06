@@ -1706,7 +1706,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   enemyData: {fileID: 11400000, guid: 860546fe2f07dcc4484bf7d05f00f643, type: 2}
-  expItemPrefab: {fileID: 5014890117957274953, guid: a10aeebe1575882469141ac51812c128, type: 3}
+  expItemPrefab: {fileID: 8470434983247827755, guid: 2a34fce2bbd9018489b4ea97caeffa7e, type: 3}
+  damagePopupPrefab: {fileID: 938584488844466438, guid: 0ad5f4e20cf26df41948869c5551a589, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8

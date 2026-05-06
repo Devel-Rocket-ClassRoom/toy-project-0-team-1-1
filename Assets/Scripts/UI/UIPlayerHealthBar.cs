@@ -1,36 +1,61 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(10000)]
 public class UIPlayerHealthBar : MonoBehaviour
 {
     [SerializeField] private PlayerStatus playerStatus;
+    [SerializeField] private float pixelOffsetY = 60f;
+
     private Slider HpBar;
+    private Camera cam;
+    private RectTransform rt;
+    private RectTransform canvasRect;
+    private Canvas canvas;
+    private Camera uiCam; // null이면 Overlay, 아니면 Canvas의 worldCamera
+    private RectTransform parentRect;
     private void Awake()
     {
-        playerStatus.OnHpChange += HealthBarUpdate;
+        cam = Camera.main;
         HpBar = GetComponent<Slider>();
+        HpBar.value = 1f;
+        rt = (RectTransform)transform;
+
+        canvas = GetComponentInParent<Canvas>();
+        canvasRect = canvas.GetComponent<RectTransform>();
+        uiCam = canvas.renderMode == RenderMode.ScreenSpaceOverlay
+            ? null
+            : canvas.worldCamera;
+    }
+
+    private void Start()
+    {
+        playerStatus.OnHpChange += HealthBarUpdate;
     }
 
     private void HealthBarUpdate(float hp)
     {
-
+        HpBar.value = hp / playerStatus.MaxHp;
     }
 
     private void LateUpdate()
     {
-        // 1) 플레이어 머리 위치를 화면 좌표로 변환
-        Vector3 worldPos = target.transform.position + worldOffset;
-        Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
+        Vector3 viewport = cam.WorldToViewportPoint(playerStatus.transform.position);
 
-        // 카메라 뒤로 가면 숨김
-        bool visible = screenPos.z > 0;
-        barRoot.gameObject.SetActive(visible);
+        bool visible = viewport.z > 0f;
+        rt.gameObject.SetActive(visible);
         if (!visible) return;
 
-        barRoot.position = screenPos;
-
-        // 2) 게이지 부드럽게 보간
-        displayedFill = Mathf.Lerp(displayedFill, targetFill, Time.deltaTime * lerpSpeed);
-        fillImage.fillAmount = displayedFill;
+        Vector2 canvasSize = canvasRect.rect.size;
+        rt.anchoredPosition = new Vector2(
+            (viewport.x - 0.5f) * canvasSize.x,
+            (viewport.y - 0.5f) * canvasSize.y + pixelOffsetY
+        );
+        //Debug.Log($"[{cam.name}] vp=({viewport.x:F3},{viewport.y:F3}) " +
+        //  $"anchored={rt.anchoredPosition} " +
+        //  $"screen={Screen.width}x{Screen.height} " +
+        //  $"canvasRect={canvasRect.rect.size} " +
+        //  $"canvasScale={canvas.scaleFactor} " +
+        //  $"renderMode={canvas.renderMode}");
     }
 }
