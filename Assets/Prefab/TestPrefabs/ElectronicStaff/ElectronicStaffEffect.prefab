@@ -109,13 +109,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  mat: {fileID: 2100000, guid: 976604d9e8931f94fb59234e673200d5, type: 2}
+  mat: {fileID: 2100000, guid: bc2a740b0e788f746a8761c4b5a732fe, type: 2}
   columns: 2
   rows: 8
   framesPerSecond: 32
   randomize: 0
   points: 5
-  pointsDisplacement: 0.3
+  pointsDisplacement: 0.2
   lineScale: 4
   distanceBasedDisplacement: 1
   zDisplacement: 0

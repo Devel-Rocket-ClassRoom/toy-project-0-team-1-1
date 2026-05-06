@@ -14,8 +14,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Wave[] waves;
     [SerializeField] private float waveCooldown = 5f; // 웨이브 사이 간격
     [SerializeField] private float minSpawnDist = 15f;
-    [SerializeField] private float mapWidth = 50f;
-    [SerializeField] private float mapHeight = 50f;
+    [SerializeField] private float spawnRangeFromPlayer = 40f;
 
     private int _currentWave = 0;
     private int _spawnedCount = 0;
@@ -97,9 +96,8 @@ public class EnemySpawner : MonoBehaviour
 
         do
         {
-            float x = Random.Range(-mapWidth / 2f, mapWidth / 2f);
-            float z = Random.Range(-mapHeight / 2f, mapHeight / 2f);
-            Vector3 randomPos = new Vector3(x, 0f, z);
+            Vector2 randomCircle = Random.insideUnitCircle * spawnRangeFromPlayer;
+            Vector3 randomPos = _player.position + new Vector3(randomCircle.x, 0f, randomCircle.y);
 
             // NavMesh 위에서 가장 가까운 위치 찾기
             if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
