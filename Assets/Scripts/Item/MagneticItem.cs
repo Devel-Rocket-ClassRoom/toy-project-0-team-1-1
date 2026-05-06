@@ -8,14 +8,18 @@ public class MagneticItem : Item
     private Coroutine coMagnetic = null;
     public override void GetEffect(Transform player)
     {
-        if (coMagnetic != null) StopCoroutine(coMagnetic);
-        coMagnetic = StartCoroutine(CoMagneticRoutine(player));
-    }
-    private IEnumerator CoMagneticRoutine(Transform player)
-    {
         var status = player.GetComponent<PlayerStatus>();
-        status.AddModifier(StatType.LootingArea, new StatModifier(ModType.Flat, areaSize, this));
+        if (coMagnetic != null)
+        {
+            status.StopCoroutine(coMagnetic);
+            status.RemoveBySource(StatType.LootingArea, itemData);
+        }
+        coMagnetic = status.StartCoroutine(CoMagneticRoutine(status));
+    }
+    private IEnumerator CoMagneticRoutine(PlayerStatus status)
+    {
+        status.AddModifier(StatType.LootingArea, new StatModifier(ModType.Flat, areaSize, itemData));
         yield return new WaitForSeconds(duration);
-        status.RemoveBySource(StatType.LootingArea, this);
+        status.RemoveBySource(StatType.LootingArea, itemData);
     }
 }

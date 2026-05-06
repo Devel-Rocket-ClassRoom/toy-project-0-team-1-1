@@ -30,7 +30,7 @@ public class ElectricFieldWeapon : WeaponBase
         var targets = FindTargetsInRange(transform.position, Size);
         foreach (var target in targets)
         {
-            target.GetComponent<BaseEnemy>()?.TakeDamage(Damage);
+            target.GetComponent<BaseEntity>()?.TakeDamage(Damage);
         }
     }
     

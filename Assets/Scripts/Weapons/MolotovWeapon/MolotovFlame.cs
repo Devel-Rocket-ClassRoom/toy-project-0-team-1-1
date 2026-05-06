@@ -44,7 +44,7 @@ public class MolotovFlame : MonoBehaviour
             Collider[] hits = Physics.OverlapSphere(transform.position, _flameSize, targetLayer);
             foreach (var  hit in hits)
             {
-                hit.GetComponent<BaseEnemy>()?.TakeDamage(_damage);
+                hit.GetComponent<BaseEntity>()?.TakeDamage(_damage);
             }
         }
 

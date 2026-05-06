@@ -7,6 +7,7 @@ using System.Linq;
 public class PlayerStatus : BaseEntity
 {
     public event Action<float> OnHpChange;
+    public event Action OnDead;
     public Dictionary<UpgradeItemData, int> upgradeItems = new Dictionary<UpgradeItemData, int>();
     private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
@@ -28,6 +29,12 @@ public class PlayerStatus : BaseEntity
         {
             collider.GetComponent<ILootable>()?.StartLooting(this.transform);
         }
+
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    OnDead?.Invoke();
+        //}
     }
 
     private void OnDrawGizmos()
@@ -82,6 +89,10 @@ public class PlayerStatus : BaseEntity
     protected override void Die()
     {
         base.Die();
+    }
+    protected override void OnDie()
+    {
+        OnDead?.Invoke();
     }
     private IEnumerator InvincibleRoutine()
     {

@@ -30,7 +30,7 @@ public abstract class ProjectileBase : MonoBehaviour
     {
         if (!IsTarget(other)) return;
         Debug.Log($"{gameObject.name} 타격: {other.name} / 데미지: {damage}");
-        other.GetComponent<BaseEnemy>()?.TakeDamage(damage);
+        other.GetComponent<BaseEntity>()?.TakeDamage(damage);
     }
 
     protected void ReturnToPool()

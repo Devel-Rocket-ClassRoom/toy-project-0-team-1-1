@@ -46,6 +46,6 @@ public class PlayerController : MonoBehaviour
             );
         }
         _velocity.y = _verticalVelocity;
-        _cc.Move(_velocity * Time.deltaTime);
+        _cc.Move(_velocity * Time.deltaTime); // 죽을 때 여기서 에러남
     }
 }
