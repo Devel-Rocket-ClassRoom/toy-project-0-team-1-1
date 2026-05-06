@@ -74,11 +74,13 @@ public class UpgradeManager : MonoBehaviour
             {
                 playerWeapon.Equip(weapon);
                 IconUpdate(upgrade);
-                return;
             }
         }
-
-        int level = upgrade.Apply(playerStatus, playerWeapon);
+        else
+        {
+            upgrade.Apply(playerStatus, playerWeapon);
+            IconUpdate(upgrade);
+        }
     }
     public void IconUpdate(IUpgrade upgrade)
     {
