@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ElectronicStaffWeapon : WeaponBase
 {
-    [SerializeField] private float chainRange = 5f;
     [SerializeField] private GameObject lightningPrefab; // 라이트닝스크립트 붙어있는 프리팹
 
-    private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
+    //private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
 
-    private int ChainCount => chainCounts[Mathf.Clamp(Level, 0, chainCounts.Length - 1)];
+    private int ChainCount => weaponData.projectileCount; // 에너미 타격 수
+    private float ChainRange => weaponData.Range; // 무기 발동 거리
 
     protected override void Attack()
     {
@@ -69,7 +69,7 @@ public class ElectronicStaffWeapon : WeaponBase
 
     private BaseEnemy FindNextTarget(BaseEnemy from, List<BaseEnemy> attacked)
     {
-        Collider[] hits = FindTargetsInRange(from.transform.position, chainRange);
+        Collider[] hits = FindTargetsInRange(from.transform.position, ChainRange);
         List<BaseEnemy> candidates = new List<BaseEnemy>();
 
         foreach (Collider hit in hits)

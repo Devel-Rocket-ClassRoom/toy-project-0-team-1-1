@@ -12,14 +12,18 @@ public class MolotovProjectile : MonoBehaviour
     private Vector3 _targetPos;
     private float _damage;
     private float _progress;
+    private float _duration;
+    private float _flameRange;
 
-    public void Init(GameObject prefab, Vector3 targetPos, float damage)
+    public void Init(GameObject prefab, Vector3 targetPos, float damage, float flameRange, float duration)
     {
         _prefab = prefab;
         _targetPos = targetPos;
         _damage = damage;
         _startPos = transform.position;
         _progress = 0;
+        _flameRange = flameRange;
+        _duration = duration;
     }
     private void OnEnable()
     {
@@ -37,8 +41,10 @@ public class MolotovProjectile : MonoBehaviour
 
         if (_progress >= 1)
         {
+            Debug.Log($"화염병 도착! 장판 생성: {_targetPos}");
             GameObject flame = PoolManager.Instance.Spawn(flamePrefab, _targetPos, Quaternion.identity);
-            flame.GetComponent<MolotovFlame>().Init(flamePrefab, _damage);
+            Debug.Log($"Flame 스폰됨: {flame.name}");
+            flame.GetComponent<MolotovFlame>().Init(flamePrefab, _damage, _flameRange, _duration);
             PoolManager.Instance.Despawn(_prefab, gameObject);
         }
     }

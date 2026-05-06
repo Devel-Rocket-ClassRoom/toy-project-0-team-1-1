@@ -20,12 +20,32 @@ MonoBehaviour:
   Range: 0
   cooldown: 4
   projectileCount: 1
-  maxLevel: 5
+  maxLevel: 8
+  existTime: 3
+  Description: 
   levelStats:
   - modifiers:
     - type: 0
       category: 0
-      value: 5
+      value: 1
+    types: 0b000000
+    description: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: -0.1
+    types: 07000000
+    description: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    types: 0b000000
+    description: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.2
     types: 04000000
     description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
   - modifiers:
@@ -34,3 +54,19 @@ MonoBehaviour:
       value: 1
     types: 0b000000
     description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.1
+    types: 07000000
+    description: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    - type: 1
+      category: 0
+      value: 0.5
+    types: 0b00000006000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uBC0F \uC7A5\uD310 \uD06C\uAE30 \uB300\uD3ED
+      \uC99D\uAC00"
