@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class ExplosiveProjectile : ProjectileBase
 {
-    [SerializeField] private float lifeTime = 5f;
-    [SerializeField] private float explosionRadius = 5f;
+    private float lifeTime = 5f;
+    private float explosionRadius; //= 5f;
     [SerializeField] private GameObject explosionEffectPrefab;
 
     private float _timer;
 
+    public void SetExplosionRadius(float size)
+    {
+        explosionRadius = size;
+    }
     private void OnEnable()
     {
         _timer = 0f;

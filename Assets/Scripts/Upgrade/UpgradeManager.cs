@@ -75,6 +75,10 @@ public class UpgradeManager : MonoBehaviour
                 playerWeapon.Equip(weapon);
                 IconUpdate(upgrade);
             }
+            else
+            {
+                upgrade.Apply(playerStatus, playerWeapon);
+            }
         }
         else
         {

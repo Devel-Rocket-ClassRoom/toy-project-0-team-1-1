@@ -79,6 +79,13 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPos = GetSpawnPos();
         GameObject prefab = wave.enemyPrefabs[Random.Range(0, wave.enemyPrefabs.Length)];
         GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
+
+        NavMeshAgent agent = obj.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.Warp(spawnPos);
+        }
+
         obj.GetComponent<BaseEnemy>().SetPrefab(prefab);
         _spawnedCount++;
     }
@@ -86,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 GetSpawnPos()
     {
         Vector3 spawnPos;
-        int maxAttempts = 10;
+        int maxAttempts = 20;
 
         do
         {
@@ -103,7 +110,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 spawnPos = randomPos;
             }
-
             maxAttempts--;
         } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
 

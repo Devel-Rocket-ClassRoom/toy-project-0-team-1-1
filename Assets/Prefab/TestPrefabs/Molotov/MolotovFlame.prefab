@@ -45,9 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8b97640552c8c44a6f0d4c9a04ea60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MolotovFlame
-  duration: 3
-  tickInterval: 0.5
-  flameRange: 2.5
   targetLayer:
     serializedVersion: 2
     m_Bits: 8

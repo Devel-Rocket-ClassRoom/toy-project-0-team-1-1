@@ -16,21 +16,65 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a67c2f4e5edd9e843aca860c5d563fca, type: 3}
   damage: 20
   projectileSpeed: 30
-  size: 10
-  Range: 50
+  size: 5
+  range: 30
   cooldown: 1
   projectileCount: 3
   maxLevel: 5
+  existTime: 0
+  Description: 
   levelStats:
   - modifiers:
     - type: 0
       category: 0
-      value: 0.2
-    types: 0d000000
-    description: "\uACF5\uACA9\uBC94\uC704 \uC99D\uAC00"
+      value: 1
+    - type: 0
+      category: 0
+      value: 5
+    types: 0b0000000d000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
   - modifiers:
     - type: 0
       category: 0
+      value: 1
+    - type: 0
+      category: 0
+      value: 5
+    types: 0b0000000d000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
       value: 0.2
-    types: 0d000000
-    description: "\uACF5\uACA9\uBC94\uC704 \uC99D\uAC00"
+    types: 04000000
+    description: "\uACF5\uACA9\uB825\uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    - type: 0
+      category: 0
+      value: 5
+    types: 0b0000000d000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 1
+    - type: 0
+      category: 0
+      value: 5
+    types: 0b0000000d000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.2
+    types: 04000000
+    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: 0.5
+    types: 07000000
+    description: "\uCFE8\uD0C0\uC784 \uB300\uD3ED \uAC10\uC18C"
