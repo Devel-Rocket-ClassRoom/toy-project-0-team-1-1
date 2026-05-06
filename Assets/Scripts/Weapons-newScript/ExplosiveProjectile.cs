@@ -46,7 +46,7 @@ public class ExplosiveProjectile : ProjectileBase
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer);
         foreach (Collider hit in hits)
         {
-            hit.GetComponent<BaseEnemy>()?.TakeDamage(damage);
+            hit.GetComponent<BaseEntity>()?.TakeDamage(damage);
         }
         if (explosionEffectPrefab != null)
         {

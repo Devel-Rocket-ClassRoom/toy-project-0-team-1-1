@@ -126,7 +126,7 @@ public abstract class BaseEnemy : BaseEntity
         if (expItemPrefab != null)
         {
             var item = PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
-            item.GetComponent<Item>().Init(transform.position);
+            //item.GetComponent<Item>().Init(transform.position);
         }
         if (_prefab != null)
         {

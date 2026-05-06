@@ -28,10 +28,6 @@ public abstract class Item : MonoBehaviour, ILootable
         coPickedUp = null;
         phase = LootPhase.Idle;
     }
-    public void Init(Vector3 spawnPosition)
-    {
-        //basePosition = spawnPosition;
-    }
     private enum LootPhase { Idle, Pullback, Rush, PickedUp }
     private LootPhase phase = LootPhase.Idle;
     private float currentSpeed;

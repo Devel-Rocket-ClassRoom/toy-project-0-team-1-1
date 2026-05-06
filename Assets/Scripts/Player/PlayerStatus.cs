@@ -7,10 +7,12 @@ using System.Linq;
 public class PlayerStatus : BaseEntity
 {
     public event Action<float> OnHpChange;
+    public event Action OnDead;
     public Dictionary<UpgradeItemData, int> upgradeItems = new Dictionary<UpgradeItemData, int>();
     private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
-    [SerializeField] private float invincibleTime = 3f;
+    [SerializeField] private float invincibleTime = 0.5f;
+    [SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
 
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
@@ -27,6 +29,12 @@ public class PlayerStatus : BaseEntity
         {
             collider.GetComponent<ILootable>()?.StartLooting(this.transform);
         }
+
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    OnDead?.Invoke();
+        //}
     }
 
     private void OnDrawGizmos()
@@ -48,6 +56,10 @@ public class PlayerStatus : BaseEntity
         if (_isInvincible) return;
         base.TakeDamage(damage);
         OnHpChange?.Invoke(currentHp);
+
+        hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        hitEffect.Play(true);
+
         StartCoroutine(InvincibleRoutine());
     }
 
@@ -77,6 +89,10 @@ public class PlayerStatus : BaseEntity
     protected override void Die()
     {
         base.Die();
+    }
+    protected override void OnDie()
+    {
+        OnDead?.Invoke();
     }
     private IEnumerator InvincibleRoutine()
     {

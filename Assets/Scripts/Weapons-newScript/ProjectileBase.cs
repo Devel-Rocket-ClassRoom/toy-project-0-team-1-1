@@ -31,7 +31,8 @@ public abstract class ProjectileBase : MonoBehaviour
     protected virtual void Hit(Collider other)
     {
         if (!IsTarget(other)) return;
-        other.GetComponent<BaseEnemy>()?.TakeDamage(damage);
+        Debug.Log($"{gameObject.name} Ÿ��: {other.name} / ������: {damage}");
+        other.GetComponent<BaseEntity>()?.TakeDamage(damage);
     }
 
     protected void ReturnToPool()

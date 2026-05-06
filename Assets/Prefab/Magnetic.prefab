@@ -110,7 +110,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -5108,7 +5108,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -9847,7 +9847,7 @@ GameObject:
   - component: {fileID: 4808722692184877586}
   - component: {fileID: 4808722692184877587}
   - component: {fileID: -5499319053433188625}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Magnetic
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -9912,7 +9912,6 @@ MonoBehaviour:
   rushAcceleration: 30
   arriveDistance: 0.3
   itemData: {fileID: 11400000, guid: 4b4141104d2d7344381733815d410502, type: 2}
-  prefab: {fileID: 4808722692184877589}
 --- !u!1 &4808722693933009747
 GameObject:
   m_ObjectHideFlags: 0
@@ -10021,7 +10020,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -14933,7 +14932,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -19873,7 +19872,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -24767,7 +24766,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
