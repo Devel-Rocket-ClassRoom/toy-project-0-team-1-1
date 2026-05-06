@@ -17,11 +17,11 @@ MonoBehaviour:
   damage: 15
   projectileSpeed: 0
   size: 0
-  Range: 20
+  range: 10
   cooldown: 2
   projectileCount: 3
   maxLevel: 8
-  ExistTime: 0
+  existTime: 0
   Description: 
   levelStats:
   - modifiers:
