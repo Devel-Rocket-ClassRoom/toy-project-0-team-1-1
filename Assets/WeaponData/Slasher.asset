@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbff61f527b5c614889e83438ebcfa66, type: 3}
   m_Name: Slasher
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponPrefab: {fileID: 8613688422233876726, guid: efbcaada7fbd8904d86bc60208e1f03e, type: 3}
   weaponName: 
   icon: {fileID: 21300000, guid: f63ae385b7aaa5a4fb5f4241c5909e4a, type: 3}
   damage: 30
@@ -22,4 +21,47 @@ MonoBehaviour:
   cooldown: 1
   projectileCount: 0
   maxLevel: 8
-  levelStats: []
+  Description: 
+  levelStats:
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 10
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 0
+      category: 0
+      value: 0
+    types: 00000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
