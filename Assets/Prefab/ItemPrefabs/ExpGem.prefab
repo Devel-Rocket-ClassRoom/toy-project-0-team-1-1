@@ -4970,7 +4970,7 @@ MonoBehaviour:
   rushAcceleration: 30
   arriveDistance: 0.3
   itemData: {fileID: 11400000, guid: 197cca1e89396db4d9308db8d578f3da, type: 2}
-  prefab: {fileID: 8470434983247827755}
+  getClip: {fileID: 8300000, guid: ab1e4fb5b903d1e40951ce108db606a4, type: 3}
 --- !u!1 &8470434983418847838
 GameObject:
   m_ObjectHideFlags: 0

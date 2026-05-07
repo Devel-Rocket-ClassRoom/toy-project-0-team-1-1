@@ -9912,6 +9912,7 @@ MonoBehaviour:
   rushAcceleration: 30
   arriveDistance: 0.3
   itemData: {fileID: 11400000, guid: 4b4141104d2d7344381733815d410502, type: 2}
+  getClip: {fileID: 8300000, guid: ab1e4fb5b903d1e40951ce108db606a4, type: 3}
 --- !u!1 &4808722693933009747
 GameObject:
   m_ObjectHideFlags: 0

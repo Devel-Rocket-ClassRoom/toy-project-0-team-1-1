@@ -24438,6 +24438,7 @@ MonoBehaviour:
   rushAcceleration: 30
   arriveDistance: 0.3
   itemData: {fileID: 11400000, guid: 0a8e880b4616bb84bab05edf78ca3201, type: 2}
+  getClip: {fileID: 8300000, guid: ab1e4fb5b903d1e40951ce108db606a4, type: 3}
 --- !u!1 &8123521298042751900
 GameObject:
   m_ObjectHideFlags: 0

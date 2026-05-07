@@ -24,6 +24,7 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         weaponList = WeaponManager.Instance.Weapons.Keys.ToList();
+        ShowStartingWeaponSelection();
     }
     public List<IUpgrade> GetRandomChoices(int count = 3)
     {
@@ -96,5 +97,31 @@ public class UpgradeManager : MonoBehaviour
     public string GetItemDesc(IUpgrade upgrade) // 여기 작성
     {
         return "";
+    }
+
+    public void ShowStartingWeaponSelection()
+    {
+        var choices = GetRandomWeaponChoices(3);
+        upgradeUI.Show(choices, ApplyUpgrade);
+    }
+
+    private List<IUpgrade> GetRandomWeaponChoices(int count)
+    {
+        var candidates = new List<IUpgrade>();
+
+        foreach (var weapon in weaponList)
+        {
+            candidates.Add(weapon);
+        }
+
+        int actualCount = Mathf.Min(count, candidates.Count);
+
+        for (int i = candidates.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (candidates[i], candidates[j]) = (candidates[j], candidates[i]);
+        }
+
+        return candidates.GetRange(0, actualCount);
     }
 }

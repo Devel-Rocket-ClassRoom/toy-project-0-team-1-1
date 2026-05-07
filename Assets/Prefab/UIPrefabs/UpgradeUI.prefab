@@ -95,6 +95,7 @@ MonoBehaviour:
   - {fileID: 6738834284461814585}
   - {fileID: 5900948246840805284}
   player: {fileID: 0}
+  showClip: {fileID: 8300000, guid: 3f2e1df27a54c484faa75263116dff47, type: 3}
 --- !u!1 &503445644482865619
 GameObject:
   m_ObjectHideFlags: 0

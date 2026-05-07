@@ -5,8 +5,8 @@ public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance { get; private set; }
 
-    [SerializeField] private AudioSource source2D;  // UI나 위치 무관 사운드
     [SerializeField] private int poolSize = 16;
+    private AudioSource source2D;
     private AudioSource[] pool3D;
     private int poolIndex = 0;
 
@@ -14,6 +14,7 @@ public class SFXManager : MonoBehaviour
     {
         Instance = this;
         pool3D = new AudioSource[poolSize];
+        source2D = GetComponent<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
             var go = new GameObject($"SfxSource_{i}");

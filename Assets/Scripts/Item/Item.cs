@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 
-public abstract class Item : MonoBehaviour, ILootable
+public class Item : MonoBehaviour, ILootable
 {
     [SerializeField] private float floatAmplitude = 0.2f;
     [SerializeField] private float floatFrequency = 2f;
@@ -13,6 +13,7 @@ public abstract class Item : MonoBehaviour, ILootable
     [SerializeField] private float rushAcceleration = 30f;
     [SerializeField] private float arriveDistance = 0.3f;   // 도착 판정 거리
     [SerializeField] protected ItemData itemData;
+    [SerializeField] protected AudioClip getClip;
 
     private Transform target;
     private Vector3 p0;
@@ -86,6 +87,7 @@ public abstract class Item : MonoBehaviour, ILootable
 
     private IEnumerator CoPickedUp()
     {
+        GetEffect(target);
         float pickedUpDuration = 0.5f;
         float pickedUpTimer = 0f;
 
@@ -97,7 +99,6 @@ public abstract class Item : MonoBehaviour, ILootable
             yield return null;
         }
         coPickedUp = null;
-        GetEffect(target);
         PoolManager.Instance.Despawn(itemData.prefab, gameObject);
     }
 
@@ -123,5 +124,9 @@ public abstract class Item : MonoBehaviour, ILootable
              + t * t * t * p3;
     }
 
-    public abstract void GetEffect(Transform player);
+    public virtual void GetEffect(Transform player)
+    {
+        Debug.Log("Item Get");
+        SFXManager.Instance.Play3D(getClip, transform.position, 1f);
+    }
 }

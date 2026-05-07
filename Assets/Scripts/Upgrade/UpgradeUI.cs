@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UpgradeUI : MonoBehaviour
@@ -7,6 +8,7 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private UpgradeSlotUI[] slots;
     [SerializeField] private GameObject player;
+    [SerializeField] private AudioClip showClip;
     private PlayerStatus playerStatus;
     private PlayerWeapon playerWeapon;
 
@@ -64,6 +66,7 @@ public class UpgradeUI : MonoBehaviour
                 slots[i].gameObject.SetActive(false);
             }
         }
+        SFXManager.Instance.Play2D(showClip, 1f);
     }
 
     private void OnSlotSelected(IUpgrade upgrade)

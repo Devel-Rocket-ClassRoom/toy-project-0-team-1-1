@@ -53,4 +53,5 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: d84a38201a1685b41ac5632cddc85286, type: 2}
   projectilePrefab: {fileID: 1927039949490237132, guid: 38354ed1e95f39543af934314f590092, type: 3}
   firePoint: {fileID: 0}
-  burstInterval: 0.2
+  fireInterval: 0.3
+  auraClip: {fileID: 8300000, guid: d776c10c947c0b74293d67a12f9b2118, type: 3}
