@@ -12,7 +12,7 @@ public class PlayerStatus : BaseEntity
     private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
     [SerializeField] private float invincibleTime = 0.5f;
-    [SerializeField] private ParticleSystem hitEffect;
+    //[SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
 
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
@@ -46,7 +46,7 @@ public class PlayerStatus : BaseEntity
     protected override void InitStats()
     {
         stats[StatType.MaxHp] = new StatContainer(100f);
-        stats[StatType.Defense] = new StatContainer(5f);
+        stats[StatType.Defense] = new StatContainer(0f);
         stats[StatType.Speed] = new StatContainer(9f);
         stats[StatType.LootingArea] = new StatContainer(2f);
     }
@@ -57,9 +57,9 @@ public class PlayerStatus : BaseEntity
         base.TakeDamage(damage);
         OnHpChange?.Invoke(currentHp);
 
-        hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        hitEffect.Play(true);
-
+        //hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        //hitEffect.Play(true);
+        Debug.Log(currentHp);
         StartCoroutine(InvincibleRoutine());
     }
 
@@ -105,7 +105,7 @@ public class PlayerStatus : BaseEntity
             foreach (var mesh in _renderers)
                 mesh.enabled = !mesh.enabled;
             yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
+            elapsed += 5f;
         }
 
         // 원래대로

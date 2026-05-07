@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerStatus _status;
     private bool _isMoving;
+    private bool _isDead;
     private Vector3 _velocity;
     private Animator _animator;
     private CharacterController _cc;
@@ -14,10 +15,17 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _status = GetComponent<PlayerStatus>();
         _cc = GetComponent<CharacterController>();
+        _isDead = false;
+        var playerStatus = GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            playerStatus.OnDead += HandleDeath;
+        }
     }
 
     private void Update()
     {
+        if (_isDead) return;
         if (!_cc.isGrounded)
         {
             _verticalVelocity += Physics.gravity.y * Time.deltaTime;
@@ -29,8 +37,18 @@ public class PlayerController : MonoBehaviour
         HandleMove();
     }
 
+    private void HandleDeath()
+    {
+        _isDead = true;
+        _velocity = Vector3.zero;
+        _verticalVelocity = 0f; // 이것도 초기화
+        _animator.SetBool("Run", false);
+
+        _cc.enabled = false;
+    }
     private void HandleMove()
     {
+        if (_isDead) return;
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         var inputDir = new Vector3(h, 0f, v).normalized;
