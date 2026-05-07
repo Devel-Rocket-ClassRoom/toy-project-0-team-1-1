@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: "\uD654\uC5FC\uBCD1"
   icon: {fileID: 21300000, guid: 10074011650a8504780fc243b0d61250, type: 3}
-  damage: 1000
+  damage: 35
   projectileSpeed: 0
   size: 4
   range: 0
   cooldown: 4
   projectileCount: 1
   maxLevel: 8
-  existTime: 3
+  existTime: 5
+  knockBack: 0
   Description: "\uD654\uC5FC\uBCD1\uC744 \uB358\uC9D1\uB2C8\uB2E4"
   levelStats:
   - modifiers:
