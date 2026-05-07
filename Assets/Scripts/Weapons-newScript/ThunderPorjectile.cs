@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class ThunderPorjectile : MonoBehaviour
     private Vector3 _spawnPos;
     [SerializeField] private LayerMask _targetLayer;
     [SerializeField] private float lifeTime = 2f;
+    [SerializeField] private AudioClip electricClip;
     public void Init(GameObject prefab, float damage, float thunderSize, Vector3 spawnPos )
     {
         _thunderSize = thunderSize;
@@ -24,6 +26,7 @@ public class ThunderPorjectile : MonoBehaviour
         {
             hit.GetComponent<BaseEnemy>()?.TakeDamage(_damage);
         }
+        SFXManager.Instance.Play3D(electricClip, transform.position);
         StartCoroutine(ReturnToPool());
     }
 

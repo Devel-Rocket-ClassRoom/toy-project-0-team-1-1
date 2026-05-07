@@ -6,7 +6,6 @@ public class MolotovFlame : MonoBehaviour
     private float _tickInterval = 0.5f; // 도트 데미지 주기 
     private float _flameSize; // = 2.5f; // 장판 크기
     [SerializeField] private LayerMask targetLayer;
-
     private GameObject _prefab;
     private float _damage;
     private float _timer;
