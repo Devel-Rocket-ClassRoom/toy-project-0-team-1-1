@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: "\uC0F7\uAC74"
   icon: {fileID: 21300000, guid: a67c2f4e5edd9e843aca860c5d563fca, type: 3}
-  damage: 20
+  damage: 10
   projectileSpeed: 30
   size: 5
   range: 30
@@ -22,6 +22,7 @@ MonoBehaviour:
   projectileCount: 3
   maxLevel: 5
   existTime: 0
+  knockBack: 0
   Description: "\uC720\uD0C4\uC744 \uC7A5\uCC29\uD55C \uC0F7\uAC74 \uBC1C\uC0AC"
   levelStats:
   - modifiers:

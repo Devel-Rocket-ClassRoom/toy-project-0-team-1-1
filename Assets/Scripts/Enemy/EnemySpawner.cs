@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
         public GameObject[] enemyPrefabs; // 이 웨이브에서 나올 몬스터 종류
         public int enemyCount;            // 총 스폰 수
         public float spawnInterval;       // 스폰 간격
+        public int chestCount = 1;        // 웨이브당 상자 갯수
     }
 
     [SerializeField] private Wave[] waves;
@@ -16,8 +17,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float minSpawnDist = 15f;
     [SerializeField] private float spawnRangeFromPlayer = 40f;
 
+    [SerializeField] private BreakableObject treasureChestData;
+
     private int _currentWave = 0;
     private int _spawnedCount = 0;
+    private int _spawnedChestCount = 0; // 생성된 상자 수
     private float _timer;
     private bool _isWaveActive = false;
     private Transform _player;
@@ -41,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
         {
             _timer = 0f;
             SpawnEnemy();
+            TrySpawnChest();
         }
     }
 
@@ -88,6 +93,30 @@ public class EnemySpawner : MonoBehaviour
         obj.GetComponent<BaseEnemy>().SetPrefab(prefab);
         _spawnedCount++;
     }
+    private void TrySpawnChest()
+    {
+        Wave wave = waves[_currentWave];
+
+        if (_spawnedChestCount >= wave.chestCount) return;
+
+        // 웨이브 진행도에 따라 상자 스폰
+        float progress = (float)_spawnedCount / wave.enemyCount;
+        int expectedChests = Mathf.FloorToInt(progress * wave.chestCount);
+
+        if (_spawnedChestCount < expectedChests)
+        {
+            SpawnChest();
+            _spawnedChestCount++;
+        }
+    }
+    private void SpawnChest()
+    {
+        if (treasureChestData == null || treasureChestData.prefab == null) return;
+
+        Vector3 spawnPos = GetSpawnPos();
+        PoolManager.Instance.Spawn(treasureChestData.prefab, spawnPos, Quaternion.identity);
+    }
+
 
     private Vector3 GetSpawnPos()
     {

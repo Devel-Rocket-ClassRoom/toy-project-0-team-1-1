@@ -85,4 +85,15 @@ public class PlayerWeapon : MonoBehaviour
 
     public WeaponBase GetWeaponByData(WeaponData data) => Weapons.ContainsKey(data) ? Weapons[data] : null;
     public bool HasWeapon(WeaponData data) => Weapons.ContainsKey(data);
+
+    public void DeactivateAllWeapons()
+    {
+        foreach (var weapon in Weapons.Values)
+        {
+            if (weapon != null)
+            {
+                weapon.Deactivate();
+            }
+        }
+    }
 }
