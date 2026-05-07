@@ -62,6 +62,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void ShowUpgradeSelection()
     {
+        if (playerStatus.IsDead) return;
         var choices = GetRandomChoices(3);
         upgradeUI.Show(choices, ApplyUpgrade);
     }

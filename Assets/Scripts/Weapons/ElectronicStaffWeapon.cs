@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class ElectronicStaffWeapon : WeaponBase
 {
-    [SerializeField] private GameObject lightningPrefab; // 라이트닝스크립트 붙어있는 프리팹
-
-    //private readonly int[] chainCounts = { 3, 4, 5, 6, 7 };
-
-    private int ChainCount => ProjectileCount; // 에너미 타격 수
-    private float ChainRange => Range; // 무기 발동 거리
+    [SerializeField] private GameObject lightningPrefab;
 
     protected override void Attack()
     {
@@ -26,6 +21,8 @@ public class ElectronicStaffWeapon : WeaponBase
         if (lightningPrefab != null)
         {
             GameObject lightning = Instantiate(lightningPrefab, transform.position, Quaternion.identity);
+            lightning.transform.SetParent(transform); // 플레이어 자식으로
+
             Transform hostTransform = lightning.transform.Find("Host");
             if (hostTransform != null)
             {
@@ -39,7 +36,7 @@ public class ElectronicStaffWeapon : WeaponBase
             Destroy(lightning, 0.3f);
         }
 
-        for (int i = 0; i < ChainCount; i++)
+        for (int i = 0; i < ProjectileCount; i++)
         {
             if (current == null) break;
 
@@ -50,6 +47,8 @@ public class ElectronicStaffWeapon : WeaponBase
             if (next != null && lightningPrefab != null)
             {
                 GameObject lightning = Instantiate(lightningPrefab, current.transform.position, Quaternion.identity);
+                lightning.transform.SetParent(current.transform); // 적 자식으로
+
                 Transform hostTransform = lightning.transform.Find("Host");
                 if (hostTransform != null)
                 {
@@ -69,7 +68,7 @@ public class ElectronicStaffWeapon : WeaponBase
 
     private BaseEnemy FindNextTarget(BaseEnemy from, List<BaseEnemy> attacked)
     {
-        Collider[] hits = FindTargetsInRange(from.transform.position, ChainRange);
+        Collider[] hits = FindTargetsInRange(from.transform.position, Range);
         List<BaseEnemy> candidates = new List<BaseEnemy>();
 
         foreach (Collider hit in hits)
