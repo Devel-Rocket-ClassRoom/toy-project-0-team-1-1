@@ -7,6 +7,7 @@ public class ThunderWeapon : WeaponBase
     [SerializeField] private float boundaryWidth = 15;
     [SerializeField] private float boundaryHeight = 15;
     [SerializeField] GameObject thunderProjectilePrefab;
+    [SerializeField] AudioClip thunderClip;
     private Coroutine thunderCo;
 
     protected override void Attack()

@@ -48,9 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa0714109393c14e8f2293d329028ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveProjectile
-  lifeTime: 5
-  explosionRadius: 5
   explosionEffectPrefab: {fileID: 8785857835012819931, guid: a03255b4281913e4cadd71af88123453, type: 3}
+  explosionClip: {fileID: 8300000, guid: 644f036737b57e64a8ed8ffc704bf0fa, type: 3}
 --- !u!65 &1217093435275179772
 BoxCollider:
   m_ObjectHideFlags: 0

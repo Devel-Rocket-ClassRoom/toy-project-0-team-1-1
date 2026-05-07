@@ -11,6 +11,8 @@ public abstract class BaseEnemy : BaseEntity
     protected float _attackTimer;
     [SerializeField] private GameObject expItemPrefab;
     [SerializeField] private GameObject damagePopupPrefab;
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip deathClip;
     private GameObject _prefab;
     public float Attack => stats[StatType.Attack].FinalValue;
 
@@ -119,6 +121,7 @@ public abstract class BaseEnemy : BaseEntity
     {
         _agent.isStopped = true;
         _agent.velocity = Vector3.zero;
+        SFXManager.Instance.Play3D(deathClip, transform.position);
         base.Die();
     }
     protected override void OnDie()
@@ -140,6 +143,7 @@ public abstract class BaseEnemy : BaseEntity
         Vector3 pos = transform.position + Vector3.up * 2f;
         var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
         popup.GetComponent<DamagePopup>().Setup((int)damage);
+        SFXManager.Instance.Play3D(hitClip, transform.position);
         if (_hitRoutine != null)
         {
             StopCoroutine(_hitRoutine);

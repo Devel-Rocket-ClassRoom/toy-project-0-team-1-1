@@ -16,9 +16,9 @@ public class PlayerStatus : BaseEntity
     [SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
     private AudioSource audioSource;
-    [SerializeField] private AudioClip hitSound;
-    [SerializeField] private AudioClip screamSound;
-    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip screamClip;
+    [SerializeField] private AudioClip deathClip;
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
     protected override void Awake()
@@ -64,8 +64,8 @@ public class PlayerStatus : BaseEntity
 
         hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         hitEffect.Play(true);
-        audioSource.PlayOneShot(hitSound);
-        audioSource.PlayOneShot(screamSound);
+        audioSource.PlayOneShot(hitClip);
+        audioSource.PlayOneShot(screamClip);
         StartCoroutine(InvincibleRoutine());
     }
 
@@ -95,7 +95,7 @@ public class PlayerStatus : BaseEntity
     protected override void Die()
     {
         base.Die();
-        audioSource.PlayOneShot(deathSound);
+        audioSource.PlayOneShot(deathClip);
     }
     protected override void OnDie()
     {

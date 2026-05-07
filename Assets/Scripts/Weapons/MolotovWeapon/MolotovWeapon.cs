@@ -4,6 +4,7 @@ public class MolotovWeapon : WeaponBase
 {
     [SerializeField] private GameObject molotovProjectilePrefab;
     [SerializeField] private float throwRange = 8f;
+    [SerializeField] private AudioClip throwClip;
     protected override void Attack()
     {
         int count = ProjectileCount;

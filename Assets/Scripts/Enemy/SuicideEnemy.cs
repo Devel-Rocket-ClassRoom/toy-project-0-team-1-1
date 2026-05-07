@@ -4,6 +4,7 @@ using UnityEngine;
 public class SuicideEnemy : BaseEnemy
 {
     [SerializeField] private GameObject explosionEffectPrefab;
+    [SerializeField] private AudioClip bombClip;
     protected override void DoAttak()
     {
         if (IsDead) return;
