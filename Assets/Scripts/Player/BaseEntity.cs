@@ -63,12 +63,12 @@ public abstract class BaseEntity : MonoBehaviour
     {
         isDead = true;
         animator.SetTrigger("Die");
-        GetComponent<Collider>().enabled = false;
+        animator.SetBool("Run", false);
         StartCoroutine(DieRoutine());
     }
     protected virtual IEnumerator DieRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return null;
         OnDie();
     }
 

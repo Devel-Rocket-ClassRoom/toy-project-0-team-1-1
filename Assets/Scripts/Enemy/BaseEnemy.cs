@@ -119,6 +119,7 @@ public abstract class BaseEnemy : BaseEntity
     {
         _agent.isStopped = true;
         _agent.velocity = Vector3.zero;
+        GetComponent<Collider>().enabled = false;
         base.Die();
     }
     protected override void OnDie()
@@ -165,5 +166,10 @@ public abstract class BaseEnemy : BaseEntity
                 mat.SetColor("_EmissionColor", Color.black);
                 mat.DisableKeyword("_EMISSION");
             }
+    }
+    protected override IEnumerator DieRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        OnDie();
     }
 }
