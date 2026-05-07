@@ -6,6 +6,8 @@ public class ShurikenOrbit : ProjectileBase
     [Header("Visual")]
     [SerializeField] private Transform visual;
     [SerializeField] private Vector3 visualRotationOffset = new Vector3(90f, 0f, 0f);
+    [SerializeField] private Vector3 spinAxis = Vector3.up;
+    [SerializeField] private float spinSpeed = 720f;
 
     private float radius;
     private float angle;
@@ -22,13 +24,14 @@ public class ShurikenOrbit : ProjectileBase
         GameObject prefab,
         float size)
     {
-        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab);
+        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab ,size);
 
         hitTargets.Clear();
 
         if (visual != null)
             visual.localRotation = Quaternion.Euler(visualRotationOffset);
 
+        transform.localScale = Vector3.one * size;
         UpdateOrbitPosition();
     }
 
@@ -50,6 +53,7 @@ public class ShurikenOrbit : ProjectileBase
 
         angle += speed * Time.deltaTime;
         UpdateOrbitPosition();
+        RotateVisual();
     }
 
     private void UpdateOrbitPosition()
@@ -72,8 +76,25 @@ public class ShurikenOrbit : ProjectileBase
         if (!IsTarget(other)) return;
         if (hitTargets.Contains(other)) return;
 
+        BaseEnemy enemy = other.GetComponentInParent<BaseEnemy>();
+
+        if (enemy == null || enemy.IsDead)
+            return;
+
         hitTargets.Add(other);
-        Hit(other);
+
+        enemy.TakeDamage(damage);
+    }
+    private void RotateVisual()
+    {
+        if (visual == null)
+            return;
+
+        visual.Rotate(
+            spinAxis,
+            spinSpeed * Time.deltaTime,
+            Space.Self
+        );
     }
 
     private void OnTriggerExit(Collider other)
