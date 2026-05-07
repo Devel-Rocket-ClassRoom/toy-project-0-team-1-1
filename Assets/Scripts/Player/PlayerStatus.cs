@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerStatus : BaseEntity
 {
@@ -14,13 +15,17 @@ public class PlayerStatus : BaseEntity
     [SerializeField] private float invincibleTime = 0.5f;
     [SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
-
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip screamSound;
+    [SerializeField] private AudioClip deathSound;
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
     protected override void Awake()
     {
         base.Awake();
         _renderers = GetComponentsInChildren<Renderer>();
+        audioSource = GetComponent<AudioSource>();
     }
     public void Update()
     {
@@ -59,7 +64,8 @@ public class PlayerStatus : BaseEntity
 
         hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         hitEffect.Play(true);
-
+        audioSource.PlayOneShot(hitSound);
+        audioSource.PlayOneShot(screamSound);
         StartCoroutine(InvincibleRoutine());
     }
 
@@ -89,6 +95,7 @@ public class PlayerStatus : BaseEntity
     protected override void Die()
     {
         base.Die();
+        audioSource.PlayOneShot(deathSound);
     }
     protected override void OnDie()
     {
