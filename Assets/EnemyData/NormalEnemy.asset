@@ -18,3 +18,4 @@ MonoBehaviour:
   attack: 10
   attackDistance: 1.5
   attackInterval: 1
+  resistance: 10

@@ -49,7 +49,18 @@ public class ShurikenWeapon : WeaponBase
 
         orbitRoutine = null;
     }
+    private void ClearShurikens()
+    {
+        foreach (ShurikenOrbit shuriken in shurikens)
+        {
+            if (shuriken != null)
+            {
+                shuriken.Return();
+            }
+        }
 
+        shurikens.Clear();
+    }
     private void SpawnShurikens()
     {
         ClearShurikens();
@@ -81,36 +92,25 @@ public class ShurikenWeapon : WeaponBase
                 continue;
             }
 
-            shuriken.Init(
-                owner: transform,
-                direction: Vector3.forward,
-                damage: Damage,
-                speed: weaponData.projectileSpeed,
-                targetLayer: targetLayer,
-                obstacleLayer: obstacleLayer,
-                prefab: shurikenPrefab.gameObject,
-                size : Size
-            );
+            var data = new ProjectileInitData
+            {
+                owner = transform,
+                direction = Vector3.forward,
+                damage = Damage,
+                speed = weaponData.projectileSpeed,
+                targetLayer = targetLayer,
+                obstacleLayer = obstacleLayer,
+                prefab = shurikenPrefab.gameObject,
+                size = Size,
+                knockBack = 0f // 넉백 없으면 0
+            };
 
-            shuriken.SetOrbitData(
-                radius: Range,
-                startAngle: startAngle
-            );
+            shuriken.Init(data);
+            shuriken.SetOrbitData(radius: Range, startAngle: startAngle);
 
             shurikens.Add(shuriken);
         }
     }
 
-    private void ClearShurikens()
-    {
-        foreach (ShurikenOrbit shuriken in shurikens)
-        {
-            if (shuriken != null)
-            {
-                shuriken.Return();
-            }
-        }
 
-        shurikens.Clear();
-    }
 }

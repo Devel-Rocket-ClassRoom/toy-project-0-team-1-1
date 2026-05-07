@@ -19,6 +19,7 @@ public abstract class WeaponBase : MonoBehaviour
     public float Range => stats.ContainsKey(StatType.Range) ? stats[StatType.Range].FinalValue : 0f;
     public float ExistTime => stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
     public float Size => stats.ContainsKey(StatType.Size) ? stats[StatType.Size].FinalValue : 0f;
+    public float KnockBack => stats.ContainsKey(StatType.KnockBack) ? stats[StatType.KnockBack].FinalValue : 0f;
 
     public int ProjectileCount => stats.ContainsKey(StatType.ProjectileCount) ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue) : 0;
 
@@ -43,6 +44,7 @@ public abstract class WeaponBase : MonoBehaviour
         stats[StatType.ExistTime] = new StatContainer(weaponData.existTime);
         stats[StatType.Size] = new StatContainer(weaponData.size);
         stats[StatType.ProjectileCount] = new StatContainer(weaponData.projectileCount);
+        stats[StatType.KnockBack] = new StatContainer(weaponData.knockBack);
     }
 
     private void Update()

@@ -23,17 +23,19 @@ public class ShurikenTrap : ProjectileBase
         float size,
         LayerMask targetLayer,
         LayerMask obstacleLayer,
-        GameObject prefab)
+        GameObject prefab,
+        float knockBack)
     {
-        Init(
-            owner,
-            Vector3.zero,
-            damage,
-            0f,
-            targetLayer,
-            obstacleLayer,
-            prefab
-        );
+        //Init(
+        //    owner,
+        //    Vector3.zero,
+        //    damage,
+        //    0f,
+        //    targetLayer,
+        //    obstacleLayer,
+        //    prefab,
+        //    knockBack
+        //);
 
         this.duration = duration;
         timer = 0f;

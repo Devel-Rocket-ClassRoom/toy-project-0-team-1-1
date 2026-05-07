@@ -14,24 +14,34 @@ public class ShurikenOrbit : ProjectileBase
 
     private readonly HashSet<Collider> hitTargets = new();
 
-    public override void Init(
-        Transform owner,
-        Vector3 direction,
-        float damage,
-        float speed,
-        LayerMask targetLayer,
-        LayerMask obstacleLayer,
-        GameObject prefab,
-        float size)
+    //public override void Init(
+    //    Transform owner,
+    //    Vector3 direction,
+    //    float damage,
+    //    float speed,
+    //    LayerMask targetLayer,
+    //    LayerMask obstacleLayer,
+    //    GameObject prefab,
+    //    float size,
+    //    float knockBack)
+    //{
+    //    base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab, knockBack);
+
+    //    hitTargets.Clear();
+
+    //    if (visual != null)
+    //        visual.localRotation = Quaternion.Euler(visualRotationOffset);
+
+    //    UpdateOrbitPosition();
+    //}
+    public override void Init(ProjectileInitData data)
     {
-        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab ,size);
-
+        base.Init(data);
         hitTargets.Clear();
-
         if (visual != null)
             visual.localRotation = Quaternion.Euler(visualRotationOffset);
 
-        transform.localScale = Vector3.one * size;
+        transform.localScale = Vector3.one * data.size;
         UpdateOrbitPosition();
     }
 

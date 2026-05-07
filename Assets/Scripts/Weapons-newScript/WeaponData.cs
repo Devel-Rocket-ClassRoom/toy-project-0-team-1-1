@@ -15,6 +15,7 @@ public class WeaponData : ScriptableObject, IUpgrade
     public int projectileCount;
     public int maxLevel = 8;
     public float existTime; // 지속시간
+    public float knockBack;
     public string Description;
 
     public List<LevelStats> levelStats;
