@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -63,6 +64,7 @@ public abstract class BaseEnemy : BaseEntity
         stats[StatType.Defense] = new StatContainer(enemyData.defense);
         stats[StatType.Speed] = new StatContainer(enemyData.speed);
         stats[StatType.Attack] = new StatContainer(enemyData.attack);
+        stats[StatType.Resistance] = new StatContainer(enemyData.resistance);
         attackDistance = enemyData.attackDistance;
         attackInterval = enemyData.attackInterval;
     }
@@ -88,6 +90,8 @@ public abstract class BaseEnemy : BaseEntity
 
     protected virtual void Move()
     {
+        if (_agent == null || !_agent.enabled || !_agent.isOnNavMesh)
+            return;
         animator.SetBool("Run", true);
         _agent.SetDestination(_player.position);
     }
@@ -178,14 +182,17 @@ public abstract class BaseEnemy : BaseEntity
 
     public void KnockBack(float distance)
     {
+        if (Resistance >= 100f) return;
         if (_knockbackCoroutine != null)
             StopCoroutine(_knockbackCoroutine);
 
         _knockbackCoroutine = StartCoroutine(KnockBackRoutine(distance));
     }
 
-    private IEnumerator KnockBackRoutine(float distance)
+    private IEnumerator KnockBackRoutine(float baseDistance)
     {
+        var resistance = Mathf.Max(0.000001f, 1f - Resistance / 100f);
+        var distance = baseDistance * resistance;
         var dir = (transform.position - _player.transform.position).normalized;
         Vector3 targetPos = transform.position + dir * distance;
 
@@ -195,7 +202,7 @@ public abstract class BaseEnemy : BaseEntity
         }
 
         float elapsed = 0f;
-        float duration = 0.2f; 
+        float duration = 0.2f * resistance;
         Vector3 startPos = transform.position;
 
         while (elapsed < duration)

@@ -22,7 +22,8 @@ MonoBehaviour:
   projectileCount: 1
   maxLevel: 8
   existTime: 0
-  Description: 
+  knockBack: 0.3
+  Description: "\uAC80\uAE30 \uBC1C\uC0AC"
   levelStats:
   - modifiers:
     - type: 1
