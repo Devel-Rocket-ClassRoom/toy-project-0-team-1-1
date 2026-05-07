@@ -147,7 +147,7 @@ public abstract class BaseEnemy : BaseEntity
         base.TakeDamage(damage);
         Vector3 pos = transform.position + Vector3.up * 2f;
         var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
-        popup.GetComponent<DamagePopup>().Setup((int)damage);
+        popup.GetComponent<DamagePopup>().Setup((int)(Mathf.Max(0, damage - stats[StatType.Defense].FinalValue)));
         SFXManager.Instance.Play3D(hitClip, transform.position);
         if (_hitRoutine != null)
         {
