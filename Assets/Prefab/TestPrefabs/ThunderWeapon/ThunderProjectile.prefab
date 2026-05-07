@@ -98,6 +98,8 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  lifeTime: 2
+  electricClip: {fileID: 8300000, guid: 6392932120afb4e4f8c7b46bb180c15d, type: 3}
 --- !u!1001 &4344641290053603575
 PrefabInstance:
   m_ObjectHideFlags: 0

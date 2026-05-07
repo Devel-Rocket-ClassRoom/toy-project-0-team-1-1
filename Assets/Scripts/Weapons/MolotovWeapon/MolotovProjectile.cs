@@ -6,7 +6,8 @@ public class MolotovProjectile : MonoBehaviour
     [SerializeField] private float arcHeight = 3f; // 포물선 높이
     [SerializeField] private float speed = 8f;
     [SerializeField] private float rotationSpeed = 360f;
-
+    [SerializeField] private AudioClip glassCrackClip;
+    [SerializeField] private AudioClip explosionClip;
     private GameObject _prefab;
     private Vector3 _startPos;
     private Vector3 _targetPos;
@@ -44,6 +45,8 @@ public class MolotovProjectile : MonoBehaviour
             Debug.Log($"화염병 도착! 장판 생성: {_targetPos}");
             GameObject flame = PoolManager.Instance.Spawn(flamePrefab, _targetPos, Quaternion.identity);
             Debug.Log($"Flame 스폰됨: {flame.name}");
+            SFXManager.Instance.Play3D(glassCrackClip, transform.position);
+            SFXManager.Instance.Play3D(explosionClip, transform.position);
             flame.GetComponent<MolotovFlame>().Init(flamePrefab, _damage, _flameRange, _duration);
             PoolManager.Instance.Despawn(_prefab, gameObject);
         }

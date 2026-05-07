@@ -107,3 +107,5 @@ MonoBehaviour:
   arcHeight: 3
   speed: 8
   rotationSpeed: 360
+  glassCrackClip: {fileID: 8300000, guid: 6b41710f6b72f9844a134b530d2d78b0, type: 3}
+  explosionClip: {fileID: 8300000, guid: 2cec8e92f45fa9d4f8a88167b7f5ced2, type: 3}
