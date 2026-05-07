@@ -15,4 +15,5 @@ public enum StatType
     ProjectileCount,    // 투사체 수
     ExistTime,          // 투사체 지속 시간
     Range,              // 사거리
+
 }

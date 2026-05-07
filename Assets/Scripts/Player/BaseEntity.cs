@@ -58,11 +58,15 @@ public abstract class BaseEntity : MonoBehaviour
         if (isDead) return;
         float finalDamage = Mathf.Max(0, damage - stats[StatType.Defense].FinalValue);
         currentHp -= finalDamage;
-        if (currentHp <= 0) Die();
+        if (currentHp <= 0 && !isDead) // 중복 Die() 방지
+        {
+            Die();
+        }
     }
 
     protected virtual void Die()
     {
+        if (isDead) return;
         isDead = true;
         animator.SetTrigger("Die");
         animator.SetBool("Run", false);

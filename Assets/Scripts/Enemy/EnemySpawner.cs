@@ -62,7 +62,6 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         Wave wave = waves[_currentWave];
-
         if (_spawnedCount >= wave.enemyCount)
         {
             _isWaveActive = false;
@@ -81,6 +80,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         Vector3 spawnPos = GetSpawnPos();
+        if (spawnPos == Vector3.positiveInfinity) return;// 유효하지 않으면 스폰 안 함
         GameObject prefab = wave.enemyPrefabs[Random.Range(0, wave.enemyPrefabs.Length)];
         GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
 
@@ -120,7 +120,7 @@ public class EnemySpawner : MonoBehaviour
 
     private Vector3 GetSpawnPos()
     {
-        Vector3 spawnPos;
+        Vector3 spawnPos = _player.position;
         int maxAttempts = 20;
 
         do
@@ -132,14 +132,23 @@ public class EnemySpawner : MonoBehaviour
             if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
             {
                 spawnPos = hit.position;
-            }
-            else
-            {
-                spawnPos = randomPos;
-            }
-            maxAttempts--;
-        } while (Vector3.Distance(spawnPos, _player.position) < minSpawnDist && maxAttempts > 0);
 
-        return spawnPos;
+                // 거리 조건 만족하면 바로 리턴
+                if (Vector3.Distance(spawnPos, _player.position) >= minSpawnDist)
+                {
+                    return spawnPos;
+                }
+            }
+
+            maxAttempts--;
+        } while (maxAttempts > 0);
+
+        // 실패하면 플레이어 근처 NavMesh 위치 강제 검색
+        if (NavMesh.SamplePosition(_player.position, out NavMeshHit fallbackHit, 30f, NavMesh.AllAreas))
+        {
+            return fallbackHit.position;
+        }
+
+        return Vector3.positiveInfinity;
     }
 }

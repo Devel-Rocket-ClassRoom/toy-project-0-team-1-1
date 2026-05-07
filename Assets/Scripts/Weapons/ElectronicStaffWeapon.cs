@@ -62,7 +62,7 @@ public class ElectronicStaffWeapon : WeaponBase
                     }
                 }
                 //Destroy(lightning, 0.3f);
-                PoolManager.Instance.Despawn(lightningPrefab, lightning);
+                StartCoroutine(DespawnAfterDelay(lightning, 0.3f));
             }
 
             current = next;
@@ -98,5 +98,13 @@ public class ElectronicStaffWeapon : WeaponBase
 
         if (enemies.Count == 0) return null;
         return enemies[Random.Range(0, enemies.Count)];
+    }
+    private System.Collections.IEnumerator DespawnAfterDelay(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (obj != null)
+        {
+            PoolManager.Instance.Despawn(lightningPrefab, obj);
+        }
     }
 }
