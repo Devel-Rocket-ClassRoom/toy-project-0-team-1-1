@@ -1351,6 +1351,8 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: f54fea3c41cdb174ab2dd378327cbe3a, type: 2}
   expItemPrefab: {fileID: 8470434983247827755, guid: 2a34fce2bbd9018489b4ea97caeffa7e, type: 3}
   damagePopupPrefab: {fileID: 938584488844466438, guid: 0ad5f4e20cf26df41948869c5551a589, type: 3}
+  hitClip: {fileID: 8300000, guid: 5e97f5509b85e2448ad827d57e9fd5bb, type: 3}
+  deathClip: {fileID: 8300000, guid: fbc834ea05932254b8c5a6faf2bc3346, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8

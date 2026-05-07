@@ -339,10 +339,13 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 87517b0439025f44bb14a5510b07a2cc, type: 2}
   expItemPrefab: {fileID: 8470434983247827755, guid: 2a34fce2bbd9018489b4ea97caeffa7e, type: 3}
   damagePopupPrefab: {fileID: 938584488844466438, guid: 0ad5f4e20cf26df41948869c5551a589, type: 3}
+  hitClip: {fileID: 8300000, guid: c2f058ab45427ba4881569cdaea9ee7b, type: 3}
+  deathClip: {fileID: 8300000, guid: 5e46f9312da7bf0428aa5d413b4b98d4, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
   explosionEffectPrefab: {fileID: 2910074077243203570, guid: 8dc706c269e93f947a0a2c2fd2bc5368, type: 3}
+  bombClip: {fileID: 8300000, guid: 2cec8e92f45fa9d4f8a88167b7f5ced2, type: 3}
 --- !u!136 &8351474468844174881
 CapsuleCollider:
   m_ObjectHideFlags: 0

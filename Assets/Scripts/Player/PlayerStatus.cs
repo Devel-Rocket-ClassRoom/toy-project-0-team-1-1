@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerStatus : BaseEntity
 {
@@ -14,13 +15,17 @@ public class PlayerStatus : BaseEntity
     [SerializeField] private float invincibleTime = 0.5f;
     [SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
-
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip screamClip;
+    [SerializeField] private AudioClip deathClip;
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
     protected override void Awake()
     {
         base.Awake();
         _renderers = GetComponentsInChildren<Renderer>();
+        audioSource = GetComponent<AudioSource>();
     }
     public void Update()
     {
@@ -60,6 +65,8 @@ public class PlayerStatus : BaseEntity
         hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         hitEffect.Play(true);
         Debug.Log(currentHp);
+        audioSource.PlayOneShot(hitClip);
+        audioSource.PlayOneShot(screamClip);
         StartCoroutine(InvincibleRoutine());
     }
 
@@ -94,6 +101,7 @@ public class PlayerStatus : BaseEntity
         {
             playerWeapon.DeactivateAllWeapons();
         }
+        audioSource.PlayOneShot(deathClip);
     }
     protected override void OnDie()
     {
@@ -103,7 +111,7 @@ public class PlayerStatus : BaseEntity
     {
         _isInvincible = true;
 
-        // ±ô¹ÚÀÌ±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½
         float elapsed = 0f;
         while (elapsed < invincibleTime)
         {
@@ -113,7 +121,7 @@ public class PlayerStatus : BaseEntity
             elapsed += 0.1f;
         }
 
-        // ¿ø·¡´ë·Î
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         foreach (var mesh in _renderers)
             mesh.enabled = true;
 

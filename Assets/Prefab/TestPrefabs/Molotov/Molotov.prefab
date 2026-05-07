@@ -47,6 +47,10 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
   weaponData: {fileID: 11400000, guid: e984e123d59f38b4baf2f1df3b798c3f, type: 2}
   molotovProjectilePrefab: {fileID: 1766793178658689980, guid: 7228aa3dcff532844ae2459e27812699, type: 3}
   throwRange: 8
+  throwClip: {fileID: 8300000, guid: c614fa15619c44643ae72cb94690ff0c, type: 3}

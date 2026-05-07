@@ -54,3 +54,4 @@ MonoBehaviour:
   boundaryWidth: 15
   boundaryHeight: 15
   thunderProjectilePrefab: {fileID: 6250756381210858292, guid: b5cfbb6a8d2733840b452eb01b75269a, type: 3}
+  thunderClip: {fileID: 8300000, guid: a4e4e017f08755a49b5a665675ffae6c, type: 3}

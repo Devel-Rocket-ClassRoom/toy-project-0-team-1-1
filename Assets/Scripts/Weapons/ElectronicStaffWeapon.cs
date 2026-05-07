@@ -4,7 +4,7 @@ using UnityEngine;
 public class ElectronicStaffWeapon : WeaponBase
 {
     [SerializeField] private GameObject lightningPrefab;
-
+    [SerializeField] private AudioClip lightningClip;
     protected override void Attack()
     {
         BaseEnemy firstTarget = FindRandomEnemyInRange(transform.position, Range);
@@ -41,12 +41,14 @@ public class ElectronicStaffWeapon : WeaponBase
             if (current == null) break;
 
             current.TakeDamage(Damage);
-            attacked.Add(current);
 
+            attacked.Add(current);
+            SFXManager.Instance.Play3D(lightningClip, transform.position, 0.5f);
             BaseEnemy next = FindNextTarget(current, attacked);
             if (next != null && lightningPrefab != null)
             {
-                GameObject lightning = Instantiate(lightningPrefab, current.transform.position, Quaternion.identity);
+                //GameObject lightning = Instantiate(lightningPrefab, current.transform.position, Quaternion.identity);
+                var lightning = PoolManager.Instance.Spawn(lightningPrefab, current.transform.position, Quaternion.identity);
                 lightning.transform.SetParent(current.transform); // 적 자식으로
 
                 Transform hostTransform = lightning.transform.Find("Host");
@@ -59,7 +61,8 @@ public class ElectronicStaffWeapon : WeaponBase
                         script.Initialize();
                     }
                 }
-                Destroy(lightning, 0.3f);
+                //Destroy(lightning, 0.3f);
+                PoolManager.Instance.Despawn(lightningPrefab, lightning);
             }
 
             current = next;

@@ -4,6 +4,7 @@ public class MolotovWeapon : WeaponBase
 {
     [SerializeField] private GameObject molotovProjectilePrefab;
     [SerializeField] private float throwRange = 8f;
+    [SerializeField] private AudioClip throwClip;
     protected override void Attack()
     {
         int count = ProjectileCount;
@@ -12,6 +13,7 @@ public class MolotovWeapon : WeaponBase
         {
             Vector3 targetPos = GetThrowPosition(i, count, startAngle);
             GameObject obj = PoolManager.Instance.Spawn(molotovProjectilePrefab, transform.position, Quaternion.identity);
+            SFXManager.Instance.Play3D(throwClip, transform.position);
             obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage, Size, ExistTime);
         }
     }
