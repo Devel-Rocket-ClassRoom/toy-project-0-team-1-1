@@ -126,7 +126,7 @@ public abstract class BaseEnemy : BaseEntity
         _agent.isStopped = true;
         _agent.velocity = Vector3.zero;
         GetComponent<Collider>().enabled = false;
-        SFXManager.Instance.Play3D(deathClip, transform.position);
+        SFXManager.Instance.Play3D(deathClip, transform.position, 0.7f);
         base.Die();
     }
     protected override void OnDie()
@@ -148,7 +148,7 @@ public abstract class BaseEnemy : BaseEntity
         Vector3 pos = transform.position + Vector3.up * 2f;
         var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
         popup.GetComponent<DamagePopup>().Setup((int)(Mathf.Max(0, damage - stats[StatType.Defense].FinalValue)));
-        SFXManager.Instance.Play3D(hitClip, transform.position);
+        SFXManager.Instance.Play3D(hitClip, transform.position, 0.7f);
         if (_hitRoutine != null)
         {
             StopCoroutine(_hitRoutine);

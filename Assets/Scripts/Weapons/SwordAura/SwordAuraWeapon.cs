@@ -5,6 +5,7 @@ public class SwordAuraWeapon : ProjectileWeaponBase
 {
     private ParticleSystem effectObject;
     [SerializeField] private float fireInterval = 0.3f;
+    [SerializeField] private AudioClip auraClip;
     private Coroutine _currentFire;
     protected override void Attack()
     {
@@ -17,6 +18,7 @@ public class SwordAuraWeapon : ProjectileWeaponBase
         var dir = GetDirectionToNearestTarget();
         for (int i = 0; i < ProjectileCount; i++)
         {
+            SFXManager.Instance.Play3D(auraClip, transform.position, 1f);
             SpawnProjectile(dir);
             if (i < ProjectileCount - 1)
             {

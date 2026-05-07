@@ -2,17 +2,15 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 
-public abstract class Item : MonoBehaviour, ILootable
+public class Item : MonoBehaviour, ILootable
 {
-    [SerializeField] private float floatAmplitude = 0.2f;
-    [SerializeField] private float floatFrequency = 2f;
-    [SerializeField] private float rotateSpeed = 60f;
     [SerializeField] private float pullbackDistance = 1.5f;
     [SerializeField] private float pullbackDuration = 0.25f;
     [SerializeField] private float rushSpeed = 15f;
     [SerializeField] private float rushAcceleration = 30f;
     [SerializeField] private float arriveDistance = 0.3f;   // 도착 판정 거리
     [SerializeField] protected ItemData itemData;
+    [SerializeField] protected AudioClip getClip;
 
     private Transform target;
     private Vector3 p0;
@@ -36,12 +34,6 @@ public abstract class Item : MonoBehaviour, ILootable
     {
         if (phase == LootPhase.PickedUp) return;
 
-        //if (phase == LootPhase.Idle)
-        //{
-        //    float y = Mathf.Sin(Time.time * floatFrequency + floatPhase) * floatAmplitude;
-        //    transform.position = basePosition + Vector3.up * y;
-        //    transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
-        //}
         if (phase == LootPhase.Pullback)
         {
             timer += Time.deltaTime;
@@ -86,6 +78,7 @@ public abstract class Item : MonoBehaviour, ILootable
 
     private IEnumerator CoPickedUp()
     {
+        GetEffect(target);
         float pickedUpDuration = 0.5f;
         float pickedUpTimer = 0f;
 
@@ -97,7 +90,6 @@ public abstract class Item : MonoBehaviour, ILootable
             yield return null;
         }
         coPickedUp = null;
-        GetEffect(target);
         PoolManager.Instance.Despawn(itemData.prefab, gameObject);
     }
 
@@ -123,5 +115,8 @@ public abstract class Item : MonoBehaviour, ILootable
              + t * t * t * p3;
     }
 
-    public abstract void GetEffect(Transform player);
+    public virtual void GetEffect(Transform player)
+    {
+        SFXManager.Instance.Play3D(getClip, transform.position, 1f);
+    }
 }

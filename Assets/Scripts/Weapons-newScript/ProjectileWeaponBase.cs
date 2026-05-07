@@ -38,7 +38,6 @@ public abstract class ProjectileWeaponBase : WeaponBase
             knockBack = KnockBack,
         };
         projectile.Init(data);
-
         if (projectile is ExplosiveProjectile explosive)
         {
             explosive.SetExplosionRadius(Size);

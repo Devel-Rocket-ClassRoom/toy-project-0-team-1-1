@@ -8,6 +8,7 @@ public class MagneticItem : Item
     private Coroutine coMagnetic = null;
     public override void GetEffect(Transform player)
     {
+        base.GetEffect(player);
         var status = player.GetComponent<PlayerStatus>();
         if (coMagnetic != null)
         {
