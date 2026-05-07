@@ -172,4 +172,50 @@ public abstract class BaseEnemy : BaseEntity
         yield return new WaitForSeconds(1.5f);
         OnDie();
     }
+
+
+    private Coroutine _knockbackCoroutine;
+
+    public void KnockBack(float distance)
+    {
+        if (_knockbackCoroutine != null)
+            StopCoroutine(_knockbackCoroutine);
+
+        _knockbackCoroutine = StartCoroutine(KnockBackRoutine(distance));
+    }
+
+    private IEnumerator KnockBackRoutine(float distance)
+    {
+        var dir = (transform.position - _player.transform.position).normalized;
+        Vector3 targetPos = transform.position + dir * distance;
+
+        // NavMeshAgent 경로 멈추기
+        if (_agent != null)
+        {
+            _agent.isStopped = true;
+        }
+
+        float elapsed = 0f;
+        float duration = 0.2f; // 넉백 지속시간
+        Vector3 startPos = transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            if (_agent != null)
+            {
+                _agent.Warp(Vector3.Lerp(startPos, targetPos, t));
+            }
+
+            yield return null;
+        }
+
+        // Agent 다시 활성화
+        if (_agent != null)
+        {
+            _agent.isStopped = false;
+        }
+    }
 }

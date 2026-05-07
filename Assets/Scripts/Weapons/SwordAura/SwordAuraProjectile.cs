@@ -4,6 +4,7 @@ public class SwordAuraProjectile : ProjectileBase
 {
     [SerializeField] private float lifeTime = 5f;
     private float _timer;
+    [SerializeField] private float knockBackDistance = 5f;
 
     public override void Init(Transform owner, Vector3 direction, float damage, float speed, LayerMask targetLayer, LayerMask obstacleLayer, GameObject prefab, float size)
     {
@@ -37,7 +38,13 @@ public class SwordAuraProjectile : ProjectileBase
 
     private void OnTriggerEnter(Collider other)
     {
-
         Hit(other);
+        KnockBack(other);
+    }
+
+    private void KnockBack(Collider other)
+    {
+        if (!IsTarget(other)) return;
+        other.GetComponent<BaseEnemy>()?.KnockBack(knockBackDistance);
     }
 }
