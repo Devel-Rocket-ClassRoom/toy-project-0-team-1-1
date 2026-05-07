@@ -4,9 +4,9 @@ using UnityEngine;
 public class SlashProjectile : ProjectileBase
 {
     [Header("Slash")]
-    [SerializeField] private float lifeTime = 0.25f;
+    [SerializeField] private float lifeTime = 0.4f;
     [SerializeField] private float radius = 2f;
-    [SerializeField] private float swingAngle = 90f;
+    [SerializeField] private float swingAngle = 120f;
 
     private float timer;
     private Quaternion baseRotation;
