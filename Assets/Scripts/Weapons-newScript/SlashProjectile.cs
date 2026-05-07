@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SlashProjectile : ProjectileBase
 {
@@ -43,6 +45,7 @@ public class SlashProjectile : ProjectileBase
         timer = 0f;
         hitTargets.Clear();
         baseRotation = Quaternion.LookRotation(direction);
+        transform.localScale = Vector3.one * data.size;
         transform.rotation = baseRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
         if (owner != null)
         {
@@ -62,7 +65,7 @@ public class SlashProjectile : ProjectileBase
 
         float t = timer / lifeTime;
         float angle = Mathf.Lerp(-swingAngle * 0.5f, swingAngle * 0.5f, t);
-
+        
         transform.rotation = baseRotation * Quaternion.Euler(0f, angle, 0f);
         transform.position = owner.position + transform.forward * radius;
 
