@@ -4,20 +4,17 @@ public class SwordAuraProjectile : ProjectileBase
 {
     [SerializeField] private float lifeTime = 5f;
     private float _timer;
-    [SerializeField] private float knockBackDistance = 5f;
 
-    public override void Init(Transform owner, Vector3 direction, float damage, float speed, LayerMask targetLayer, LayerMask obstacleLayer, GameObject prefab, float size)
+    public override void Init(ProjectileInitData data)
     {
-        base.Init(owner, direction, damage, speed, targetLayer, obstacleLayer, prefab, size);
+        base.Init(data);
+        transform.localScale = Vector3.one * data.size;
 
-        transform.localScale = Vector3.one * size;
-
-        // 파티클 크기 (원본 3.4 기준으로 비율 적용)
         ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
         if (ps != null)
         {
             var main = ps.main;
-            main.startSizeMultiplier = size; // size가 곧 배율
+            main.startSizeMultiplier = data.size;
         }
     }
 
@@ -39,12 +36,5 @@ public class SwordAuraProjectile : ProjectileBase
     private void OnTriggerEnter(Collider other)
     {
         Hit(other);
-        KnockBack(other);
-    }
-
-    private void KnockBack(Collider other)
-    {
-        if (!IsTarget(other)) return;
-        other.GetComponent<BaseEnemy>()?.KnockBack(knockBackDistance);
     }
 }

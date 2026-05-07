@@ -43,15 +43,16 @@ public class ShurikenWeapon : WeaponBase
 
         ShurikenTrap trap = obj.GetComponent<ShurikenTrap>();
 
-        trap.InitTrap(
-            owner: transform,
-            damage: Damage,
-            duration: ExistTime,
-            size: Size,
-            targetLayer: targetLayer,
-            obstacleLayer: obstacleLayer,
-            prefab: trapPrefab.gameObject
-        );
+        //trap.InitTrap(
+        //    owner: transform,
+        //    damage: Damage,
+        //    duration: ExistTime,
+        //    size: Size,
+        //    targetLayer: targetLayer,
+        //    obstacleLayer: obstacleLayer,
+        //    prefab: trapPrefab.gameObject
+            
+        //);
     }
 
     private bool TryGetValidSpawnPosition(out Vector3 result)

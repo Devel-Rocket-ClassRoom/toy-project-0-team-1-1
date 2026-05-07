@@ -189,14 +189,13 @@ public abstract class BaseEnemy : BaseEntity
         var dir = (transform.position - _player.transform.position).normalized;
         Vector3 targetPos = transform.position + dir * distance;
 
-        // NavMeshAgent 경로 멈추기
         if (_agent != null)
         {
             _agent.isStopped = true;
         }
 
         float elapsed = 0f;
-        float duration = 0.2f; // 넉백 지속시간
+        float duration = 0.2f; 
         Vector3 startPos = transform.position;
 
         while (elapsed < duration)
@@ -212,7 +211,6 @@ public abstract class BaseEnemy : BaseEntity
             yield return null;
         }
 
-        // Agent 다시 활성화
         if (_agent != null)
         {
             _agent.isStopped = false;
