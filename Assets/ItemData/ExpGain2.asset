@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: BigExpItem
   effectValue: 50
-  prefab: {fileID: 0}
+  prefab: {fileID: 8334117560200490160, guid: ff37a1c1989542a4fb18245c43f4d3aa, type: 3}

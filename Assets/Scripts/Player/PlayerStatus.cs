@@ -45,7 +45,7 @@ public class PlayerStatus : BaseEntity
 
     protected override void InitStats()
     {
-        stats[StatType.MaxHp] = new StatContainer(100f);
+        stats[StatType.MaxHp] = new StatContainer(200f);
         stats[StatType.Defense] = new StatContainer(0f);
         stats[StatType.Speed] = new StatContainer(9f);
         stats[StatType.LootingArea] = new StatContainer(2f);
@@ -89,6 +89,11 @@ public class PlayerStatus : BaseEntity
     protected override void Die()
     {
         base.Die();
+        PlayerWeapon playerWeapon = GetComponent<PlayerWeapon>();
+        if (playerWeapon != null)
+        {
+            playerWeapon.DeactivateAllWeapons();
+        }
     }
     protected override void OnDie()
     {
@@ -105,7 +110,7 @@ public class PlayerStatus : BaseEntity
             foreach (var mesh in _renderers)
                 mesh.enabled = !mesh.enabled;
             yield return new WaitForSeconds(0.1f);
-            elapsed += 5f;
+            elapsed += 0.1f;
         }
 
         // 원래대로
