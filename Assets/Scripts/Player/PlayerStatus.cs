@@ -12,7 +12,7 @@ public class PlayerStatus : BaseEntity
     private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
     [SerializeField] private float invincibleTime = 0.5f;
-    //[SerializeField] private ParticleSystem hitEffect;
+    [SerializeField] private ParticleSystem hitEffect;
     private bool _isInvincible = false;
 
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
@@ -57,8 +57,8 @@ public class PlayerStatus : BaseEntity
         base.TakeDamage(damage);
         OnHpChange?.Invoke(currentHp);
 
-        //hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        //hitEffect.Play(true);
+        hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        hitEffect.Play(true);
         Debug.Log(currentHp);
         StartCoroutine(InvincibleRoutine());
     }

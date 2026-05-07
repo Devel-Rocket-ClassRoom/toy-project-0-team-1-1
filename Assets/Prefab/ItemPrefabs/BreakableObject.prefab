@@ -107,11 +107,11 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 0a1d66ab2fa5c994e87fa910e1417ae2, type: 2}
   entries:
   - itemPrefab: {fileID: 8123521297956042281, guid: ada53b71fb32f9241ae909c7a35eaeb2, type: 3}
-    weight: 2
+    weight: 0
   - itemPrefab: {fileID: 8334117560200490160, guid: ff37a1c1989542a4fb18245c43f4d3aa, type: 3}
-    weight: 6
+    weight: 1
   - itemPrefab: {fileID: 4808722692184877589, guid: 488e8fcc15945c84c884dd3dfdcdd647, type: 3}
-    weight: 2
+    weight: 0
 --- !u!65 &1634640696362900960
 BoxCollider:
   m_ObjectHideFlags: 0
