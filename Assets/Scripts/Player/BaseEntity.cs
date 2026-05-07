@@ -56,7 +56,7 @@ public abstract class BaseEntity : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         if (isDead) return;
-        float finalDamage = Mathf.Max(0, damage - stats[StatType.Defense].FinalValue);
+        float finalDamage = Mathf.Max(1, damage - stats[StatType.Defense].FinalValue);
         currentHp -= finalDamage;
         if (currentHp <= 0 && !isDead) // 중복 Die() 방지
         {

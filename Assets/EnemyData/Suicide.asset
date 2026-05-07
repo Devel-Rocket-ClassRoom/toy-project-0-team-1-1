@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHp: 40
   defense: 0
   speed: 15
-  attack: 10
-  attackDistance: 1.5
+  attack: 20
+  attackDistance: 1
   attackInterval: 1
   resistance: 100

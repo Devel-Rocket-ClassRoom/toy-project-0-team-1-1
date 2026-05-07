@@ -41,8 +41,8 @@ MonoBehaviour:
     - type: 0
       category: 0
       value: 1
-    types: 0b000000
-    description: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
+    types: 0c000000
+    description: "\uC9C0\uC18D \uC2DC\uAC04 \uC99D\uAC00"
   - modifiers:
     - type: 1
       category: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   - modifiers:
     - type: 1
       category: 0
-      value: 0.1
+      value: -0.1
     types: 07000000
     description: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
   - modifiers:

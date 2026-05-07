@@ -1,14 +1,15 @@
 using UnityEngine;
 public class ElectricFieldWeapon : WeaponBase
 {
-    [SerializeField] private GameObject effectObject;
-    private float _tickInterval = 0.5f; // 데미지 주기
+    private GameObject effectObject;
+    // private float _tickInterval = 1f; // 데미지 주기
     private float _tickTimer;
-
+    [SerializeField] private float visualRadiusAtScaleOne = 2f;
     protected override void Awake()
     {
         base.Awake();
-        effectObject = transform.Find("SwordAuraEffect")?.gameObject;
+        effectObject = transform.Find("ElectronicFieldEffect")?.gameObject;
+        UpdateEffectSize();
     }
 
     protected override void Attack()
@@ -19,7 +20,7 @@ public class ElectricFieldWeapon : WeaponBase
     {
         if (!IsActive) return;
         _tickTimer += Time.deltaTime;
-        if (_tickTimer > _tickInterval)
+        if (_tickTimer > Cooldown)
         {
             _tickTimer = 0f;
             DealDamage();
@@ -27,19 +28,23 @@ public class ElectricFieldWeapon : WeaponBase
     }
     private void DealDamage()
     {
-        var targets = FindTargetsInRange(transform.position, Size);
+        float damageRadius = Size * visualRadiusAtScaleOne;
+        var targets = FindTargetsInRange(transform.position, damageRadius);
         foreach (var target in targets)
         {
             target.GetComponent<BaseEntity>()?.TakeDamage(Damage);
         }
     }
-    
+    private void OnDrawGizmosSelected()
+    {
+        if (!Application.isPlaying) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, Size * visualRadiusAtScaleOne);
+    }
 
     private void UpdateEffectSize()
     {
-        
-        float sizeRatio = Size / weaponData.size; // 초기값 대비 비율
-        effectObject.transform.localScale = Vector3.one * sizeRatio;
+        effectObject.transform.localScale = Vector3.one * Size;
     }
     public override void AddModifier(StatType type, StatModifier modifier)
     {
