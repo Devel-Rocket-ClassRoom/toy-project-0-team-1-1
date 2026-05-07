@@ -18,7 +18,7 @@ MonoBehaviour:
   projectileSpeed: 0
   size: 2
   range: 0
-  cooldown: 1
+  cooldown: 0.6
   projectileCount: 0
   maxLevel: 8
   existTime: 0
