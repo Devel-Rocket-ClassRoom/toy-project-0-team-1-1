@@ -41,7 +41,7 @@ public class ShurikenOrbit : ProjectileBase
         if (visual != null)
             visual.localRotation = Quaternion.Euler(visualRotationOffset);
 
-        transform.localScale = Vector3.one * size;
+        transform.localScale = Vector3.one * data.size;
         UpdateOrbitPosition();
     }
 
