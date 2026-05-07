@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9808ce7179cb09e4e849f1befbe8b94c, type: 3}
   m_Name: NormalEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  maxHp: 50
-  defense: 5
+  maxHp: 40
+  defense: 3
   speed: 5
   attack: 10
   attackDistance: 1.5
   attackInterval: 1
-  resistance: 10
+  resistance: 15

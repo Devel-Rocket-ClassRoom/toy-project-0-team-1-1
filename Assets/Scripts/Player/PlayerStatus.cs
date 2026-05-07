@@ -50,7 +50,7 @@ public class PlayerStatus : BaseEntity
 
     protected override void InitStats()
     {
-        stats[StatType.MaxHp] = new StatContainer(1f);
+        stats[StatType.MaxHp] = new StatContainer(200f);
         stats[StatType.Defense] = new StatContainer(0f);
         stats[StatType.Speed] = new StatContainer(9f);
         stats[StatType.LootingArea] = new StatContainer(2f);
