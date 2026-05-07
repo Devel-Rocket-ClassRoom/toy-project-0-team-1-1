@@ -18,10 +18,10 @@ MonoBehaviour:
   projectileSpeed: 180
   size: 1
   range: 3
-  cooldown: 0
+  cooldown: 6
   projectileCount: 1
   maxLevel: 8
-  existTime: 0
+  existTime: 5
   Description: 
   levelStats:
   - modifiers:

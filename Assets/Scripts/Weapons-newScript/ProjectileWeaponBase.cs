@@ -24,7 +24,20 @@ public abstract class ProjectileWeaponBase : WeaponBase
 
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
-        projectile.Init(transform, direction, Damage, weaponData.projectileSpeed, targetLayer, obstacleLayer, projectilePrefab, Size);
+
+        var data = new ProjectileInitData
+        {
+            owner = transform,
+            direction = direction,
+            damage = Damage,
+            speed = weaponData.projectileSpeed,
+            targetLayer = targetLayer,
+            obstacleLayer = obstacleLayer,
+            prefab = projectilePrefab,
+            size = Size,
+            knockBack = KnockBack,
+        };
+        projectile.Init(data);
 
         if (projectile is ExplosiveProjectile explosive)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public abstract class BaseEntity : MonoBehaviour
@@ -18,6 +19,7 @@ public abstract class BaseEntity : MonoBehaviour
     public float MaxHp => stats[StatType.MaxHp].FinalValue;
     public float Defense => stats[StatType.Defense].FinalValue;
     public float Speed => stats[StatType.Speed].FinalValue;
+    public float Resistance => stats[StatType.Resistance].FinalValue;
 
     public float CurrentHp => currentHp;
 
@@ -63,12 +65,12 @@ public abstract class BaseEntity : MonoBehaviour
     {
         isDead = true;
         animator.SetTrigger("Die");
-        GetComponent<Collider>().enabled = false;
+        animator.SetBool("Run", false);
         StartCoroutine(DieRoutine());
     }
     protected virtual IEnumerator DieRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return null;
         OnDie();
     }
 

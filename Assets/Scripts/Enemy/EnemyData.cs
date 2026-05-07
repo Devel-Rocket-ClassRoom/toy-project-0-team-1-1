@@ -9,4 +9,5 @@ public class EnemyData : ScriptableObject
     public float attack = 10f;
     public float attackDistance = 2f;
     public float attackInterval = 1f;
+    public float resistance = 0.1f;
 }

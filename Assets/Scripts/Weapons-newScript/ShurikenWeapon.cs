@@ -1,83 +1,116 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class ShurikenWeapon : WeaponBase
 {
-    [Header("Trap")]
-    [SerializeField] private ShurikenTrap trapPrefab;
+    [Header("Shuriken Orbit")]
+    [SerializeField] private ShurikenOrbit shurikenPrefab;
 
-    [Header("Spawn Check")]
-    [SerializeField] private float navMeshSampleDistance = 2f;
-    [SerializeField] private int maxSpawnTryCount = 20;
-    [SerializeField] private float groundOffset = 0.03f;
+    private readonly List<ShurikenOrbit> shurikens = new();
+    private Coroutine orbitRoutine;
+
+    private int ShurikenCount => Mathf.Max(1, ProjectileCount);
+    private float OrbitDuration => Mathf.Max(0.1f, ExistTime);
+
+    protected override void OnActivate()
+    {
+        // 켜지자마자 한 번 나오게 하고 싶으면 유지
+        Attack();
+    }
+
+    protected override void OnDeactivate()
+    {
+        if (orbitRoutine != null)
+        {
+            StopCoroutine(orbitRoutine);
+            orbitRoutine = null;
+        }
+
+        ClearShurikens();
+    }
 
     protected override void Attack()
     {
-        int count = Mathf.Max(1, ProjectileCount);
+        // 이미 수리검이 떠 있는 중이면 중복 생성 방지
+        if (orbitRoutine != null)
+            return;
 
-        for (int i = 0; i < count; i++)
-        {
-            SpawnTrap();
-        }
+        orbitRoutine = StartCoroutine(OrbitRoutine());
     }
 
-    private void SpawnTrap()
+    private IEnumerator OrbitRoutine()
     {
-        if (trapPrefab == null)
-        {
-            Debug.LogError($"{name}: Trap Prefab이 비어있습니다.");
-            return;
-        }
+        SpawnShurikens();
 
-        if (!TryGetValidSpawnPosition(out Vector3 pos))
-        {
-            Debug.LogWarning("수리검 트랩 생성 실패: 유효한 위치를 찾지 못했습니다.");
-            return;
-        }
+        yield return new WaitForSeconds(OrbitDuration);
 
-        GameObject obj = PoolManager.Instance.Spawn(
-            trapPrefab.gameObject,
-            pos,
-            Quaternion.identity
-        );
+        ClearShurikens();
 
-        ShurikenTrap trap = obj.GetComponent<ShurikenTrap>();
-
-        trap.InitTrap(
-            owner: transform,
-            damage: Damage,
-            duration: ExistTime,
-            size: Size,
-            targetLayer: targetLayer,
-            obstacleLayer: obstacleLayer,
-            prefab: trapPrefab.gameObject
-        );
+        orbitRoutine = null;
     }
-
-    private bool TryGetValidSpawnPosition(out Vector3 result)
+    private void ClearShurikens()
     {
-        for (int i = 0; i < maxSpawnTryCount; i++)
+        foreach (ShurikenOrbit shuriken in shurikens)
         {
-            Vector2 random = Random.insideUnitCircle * Range;
-
-            Vector3 randomPos = transform.position + new Vector3(
-                random.x,
-                0f,
-                random.y
-            );
-
-            if (NavMesh.SamplePosition(
-                randomPos,
-                out NavMeshHit hit,
-                navMeshSampleDistance,
-                NavMesh.AllAreas))
+            if (shuriken != null)
             {
-                result = hit.position + Vector3.up * groundOffset;
-                return true;
+                shuriken.Return();
             }
         }
 
-        result = transform.position;
-        return false;
+        shurikens.Clear();
     }
+    private void SpawnShurikens()
+    {
+        ClearShurikens();
+
+        if (shurikenPrefab == null)
+        {
+            Debug.LogError($"{name}: Shuriken Prefab이 비어있습니다.");
+            return;
+        }
+
+        int count = ShurikenCount;
+        float angleStep = 360f / count;
+
+        for (int i = 0; i < count; i++)
+        {
+            float startAngle = angleStep * i;
+
+            GameObject obj = PoolManager.Instance.Spawn(
+                shurikenPrefab.gameObject,
+                transform.position,
+                Quaternion.identity
+            );
+
+            ShurikenOrbit shuriken = obj.GetComponent<ShurikenOrbit>();
+
+            if (shuriken == null)
+            {
+                Debug.LogError("ShurikenOrbit 컴포넌트가 없습니다.");
+                continue;
+            }
+
+            var data = new ProjectileInitData
+            {
+                owner = transform,
+                direction = Vector3.forward,
+                damage = Damage,
+                speed = weaponData.projectileSpeed,
+                targetLayer = targetLayer,
+                obstacleLayer = obstacleLayer,
+                prefab = shurikenPrefab.gameObject,
+                size = Size,
+                knockBack = 0f // 넉백 없으면 0
+            };
+
+            shuriken.Init(data);
+            shuriken.SetOrbitData(radius: Range, startAngle: startAngle);
+
+            shurikens.Add(shuriken);
+        }
+    }
+
+
 }

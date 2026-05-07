@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -65,6 +66,7 @@ public abstract class BaseEnemy : BaseEntity
         stats[StatType.Defense] = new StatContainer(enemyData.defense);
         stats[StatType.Speed] = new StatContainer(enemyData.speed);
         stats[StatType.Attack] = new StatContainer(enemyData.attack);
+        stats[StatType.Resistance] = new StatContainer(enemyData.resistance);
         attackDistance = enemyData.attackDistance;
         attackInterval = enemyData.attackInterval;
     }
@@ -90,6 +92,8 @@ public abstract class BaseEnemy : BaseEntity
 
     protected virtual void Move()
     {
+        if (_agent == null || !_agent.enabled || !_agent.isOnNavMesh)
+            return;
         animator.SetBool("Run", true);
         _agent.SetDestination(_player.position);
     }
@@ -121,6 +125,7 @@ public abstract class BaseEnemy : BaseEntity
     {
         _agent.isStopped = true;
         _agent.velocity = Vector3.zero;
+        GetComponent<Collider>().enabled = false;
         SFXManager.Instance.Play3D(deathClip, transform.position);
         base.Die();
     }
@@ -169,5 +174,57 @@ public abstract class BaseEnemy : BaseEntity
                 mat.SetColor("_EmissionColor", Color.black);
                 mat.DisableKeyword("_EMISSION");
             }
+    }
+    protected override IEnumerator DieRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        OnDie();
+    }
+
+
+    private Coroutine _knockbackCoroutine;
+
+    public void KnockBack(float distance)
+    {
+        if (Resistance >= 100f) return;
+        if (_knockbackCoroutine != null)
+            StopCoroutine(_knockbackCoroutine);
+
+        _knockbackCoroutine = StartCoroutine(KnockBackRoutine(distance));
+    }
+
+    private IEnumerator KnockBackRoutine(float baseDistance)
+    {
+        var resistance = Mathf.Max(0.000001f, 1f - Resistance / 100f);
+        var distance = baseDistance * resistance;
+        var dir = (transform.position - _player.transform.position).normalized;
+        Vector3 targetPos = transform.position + dir * distance;
+
+        if (_agent != null)
+        {
+            _agent.isStopped = true;
+        }
+
+        float elapsed = 0f;
+        float duration = 0.2f * resistance;
+        Vector3 startPos = transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            if (_agent != null)
+            {
+                _agent.Warp(Vector3.Lerp(startPos, targetPos, t));
+            }
+
+            yield return null;
+        }
+
+        if (_agent != null)
+        {
+            _agent.isStopped = false;
+        }
     }
 }

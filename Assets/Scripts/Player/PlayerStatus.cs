@@ -51,7 +51,7 @@ public class PlayerStatus : BaseEntity
     protected override void InitStats()
     {
         stats[StatType.MaxHp] = new StatContainer(100f);
-        stats[StatType.Defense] = new StatContainer(5f);
+        stats[StatType.Defense] = new StatContainer(0f);
         stats[StatType.Speed] = new StatContainer(9f);
         stats[StatType.LootingArea] = new StatContainer(2f);
     }
@@ -64,6 +64,7 @@ public class PlayerStatus : BaseEntity
 
         hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         hitEffect.Play(true);
+        Debug.Log(currentHp);
         audioSource.PlayOneShot(hitClip);
         audioSource.PlayOneShot(screamClip);
         StartCoroutine(InvincibleRoutine());
@@ -105,17 +106,17 @@ public class PlayerStatus : BaseEntity
     {
         _isInvincible = true;
 
-        // ±ô¹ÚÀÌ±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½
         float elapsed = 0f;
         while (elapsed < invincibleTime)
         {
             foreach (var mesh in _renderers)
                 mesh.enabled = !mesh.enabled;
             yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
+            elapsed += 5f;
         }
 
-        // ¿ø·¡´ë·Î
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         foreach (var mesh in _renderers)
             mesh.enabled = true;
 

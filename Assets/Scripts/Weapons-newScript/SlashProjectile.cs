@@ -4,32 +4,46 @@ using UnityEngine;
 public class SlashProjectile : ProjectileBase
 {
     [Header("Slash")]
-    [SerializeField] private float lifeTime = 0.25f;
+    [SerializeField] private float lifeTime = 0.4f;
     [SerializeField] private float radius = 2f;
-    [SerializeField] private float swingAngle = 90f;
+    [SerializeField] private float swingAngle = 120f;
 
     private float timer;
     private Quaternion baseRotation;
     private readonly HashSet<Collider> hitTargets = new();
 
-    public override void Init(
-        Transform owner,
-        Vector3 direction,
-        float damage,
-        float speed,
-        LayerMask targetLayer,
-        LayerMask obstacleMask,
-        GameObject prefab,
-        float size)
-    {
-        base.Init(owner, direction, damage, speed, targetLayer, obstacleMask, prefab);
+    //public override void Init(
+    //    Transform owner,
+    //    Vector3 direction,
+    //    float damage,
+    //    float speed,
+    //    LayerMask targetLayer,
+    //    LayerMask obstacleMask,
+    //    GameObject prefab,
+    //    float size,
+    //    float knockBack)
+    //{
+    //    base.Init(owner, direction, damage, speed, targetLayer, obstacleMask, prefab, knockBack);
 
+    //    timer = 0f;
+    //    hitTargets.Clear();
+
+    //    baseRotation = Quaternion.LookRotation(direction);
+    //    transform.rotation = baseRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
+
+    //    if (owner != null)
+    //    {
+    //        transform.position = owner.position + transform.forward * radius;
+    //    }
+    //}
+
+    public override void Init(ProjectileInitData data)
+    {
+        base.Init(data);
         timer = 0f;
         hitTargets.Clear();
-
         baseRotation = Quaternion.LookRotation(direction);
         transform.rotation = baseRotation * Quaternion.Euler(0f, -swingAngle * 0.5f, 0f);
-
         if (owner != null)
         {
             transform.position = owner.position + transform.forward * radius;
