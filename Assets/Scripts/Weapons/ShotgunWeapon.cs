@@ -16,7 +16,7 @@ public class ShotgunWeapon : ProjectileWeaponBase
             Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
             spawnPos.z += 1f;
             GameObject flash = PoolManager.Instance.Spawn(fireEffectPrefab, spawnPos, Quaternion.identity);
-            SFXManager.Instance.Play3D(shotClip, transform.position, 0.4f);
+            SFXManager.Instance.Play3D(shotClip, transform.position, 0.2f);
             StartCoroutine(ReturnFlashToPool(flash));
         }
         Vector3 baseDir = GetDirectionToNearestTarget();

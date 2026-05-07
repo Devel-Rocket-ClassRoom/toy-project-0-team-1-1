@@ -4,9 +4,6 @@ using Unity.VisualScripting;
 
 public class Item : MonoBehaviour, ILootable
 {
-    [SerializeField] private float floatAmplitude = 0.2f;
-    [SerializeField] private float floatFrequency = 2f;
-    [SerializeField] private float rotateSpeed = 60f;
     [SerializeField] private float pullbackDistance = 1.5f;
     [SerializeField] private float pullbackDuration = 0.25f;
     [SerializeField] private float rushSpeed = 15f;
@@ -37,12 +34,6 @@ public class Item : MonoBehaviour, ILootable
     {
         if (phase == LootPhase.PickedUp) return;
 
-        //if (phase == LootPhase.Idle)
-        //{
-        //    float y = Mathf.Sin(Time.time * floatFrequency + floatPhase) * floatAmplitude;
-        //    transform.position = basePosition + Vector3.up * y;
-        //    transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
-        //}
         if (phase == LootPhase.Pullback)
         {
             timer += Time.deltaTime;
@@ -126,7 +117,6 @@ public class Item : MonoBehaviour, ILootable
 
     public virtual void GetEffect(Transform player)
     {
-        Debug.Log("Item Get");
         SFXManager.Instance.Play3D(getClip, transform.position, 1f);
     }
 }
