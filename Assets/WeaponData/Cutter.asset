@@ -23,7 +23,7 @@ MonoBehaviour:
   maxLevel: 8
   existTime: 0
   knockBack: 0.3
-  Description: "\uC801\uC744 \uD1B5\uACFC\uD558\uB294 \uCEE4\uD130 \uBC1C"
+  Description: "\uC801\uC744 \uD1B5\uACFC\uD558\uB294 \uCEE4\uD130 \uBC1C\uC0AC"
   levelStats:
   - modifiers:
     - type: 1
