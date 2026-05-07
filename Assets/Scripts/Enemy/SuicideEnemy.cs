@@ -16,7 +16,8 @@ public class SuicideEnemy : BaseEnemy
     {
         if (explosionEffectPrefab != null)
         {
-            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            var explosion = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(explosion, 3f);
         }
         base.OnDie();
     }
@@ -24,6 +25,7 @@ public class SuicideEnemy : BaseEnemy
     {
         yield return null;
         OnDie();
+        yield return new WaitForSeconds(2f);
     }
     protected override void Die()
     {
