@@ -5567,6 +5567,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   invincibleTime: 3
+  hitEffect: {fileID: 0}
+  hitClip: {fileID: 0}
+  screamClip: {fileID: 0}
+  deathClip: {fileID: 0}
 --- !u!114 &4546302127346970034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5580,10 +5584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon
   maxWeaponCount: 6
-  testWeaponDatas:
-  - {fileID: 11400000, guid: dc6cf8e2025f5df4c895f2c09544705e, type: 2}
-  - {fileID: 11400000, guid: e984e123d59f38b4baf2f1df3b798c3f, type: 2}
-  - {fileID: 11400000, guid: 32b404d2b38421046825055ffdafb64a, type: 2}
 --- !u!1 &4276618885496471592
 GameObject:
   m_ObjectHideFlags: 0
