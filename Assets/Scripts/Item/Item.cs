@@ -25,6 +25,7 @@ public class Item : MonoBehaviour, ILootable
         //floatPhase = Random.Range(0f, Mathf.PI * 2f);
         coPickedUp = null;
         phase = LootPhase.Idle;
+        transform.localScale = Vector3.one;
     }
     private enum LootPhase { Idle, Pullback, Rush, PickedUp }
     private LootPhase phase = LootPhase.Idle;

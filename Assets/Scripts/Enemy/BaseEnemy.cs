@@ -20,7 +20,7 @@ public abstract class BaseEnemy : BaseEntity
     protected Transform _player;
     [SerializeField] private LayerMask enemyLayer;
 
-    private NavMeshAgent _agent;
+    protected NavMeshAgent _agent;
 
     private Renderer[] _renderers;
     private Coroutine _hitRoutine;
@@ -147,7 +147,7 @@ public abstract class BaseEnemy : BaseEntity
         base.TakeDamage(damage);
         Vector3 pos = transform.position + Vector3.up * 2f;
         var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
-        popup.GetComponent<DamagePopup>().Setup((int)(Mathf.Max(0, damage - stats[StatType.Defense].FinalValue)));
+        popup.GetComponent<DamagePopup>().Setup((int)(Mathf.Max(1, damage - stats[StatType.Defense].FinalValue)));
         SFXManager.Instance.Play3D(hitClip, transform.position, 0.7f);
         if (_hitRoutine != null)
         {

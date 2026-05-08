@@ -9,7 +9,6 @@ public class SuicideEnemy : BaseEnemy
     {
         if (IsDead) return;
         base.DoAttak();
-        Debug.Log("자폭");
         Die();
     }
     protected override void OnDie()

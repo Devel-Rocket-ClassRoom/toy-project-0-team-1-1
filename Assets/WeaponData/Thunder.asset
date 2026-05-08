@@ -22,12 +22,13 @@ MonoBehaviour:
   projectileCount: 5
   maxLevel: 8
   existTime: 0
+  knockBack: 0
   Description: "\uB79C\uB364\uD55C \uACF3\uC5D0 \uB099\uB8B0"
   levelStats:
   - modifiers:
     - type: 0
       category: 0
-      value: 2
+      value: 1
     types: 0b000000
     description: "\uBC88\uAC1C \uC218 \uCD94\uAC00"
   - modifiers:
@@ -37,11 +38,11 @@ MonoBehaviour:
     types: 04000000
     description: "\uACF5\uACA9\uB825 \uC0C1\uC2B9"
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
-      value: 1
-    types: 0b000000
-    description: "\uBC88\uAC1C \uC218 \uCD94\uAC00"
+      value: -0.1
+    types: 07000000
+    description: "\uACF5\uACA9 \uC8FC\uAE30 \uAC10\uC18C"
   - modifiers:
     - type: 1
       category: 0

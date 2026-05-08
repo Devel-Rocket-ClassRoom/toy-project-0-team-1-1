@@ -15,7 +15,7 @@ public abstract class WeaponBase : MonoBehaviour
     protected Dictionary<StatType, StatContainer> stats = new Dictionary<StatType, StatContainer>();
 
     public float Damage => stats.ContainsKey(StatType.Attack) ? stats[StatType.Attack].FinalValue : 0f;
-    public float Cooldown => stats.ContainsKey(StatType.Cool) ? stats[StatType.Cool].FinalValue : 1f;
+    public float Cooldown => stats.ContainsKey(StatType.Cool) ? Mathf.Max(0.01f, stats[StatType.Cool].FinalValue) : 1f;
     public float Range => stats.ContainsKey(StatType.Range) ? stats[StatType.Range].FinalValue : 0f;
     public float ExistTime => stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
     public float Size => stats.ContainsKey(StatType.Size) ? stats[StatType.Size].FinalValue : 0f;
@@ -24,6 +24,8 @@ public abstract class WeaponBase : MonoBehaviour
     public int ProjectileCount => stats.ContainsKey(StatType.ProjectileCount) ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue) : 0;
 
     private float _timer;
+
+    protected virtual bool CanAttack => true;
 
     protected virtual void Awake()
     {
@@ -50,6 +52,7 @@ public abstract class WeaponBase : MonoBehaviour
     private void Update()
     {
         if (!IsActive) return;
+        if (!CanAttack) return;
 
         _timer += Time.deltaTime;
         if (_timer >= Cooldown)

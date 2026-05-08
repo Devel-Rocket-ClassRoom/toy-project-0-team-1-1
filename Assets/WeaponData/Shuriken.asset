@@ -18,8 +18,8 @@ MonoBehaviour:
   projectileSpeed: 180
   size: 1
   range: 3
-  cooldown: 6
-  projectileCount: 1
+  cooldown: 3
+  projectileCount: 2
   maxLevel: 8
   existTime: 5
   knockBack: 0
@@ -32,11 +32,17 @@ MonoBehaviour:
     types: 0b000000
     description: "\uC218\uB9AC\uAC80 \uC218 \uC99D\uAC00"
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
-      value: 1
-    types: 0b000000
-    description: "\uC218\uB9AC\uAC80 \uC218 \uC99D\uAC00"
+      value: 0.2
+    types: 04000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  - modifiers:
+    - type: 1
+      category: 0
+      value: -0.1
+    types: 07000000
+    description: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
   - modifiers:
     - type: 0
       category: 0
@@ -47,14 +53,8 @@ MonoBehaviour:
     - type: 0
       category: 0
       value: 1
-    types: 0b000000
-    description: "\uC218\uB9AC\uAC80 \uC218 \uC99D\uAC00"
-  - modifiers:
-    - type: 0
-      category: 0
-      value: 1
-    types: 0b000000
-    description: "\uC218\uB9AC\uAC80 \uC218 \uC99D\uAC00"
+    types: 0c000000
+    description: "\uC9C0\uC18D\uC2DC\uAC04 \uC99D\uAC00"
   - modifiers:
     - type: 0
       category: 0

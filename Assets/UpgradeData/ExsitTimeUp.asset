@@ -17,32 +17,32 @@ MonoBehaviour:
   maxLevel: 5
   levelStats:
   - modifiers:
-    - type: 1
+    - type: 0
       category: 0
-      value: 0.1
+      value: 0.5
     types: 0c000000
-    description: "\uC9C0\uC18D\uC2DC\uAC04 10% \uC99D\uAC00"
+    description: "\uC9C0\uC18D\uC2DC\uAC04 0.5\uCD08 \uC99D\uAC00"
   - modifiers:
-    - type: 1
+    - type: 0
       category: 0
-      value: 0.1
+      value: 0.5
     types: 0c000000
-    description: "\uC9C0\uC18D\uC2DC\uAC04 10% \uC99D\uAC00"
+    description: "\uC9C0\uC18D\uC2DC\uAC04 0.5\uCD08 \uC99D\uAC00"
   - modifiers:
-    - type: 1
+    - type: 0
       category: 0
-      value: 0.1
+      value: 0.5
     types: 0c000000
-    description: "\uC9C0\uC18D\uC2DC\uAC04 10% \uC99D\uAC00"
+    description: "\uC9C0\uC18D\uC2DC\uAC04 0.5\uCD08 \uC99D\uAC00"
   - modifiers:
-    - type: 1
+    - type: 0
       category: 0
-      value: 0.1
+      value: 0.5
     types: 0c000000
-    description: "\uC9C0\uC18D\uC2DC\uAC04 10% \uC99D\uAC00"
+    description: "\uC9C0\uC18D\uC2DC\uAC04 0.5\uCD08 \uC99D\uAC00"
   - modifiers:
-    - type: 1
+    - type: 0
       category: 0
-      value: 0.1
+      value: 0.5
     types: 0c000000
-    description: "\uC9C0\uC18D\uC2DC\uAC04 10% \uC99D\uAC00"
+    description: "\uC9C0\uC18D\uC2DC\uAC04 0.5\uCD08 \uC99D\uAC00"

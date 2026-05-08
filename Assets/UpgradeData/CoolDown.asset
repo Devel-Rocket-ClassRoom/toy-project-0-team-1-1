@@ -31,6 +31,6 @@ MonoBehaviour:
   - modifiers:
     - type: 1
       category: 0
-      value: -0.1
+      value: -0.2
     types: 07000000
-    description: "\uCFE8\uD0C0\uC784 10% \uAC10\uC18C"
+    description: "\uCFE8\uD0C0\uC784 20% \uAC10\uC18C"

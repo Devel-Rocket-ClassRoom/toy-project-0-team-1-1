@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9808ce7179cb09e4e849f1befbe8b94c, type: 3}
   m_Name: HeavyEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  maxHp: 80
-  defense: 7
-  speed: 3
-  attack: 10
-  attackDistance: 2
-  attackInterval: 1
+  maxHp: 150
+  defense: 10
+  speed: 2
+  attack: 8
+  attackDistance: 1.5
+  attackInterval: 0.5
   resistance: 60

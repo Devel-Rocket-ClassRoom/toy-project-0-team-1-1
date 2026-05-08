@@ -75,6 +75,11 @@ public class PlayerStatus : BaseEntity
         if (stats.ContainsKey(type))
         {
             stats[type].AddModifier(mod);
+            if (type == StatType.MaxHp)
+            {
+                currentHp = Mathf.Min(currentHp, stats[StatType.MaxHp].FinalValue);
+                OnHpChange?.Invoke(currentHp);
+            }
         }
         else
         {

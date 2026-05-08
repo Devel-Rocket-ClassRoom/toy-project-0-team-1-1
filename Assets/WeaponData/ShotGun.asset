@@ -18,7 +18,7 @@ MonoBehaviour:
   projectileSpeed: 30
   size: 5
   range: 30
-  cooldown: 2
+  cooldown: 5
   projectileCount: 3
   maxLevel: 5
   existTime: 0
@@ -29,20 +29,20 @@ MonoBehaviour:
     - type: 0
       category: 0
       value: 1
-    - type: 0
-      category: 0
-      value: 5
-    types: 0b0000000d000000
+    types: 0b000000
     description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
-      value: 1
-    - type: 0
+      value: -0.1
+    types: 07000000
+    description: "\uACF5\uACA9 \uC8FC\uAE30 \uAC10\uC18C"
+  - modifiers:
+    - type: 1
       category: 0
-      value: 5
-    types: 0b0000000d000000
-    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+      value: 0.2
+    types: 04000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
   - modifiers:
     - type: 0
       category: 0
@@ -50,23 +50,11 @@ MonoBehaviour:
     types: 0b000000
     description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
   - modifiers:
-    - type: 0
+    - type: 1
       category: 0
-      value: 1
-    - type: 0
-      category: 0
-      value: 5
-    types: 0b0000000d000000
-    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
-  - modifiers:
-    - type: 0
-      category: 0
-      value: 1
-    - type: 0
-      category: 0
-      value: 5
-    types: 0b0000000d000000
-    description: "\uD22C\uC0AC\uCCB4 \uC218 \uC99D\uAC00"
+      value: 0.2
+    types: 04000000
+    description: "\uACF5\uACA9\uB825 \uC99D\uAC00"
   - modifiers:
     - type: 1
       category: 0
@@ -76,6 +64,6 @@ MonoBehaviour:
   - modifiers:
     - type: 1
       category: 0
-      value: 0.5
+      value: -0.3
     types: 07000000
     description: "\uCFE8\uD0C0\uC784 \uB300\uD3ED \uAC10\uC18C"
