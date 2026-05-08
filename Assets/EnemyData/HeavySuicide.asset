@@ -16,6 +16,6 @@ MonoBehaviour:
   defense: 15
   speed: 3
   attack: 60
-  attackDistance: 1
+  attackDistance: 2
   attackInterval: 1.5
   resistance: 100
