@@ -19,7 +19,17 @@ public class SwordAuraWeapon : ProjectileWeaponBase
         for (int i = 0; i < ProjectileCount; i++)
         {
             var targets = FindTargetsInRange(transform.position, Range);
-            var dir = targets[UnityEngine.Random.Range(0, targets.Length)].transform.position - transform.position;
+            Vector3 dir;
+            if (targets.Length > 0)
+            {
+                // 적이 있으면 랜덤 적 방향
+                dir = (targets[Random.Range(0, targets.Length)].transform.position - transform.position).normalized;
+            }
+            else
+            {
+                // 적이 없으면 플레이어가 보는 방향
+                dir = transform.forward;
+            }
             SFXManager.Instance.Play3D(auraClip, transform.position, 1f);
             SpawnProjectile(dir);
             if (i < ProjectileCount - 1)
