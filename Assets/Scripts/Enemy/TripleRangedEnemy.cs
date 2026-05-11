@@ -27,7 +27,9 @@ public class TripleRangedEnemy : BaseEnemy
         _attackTimer -= Time.deltaTime;
         if (_attackTimer > 0) return;
         _attackTimer = attackInterval;
-
+        _agent.isStopped = true;
+        _agent.ResetPath();
+        _agent.velocity = Vector3.zero;
         animator.SetTrigger("Cast Spell");
         Vector3 spawnPos = transform.position + Vector3.up * 1f;
         Vector3 targetPos = new Vector3(_player.position.x, spawnPos.y, _player.position.z);
