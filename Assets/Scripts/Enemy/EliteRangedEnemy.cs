@@ -40,7 +40,7 @@ public class EliteRangedEnemy : BaseEnemy
         _agent.velocity = Vector3.zero;
         animator.SetTrigger("Fly Cast Spell 01");
         Vector3 spawnPos = transform.position + Vector3.up * 1f;
-        Vector3 targetPos = new Vector3(_player.position.x, spawnPos.y, _player.position.z);
+        Vector3 targetPos = new Vector3(_player.position.x, Mathf.Max(spawnPos.y, _player.position.y + 1f), _player.position.z);
         var dir = (targetPos - spawnPos).normalized;
         GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(dir));
         obj.GetComponent<EnemyProjectile>().Init(projectilePrefab, Attack, dir);
