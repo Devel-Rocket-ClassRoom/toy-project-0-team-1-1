@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isDead) return;
+        if (_isDead)
+            return;
         if (!_cc.isGrounded)
         {
             _verticalVelocity += Physics.gravity.y * Time.deltaTime;
@@ -46,9 +47,11 @@ public class PlayerController : MonoBehaviour
 
         _cc.enabled = false;
     }
+
     private void HandleMove()
     {
-        if (_isDead) return;
+        if (_isDead)
+            return;
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         var inputDir = new Vector3(h, 0f, v).normalized;

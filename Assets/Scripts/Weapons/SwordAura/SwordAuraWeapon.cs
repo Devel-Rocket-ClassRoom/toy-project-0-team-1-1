@@ -4,15 +4,22 @@ using UnityEngine;
 public class SwordAuraWeapon : ProjectileWeaponBase
 {
     private ParticleSystem effectObject;
-    [SerializeField] private float fireInterval = 0.3f;
-    [SerializeField] private AudioClip auraClip;
+
+    [SerializeField]
+    private float fireInterval = 0.3f;
+
+    [SerializeField]
+    private AudioClip auraClip;
     private Coroutine _currentFire;
+
     protected override void Attack()
     {
-        if (_currentFire != null) return;
+        if (_currentFire != null)
+            return;
 
         _currentFire = StartCoroutine(SwordAuraFire());
     }
+
     private IEnumerator SwordAuraFire()
     {
         //var dir = GetDirectionToNearestTarget();
@@ -23,7 +30,9 @@ public class SwordAuraWeapon : ProjectileWeaponBase
             if (targets.Length > 0)
             {
                 // 적이 있으면 랜덤 적 방향
-                dir = (targets[Random.Range(0, targets.Length)].transform.position - transform.position).normalized;
+                dir = (
+                    targets[Random.Range(0, targets.Length)].transform.position - transform.position
+                ).normalized;
             }
             else
             {

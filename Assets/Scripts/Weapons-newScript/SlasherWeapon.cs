@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class SlasherWeapon : ProjectileWeaponBase
 {
-    [SerializeField] private AudioClip slashClip;
+    [SerializeField]
+    private AudioClip slashClip;
     private float SwingAngle => Range;
-    
+
     private int SlashCount => Mathf.Max(1, ProjectileCount);
 
     protected override void Attack()

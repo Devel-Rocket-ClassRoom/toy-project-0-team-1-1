@@ -3,9 +3,11 @@ using UnityEngine;
 public class MolotovFlame : MonoBehaviour
 {
     private float _existTime; // = 3f  장판 지속시간
-    private float _tickInterval = 0.5f; // 도트 데미지 주기 
+    private float _tickInterval = 0.5f; // 도트 데미지 주기
     private float _flameSize; // = 2.5f; // 장판 크기
-    [SerializeField] private LayerMask targetLayer;
+
+    [SerializeField]
+    private LayerMask targetLayer;
     private GameObject _prefab;
     private float _damage;
     private float _timer;
@@ -27,27 +29,29 @@ public class MolotovFlame : MonoBehaviour
             main.startSizeMultiplier = flameSize / 0.4f;
         }
     }
+
     private void OnEnable()
     {
         _timer = 0f;
         _tickTimer = 0f;
     }
+
     private void Update()
     {
         _timer += Time.deltaTime;
         _tickTimer += Time.deltaTime;
 
-        if(_tickTimer > _tickInterval)
+        if (_tickTimer > _tickInterval)
         {
             _tickTimer = 0f;
             Collider[] hits = Physics.OverlapSphere(transform.position, _flameSize, targetLayer);
-            foreach (var  hit in hits)
+            foreach (var hit in hits)
             {
                 hit.GetComponent<BaseEntity>()?.TakeDamage(_damage);
             }
         }
 
-        if(_timer > _existTime)
+        if (_timer > _existTime)
         {
             PoolManager.Instance.Despawn(_prefab, gameObject);
         }

@@ -4,19 +4,26 @@ using UnityEngine.Events;
 
 public class SpecialObject : BaseEntity
 {
-    [SerializeField] private BreakableObject data;
+    [SerializeField]
+    private BreakableObject data;
+
     [System.Serializable]
     public struct DropEntry
     {
         public GameObject itemPrefab;
-        [Min(0f)] public float weight;
+
+        [Min(0f)]
+        public float weight;
     }
 
-    [SerializeField] private List<DropEntry> entries = new List<DropEntry>();
+    [SerializeField]
+    private List<DropEntry> entries = new List<DropEntry>();
+
     protected override void Awake()
     {
         InitStats();
     }
+
     protected override void InitStats()
     {
         stats[StatType.MaxHp] = new StatContainer(50f);
@@ -46,11 +53,14 @@ public class SpecialObject : BaseEntity
 
     private void SpawnDrops()
     {
-        if (entries.Count == 0) return;
+        if (entries.Count == 0)
+            return;
 
         float total = 0f;
-        foreach (var e in entries) total += e.weight;
-        if (total <= 0f) return;
+        foreach (var e in entries)
+            total += e.weight;
+        if (total <= 0f)
+            return;
 
         float roll = UnityEngine.Random.value * total;
         float cumulative = 0f;
@@ -60,7 +70,12 @@ public class SpecialObject : BaseEntity
             cumulative += entry.weight;
             if (roll < cumulative)
             {
-                if (entry.itemPrefab != null) PoolManager.Instance.Spawn(entry.itemPrefab, transform.position, Quaternion.identity);
+                if (entry.itemPrefab != null)
+                    PoolManager.Instance.Spawn(
+                        entry.itemPrefab,
+                        transform.position,
+                        Quaternion.identity
+                    );
                 return;
             }
         }

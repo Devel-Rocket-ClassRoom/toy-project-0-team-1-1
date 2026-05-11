@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class UpgradeUI : MonoBehaviour
 {
-    [SerializeField] private GameObject panel;
-    [SerializeField] private UpgradeSlotUI[] slots;
-    [SerializeField] private GameObject player;
-    [SerializeField] private AudioClip showClip;
+    [SerializeField]
+    private GameObject panel;
+
+    [SerializeField]
+    private UpgradeSlotUI[] slots;
+
+    [SerializeField]
+    private GameObject player;
+
+    [SerializeField]
+    private AudioClip showClip;
     private PlayerStatus playerStatus;
     private PlayerWeapon playerWeapon;
 
@@ -19,6 +26,7 @@ public class UpgradeUI : MonoBehaviour
         playerStatus = player.GetComponent<PlayerStatus>();
         playerWeapon = player.GetComponent<PlayerWeapon>();
     }
+
     public void Show(List<IUpgrade> choices, System.Action<IUpgrade> onSelected)
     {
         this.onSelected = onSelected;
@@ -38,7 +46,13 @@ public class UpgradeUI : MonoBehaviour
                     {
                         var thisWeapon = playerWeapon.GetWeaponByData(weapon);
                         Debug.Log(thisWeapon.Level - 1);
-                        slots[i].Setup(upgrade, OnSlotSelected, weapon.levelStats[thisWeapon.Level - 1].description, $"Lv.{thisWeapon.Level}");
+                        slots[i]
+                            .Setup(
+                                upgrade,
+                                OnSlotSelected,
+                                weapon.levelStats[thisWeapon.Level - 1].description,
+                                $"Lv.{thisWeapon.Level}"
+                            );
                     }
                     else
                     {
@@ -49,11 +63,25 @@ public class UpgradeUI : MonoBehaviour
                 {
                     if (playerStatus.upgradeItems.ContainsKey(itemData))
                     {
-                        slots[i].Setup(upgrade, OnSlotSelected, itemData.levelStats[playerStatus.upgradeItems[itemData]].description, $"Lv.{playerStatus.upgradeItems[itemData]}");
+                        slots[i]
+                            .Setup(
+                                upgrade,
+                                OnSlotSelected,
+                                itemData
+                                    .levelStats[playerStatus.upgradeItems[itemData]]
+                                    .description,
+                                $"Lv.{playerStatus.upgradeItems[itemData]}"
+                            );
                     }
                     else
                     {
-                        slots[i].Setup(upgrade, OnSlotSelected, itemData.levelStats[0].description, "Lv.0");
+                        slots[i]
+                            .Setup(
+                                upgrade,
+                                OnSlotSelected,
+                                itemData.levelStats[0].description,
+                                "Lv.0"
+                            );
                     }
                 }
                 else

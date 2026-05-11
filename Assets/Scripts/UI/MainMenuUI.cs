@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] private string gameSceneName = "TestScene-kkh";
+    [SerializeField]
+    private string gameSceneName = "TestScene-kkh";
 
     public void OnStartClicked()
     {

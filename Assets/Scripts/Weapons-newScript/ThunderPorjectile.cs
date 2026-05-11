@@ -8,10 +8,17 @@ public class ThunderPorjectile : MonoBehaviour
     private float _damage;
     private float _thunderSize;
     private Vector3 _spawnPos;
-    [SerializeField] private LayerMask _targetLayer;
-    [SerializeField] private float lifeTime = 2f;
-    [SerializeField] private AudioClip electricClip;
-    public void Init(GameObject prefab, float damage, float thunderSize, Vector3 spawnPos )
+
+    [SerializeField]
+    private LayerMask _targetLayer;
+
+    [SerializeField]
+    private float lifeTime = 2f;
+
+    [SerializeField]
+    private AudioClip electricClip;
+
+    public void Init(GameObject prefab, float damage, float thunderSize, Vector3 spawnPos)
     {
         _thunderSize = thunderSize;
         _prefab = prefab;

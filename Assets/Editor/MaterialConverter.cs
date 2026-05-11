@@ -1,7 +1,7 @@
-using UnityEditor;
-using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 public class MaterialConverter : EditorWindow
 {
@@ -9,14 +9,14 @@ public class MaterialConverter : EditorWindow
     private static readonly string[] MaterialFolders = new string[]
     {
         "Assets/Little Heroes Mega Pack/Materials",
-        "Assets/Little Heroes Mega Pack/Materials/Modern Materials"
+        "Assets/Little Heroes Mega Pack/Materials/Modern Materials",
     };
 
     // 텍스처 폴더 경로
     private static readonly string[] TextureFolders = new string[]
     {
         "Assets/Little Heroes Mega Pack/Texture",
-        "Assets/Little Heroes Mega Pack/Texture/Modern"
+        "Assets/Little Heroes Mega Pack/Texture/Modern",
     };
 
     [MenuItem("Tools/Convert Materials to URP")]
@@ -25,7 +25,9 @@ public class MaterialConverter : EditorWindow
         Shader urpLit = Shader.Find("Universal Render Pipeline/Lit");
         if (urpLit == null)
         {
-            Debug.LogError("URP Lit 셰이더를 찾을 수 없습니다. URP 패키지가 설치되어 있는지 확인하세요.");
+            Debug.LogError(
+                "URP Lit 셰이더를 찾을 수 없습니다. URP 패키지가 설치되어 있는지 확인하세요."
+            );
             return;
         }
 
@@ -34,7 +36,8 @@ public class MaterialConverter : EditorWindow
 
         foreach (string folder in TextureFolders)
         {
-            if (!AssetDatabase.IsValidFolder(folder)) continue;
+            if (!AssetDatabase.IsValidFolder(folder))
+                continue;
 
             string[] texGuids = AssetDatabase.FindAssets("t:Texture", new[] { folder });
             foreach (string guid in texGuids)
@@ -60,7 +63,8 @@ public class MaterialConverter : EditorWindow
 
         foreach (string folder in MaterialFolders)
         {
-            if (!AssetDatabase.IsValidFolder(folder)) continue;
+            if (!AssetDatabase.IsValidFolder(folder))
+                continue;
 
             // 하위 폴더 제외하고 해당 폴더만 검색하려면 SearchOption 조절
             string[] matGuids = AssetDatabase.FindAssets("t:Material", new[] { folder });
@@ -69,7 +73,8 @@ public class MaterialConverter : EditorWindow
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 Material mat = AssetDatabase.LoadAssetAtPath<Material>(path);
-                if (mat == null) continue;
+                if (mat == null)
+                    continue;
 
                 // 기존 텍스처와 컬러 백업
                 Texture mainTex = mat.mainTexture;
@@ -121,8 +126,9 @@ public class MaterialConverter : EditorWindow
 
         if (missingList.Count > 0)
         {
-            Debug.LogWarning($"텍스처 매칭 실패 목록 (수동 확인 필요):\n" +
-                string.Join("\n", missingList));
+            Debug.LogWarning(
+                $"텍스처 매칭 실패 목록 (수동 확인 필요):\n" + string.Join("\n", missingList)
+            );
         }
     }
 

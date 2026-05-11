@@ -12,7 +12,8 @@ public class WeaponManager : MonoBehaviour
         public GameObject prefab;
     }
 
-    [SerializeField] private List<WeaponEntry> weaponEntries;
+    [SerializeField]
+    private List<WeaponEntry> weaponEntries;
     public Dictionary<WeaponData, GameObject> Weapons { get; private set; }
 
     private void Awake()

@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class PoolTest : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab1;
-    [SerializeField] private GameObject prefab2;
+    [SerializeField]
+    private GameObject prefab1;
+
+    [SerializeField]
+    private GameObject prefab2;
     Queue<GameObject> pools1 = new Queue<GameObject>();
     Queue<GameObject> pools2 = new Queue<GameObject>();
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))

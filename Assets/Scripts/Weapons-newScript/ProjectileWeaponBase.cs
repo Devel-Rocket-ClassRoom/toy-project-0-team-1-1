@@ -3,8 +3,11 @@ using UnityEngine;
 public abstract class ProjectileWeaponBase : WeaponBase
 {
     [Header("Projectile")]
-    [SerializeField] protected GameObject projectilePrefab;
-    [SerializeField] protected Transform firePoint;
+    [SerializeField]
+    protected GameObject projectilePrefab;
+
+    [SerializeField]
+    protected Transform firePoint;
 
     protected override void InitStats()
     {
@@ -16,13 +19,18 @@ public abstract class ProjectileWeaponBase : WeaponBase
     {
         if (projectilePrefab == null)
         {
-            Debug.LogError($"{name}: Projectile PrefabÀÌ ºñ¾îÀÖÀ½");
+            Debug.LogError($"{name}: Projectile Prefabï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
-        
-        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
 
-        GameObject obj = PoolManager.Instance.Spawn(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
+        Vector3 spawnPos =
+            firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
+
+        GameObject obj = PoolManager.Instance.Spawn(
+            projectilePrefab,
+            spawnPos,
+            Quaternion.LookRotation(direction)
+        );
         ProjectileBase projectile = obj.GetComponent<ProjectileBase>();
 
         var data = new ProjectileInitData

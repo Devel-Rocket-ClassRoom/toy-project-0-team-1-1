@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public interface IUpgrade
 {
@@ -8,8 +8,9 @@ public interface IUpgrade
     Sprite Icon { get; }
     int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon);
 }
+
 public enum UpgradeItemType
 {
     Weapon,
-    Passive
+    Passive,
 }

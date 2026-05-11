@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> where T : Component
+public class ObjectPool<T>
+    where T : Component
 {
     private readonly T prefab; // 생성할 프리팹
     private readonly Transform parent; // 부모 (생성한 주체)
@@ -34,7 +35,7 @@ public class ObjectPool<T> where T : Component
         obj.gameObject.SetActive(true); // OnEnable 함수에서 초기화
         return obj;
     }
-    
+
     public void Return(T obj)
     {
         obj.gameObject.SetActive(false);

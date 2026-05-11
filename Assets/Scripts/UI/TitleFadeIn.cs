@@ -4,23 +4,35 @@ using UnityEngine;
 public class TitleFadeIn : MonoBehaviour
 {
     [Header("Targets")]
-    [SerializeField] private CanvasGroup titleGroup;
-    [SerializeField] private CanvasGroup[] buttonGroups;
+    [SerializeField]
+    private CanvasGroup titleGroup;
+
+    [SerializeField]
+    private CanvasGroup[] buttonGroups;
 
     [Header("Timing")]
-    [SerializeField] private float titleFadeDuration = 1.5f;
-    [SerializeField] private float buttonFadeDuration = 0.6f;
-    [SerializeField] private float delayAfterTitle = 0.3f;
-    [SerializeField] private float delayBetweenButtons = 0.15f;
+    [SerializeField]
+    private float titleFadeDuration = 1.5f;
+
+    [SerializeField]
+    private float buttonFadeDuration = 0.6f;
+
+    [SerializeField]
+    private float delayAfterTitle = 0.3f;
+
+    [SerializeField]
+    private float delayBetweenButtons = 0.15f;
 
     [Header("Easing (선택)")]
-    [SerializeField] private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField]
+    private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private void Start()
     {
         // 시작 시 전부 투명
         titleGroup.alpha = 0f;
-        foreach (var bg in buttonGroups) bg.alpha = 0f;
+        foreach (var bg in buttonGroups)
+            bg.alpha = 0f;
 
         StartCoroutine(PlaySequence());
     }

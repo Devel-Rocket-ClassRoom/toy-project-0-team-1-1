@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\kimseongsoo\\\\toy-project-0-team-1-1\" | Where-Object { -not \\($_.Name -match 'Library|obj|\\\\.git'\\) } | Select-Object Name)"
+    ]
+  }
+}

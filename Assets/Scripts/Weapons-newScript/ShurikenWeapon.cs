@@ -5,7 +5,8 @@ using UnityEngine;
 public class ShurikenWeapon : WeaponBase
 {
     [Header("Shuriken Orbit")]
-    [SerializeField] private ShurikenOrbit shurikenPrefab;
+    [SerializeField]
+    private ShurikenOrbit shurikenPrefab;
 
     private readonly List<ShurikenOrbit> shurikens = new();
     private Coroutine orbitRoutine;
@@ -13,6 +14,7 @@ public class ShurikenWeapon : WeaponBase
     private int ShurikenCount => Mathf.Max(1, ProjectileCount);
     private float OrbitDuration => Mathf.Max(0.1f, ExistTime);
     protected override bool CanAttack => orbitRoutine == null;
+
     protected override void OnActivate()
     {
         // 켜지자마자 한 번 나오게 하고 싶으면 유지
@@ -49,6 +51,7 @@ public class ShurikenWeapon : WeaponBase
 
         orbitRoutine = null;
     }
+
     private void ClearShurikens()
     {
         foreach (ShurikenOrbit shuriken in shurikens)
@@ -61,6 +64,7 @@ public class ShurikenWeapon : WeaponBase
 
         shurikens.Clear();
     }
+
     private void SpawnShurikens()
     {
         ClearShurikens();
@@ -102,7 +106,7 @@ public class ShurikenWeapon : WeaponBase
                 obstacleLayer = obstacleLayer,
                 prefab = shurikenPrefab.gameObject,
                 size = Size,
-                knockBack = 0f // 넉백 없으면 0
+                knockBack = 0f, // 넉백 없으면 0
             };
 
             shuriken.Init(data);
@@ -111,6 +115,4 @@ public class ShurikenWeapon : WeaponBase
             shurikens.Add(shuriken);
         }
     }
-
-
 }

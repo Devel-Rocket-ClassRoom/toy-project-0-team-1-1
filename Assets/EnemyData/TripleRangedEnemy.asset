@@ -17,5 +17,6 @@ MonoBehaviour:
   speed: 5
   attack: 15
   attackDistance: 15
+  stopDistance: 13
   attackInterval: 5
   resistance: 0

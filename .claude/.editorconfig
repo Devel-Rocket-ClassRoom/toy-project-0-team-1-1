@@ -1,0 +1,5 @@
+root * true
+
+[*.{cs,csx}]
+end_of_line = 1f
+insert_final_newline = true

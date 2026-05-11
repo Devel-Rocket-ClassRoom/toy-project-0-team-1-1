@@ -6,19 +6,30 @@ using UnityEngine.UIElements;
 
 public abstract class BaseEnemy : BaseEntity
 {
-    [SerializeField] private EnemyData enemyData;
+    [SerializeField]
+    private EnemyData enemyData;
     protected float attackDistance;
     protected float attackInterval;
     protected float _attackTimer;
-    [SerializeField] private GameObject expItemPrefab;
-    [SerializeField] private GameObject damagePopupPrefab;
-    [SerializeField] private AudioClip hitClip;
-    [SerializeField] private AudioClip deathClip;
+
+    [SerializeField]
+    private GameObject expItemPrefab;
+
+    [SerializeField]
+    private GameObject damagePopupPrefab;
+
+    [SerializeField]
+    private AudioClip hitClip;
+
+    [SerializeField]
+    private AudioClip deathClip;
     private GameObject _prefab;
     public float Attack => stats[StatType.Attack].FinalValue;
 
     protected Transform _player;
-    [SerializeField] private LayerMask enemyLayer;
+
+    [SerializeField]
+    private LayerMask enemyLayer;
 
     protected NavMeshAgent _agent;
 
@@ -31,10 +42,11 @@ public abstract class BaseEnemy : BaseEntity
         _player = GameObject.FindWithTag("Player").transform;
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = stats[StatType.Speed].FinalValue;
-        _agent.stoppingDistance = attackDistance;
+        _agent.stoppingDistance = enemyData.attackDistance;
 
         _renderers = GetComponentsInChildren<Renderer>();
     }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -53,6 +65,7 @@ public abstract class BaseEnemy : BaseEntity
             col.enabled = true;
         }
     }
+
     public void SetPrefab(GameObject prefab) => _prefab = prefab;
 
     protected override void InitStats()
@@ -95,6 +108,7 @@ public abstract class BaseEnemy : BaseEntity
         if (_agent == null || !_agent.enabled || !_agent.isOnNavMesh)
             return;
         animator.SetBool("Run", true);
+        _agent.isStopped = false;
         _agent.SetDestination(_player.position);
     }
 
@@ -106,7 +120,9 @@ public abstract class BaseEnemy : BaseEntity
             return;
         }
         _attackTimer = attackInterval;
-
+        _agent.isStopped = true;
+        _agent.ResetPath();
+        _agent.velocity = Vector3.zero;
         var playerStatus = _player.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
@@ -119,8 +135,13 @@ public abstract class BaseEnemy : BaseEntity
         Vector3 dir = (_player.position - transform.position).normalized;
         dir.y = 0f;
         if (dir.sqrMagnitude > 0.001f)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 15f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                Quaternion.LookRotation(dir),
+                15f * Time.deltaTime
+            );
     }
+
     protected override void Die()
     {
         _agent.isStopped = true;
@@ -129,11 +150,16 @@ public abstract class BaseEnemy : BaseEntity
         SFXManager.Instance.Play3D(deathClip, transform.position, 0.7f);
         base.Die();
     }
+
     protected override void OnDie()
     {
         if (expItemPrefab != null)
         {
-            var item = PoolManager.Instance.Spawn(expItemPrefab, transform.position, Quaternion.identity);
+            var item = PoolManager.Instance.Spawn(
+                expItemPrefab,
+                transform.position,
+                Quaternion.identity
+            );
             //item.GetComponent<Item>().Init(transform.position);
         }
         if (_prefab != null)
@@ -141,13 +167,17 @@ public abstract class BaseEnemy : BaseEntity
             PoolManager.Instance.Despawn(_prefab, gameObject);
         }
     }
+
     public override void TakeDamage(float damage)
     {
-        if (IsDead) return;
+        if (IsDead)
+            return;
         base.TakeDamage(damage);
         Vector3 pos = transform.position + Vector3.up * 2f;
         var popup = PoolManager.Instance.Spawn(damagePopupPrefab, pos, Quaternion.identity);
-        popup.GetComponent<DamagePopup>().Setup((int)(Mathf.Max(1, damage - stats[StatType.Defense].FinalValue)));
+        popup
+            .GetComponent<DamagePopup>()
+            .Setup((int)(Mathf.Max(1, damage - stats[StatType.Defense].FinalValue)));
         SFXManager.Instance.Play3D(hitClip, transform.position, 0.7f);
         if (_hitRoutine != null)
         {
@@ -155,38 +185,38 @@ public abstract class BaseEnemy : BaseEntity
         }
         _hitRoutine = StartCoroutine(HitRoutine());
     }
-    
 
     protected virtual IEnumerator HitRoutine()
     {
         foreach (var renderer in _renderers)
-            foreach (var mat in renderer.materials)
-            {
-                mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", Color.white);
-            }
+        foreach (var mat in renderer.materials)
+        {
+            mat.EnableKeyword("_EMISSION");
+            mat.SetColor("_EmissionColor", Color.white);
+        }
 
         yield return new WaitForSeconds(0.1f);
 
         foreach (var renderer in _renderers)
-            foreach (var mat in renderer.materials)
-            {
-                mat.SetColor("_EmissionColor", Color.black);
-                mat.DisableKeyword("_EMISSION");
-            }
+        foreach (var mat in renderer.materials)
+        {
+            mat.SetColor("_EmissionColor", Color.black);
+            mat.DisableKeyword("_EMISSION");
+        }
     }
+
     protected override IEnumerator DieRoutine()
     {
         yield return new WaitForSeconds(1.5f);
         OnDie();
     }
 
-
     private Coroutine _knockbackCoroutine;
 
     public void KnockBack(float distance)
     {
-        if (Resistance >= 100f) return;
+        if (Resistance >= 100f)
+            return;
         if (_knockbackCoroutine != null)
             StopCoroutine(_knockbackCoroutine);
 

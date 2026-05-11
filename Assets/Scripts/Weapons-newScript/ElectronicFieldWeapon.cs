@@ -1,10 +1,15 @@
 using UnityEngine;
+
 public class ElectricFieldWeapon : WeaponBase
 {
     private GameObject effectObject;
+
     // private float _tickInterval = 1f; // 데미지 주기
     private float _tickTimer;
-    [SerializeField] private float visualRadiusAtScaleOne = 2f;
+
+    [SerializeField]
+    private float visualRadiusAtScaleOne = 2f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -12,13 +17,12 @@ public class ElectricFieldWeapon : WeaponBase
         UpdateEffectSize();
     }
 
-    protected override void Attack()
-    {
-    }
+    protected override void Attack() { }
 
     private void Update()
     {
-        if (!IsActive) return;
+        if (!IsActive)
+            return;
         _tickTimer += Time.deltaTime;
         if (_tickTimer > Cooldown)
         {
@@ -26,6 +30,7 @@ public class ElectricFieldWeapon : WeaponBase
             DealDamage();
         }
     }
+
     private void DealDamage()
     {
         float damageRadius = Size * visualRadiusAtScaleOne;
@@ -35,9 +40,11 @@ public class ElectricFieldWeapon : WeaponBase
             target.GetComponent<BaseEntity>()?.TakeDamage(Damage);
         }
     }
+
     private void OnDrawGizmosSelected()
     {
-        if (!Application.isPlaying) return;
+        if (!Application.isPlaying)
+            return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, Size * visualRadiusAtScaleOne);
     }
@@ -46,6 +53,7 @@ public class ElectricFieldWeapon : WeaponBase
     {
         effectObject.transform.localScale = Vector3.one * Size;
     }
+
     public override void AddModifier(StatType type, StatModifier modifier)
     {
         base.AddModifier(type, modifier);

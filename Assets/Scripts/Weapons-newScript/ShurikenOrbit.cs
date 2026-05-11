@@ -4,10 +4,17 @@ using UnityEngine;
 public class ShurikenOrbit : ProjectileBase
 {
     [Header("Visual")]
-    [SerializeField] private Transform visual;
-    [SerializeField] private Vector3 visualRotationOffset = new Vector3(90f, 0f, 0f);
-    [SerializeField] private Vector3 spinAxis = Vector3.up;
-    [SerializeField] private float spinSpeed = 720f;
+    [SerializeField]
+    private Transform visual;
+
+    [SerializeField]
+    private Vector3 visualRotationOffset = new Vector3(90f, 0f, 0f);
+
+    [SerializeField]
+    private Vector3 spinAxis = Vector3.up;
+
+    [SerializeField]
+    private float spinSpeed = 720f;
 
     private float radius;
     private float angle;
@@ -68,23 +75,22 @@ public class ShurikenOrbit : ProjectileBase
 
     private void UpdateOrbitPosition()
     {
-        if (owner == null) return;
+        if (owner == null)
+            return;
 
         float rad = angle * Mathf.Deg2Rad;
 
-        Vector3 offset = new Vector3(
-            Mathf.Cos(rad),
-            0f,
-            Mathf.Sin(rad)
-        ) * radius;
+        Vector3 offset = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * radius;
 
         transform.position = owner.position + offset;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsTarget(other)) return;
-        if (hitTargets.Contains(other)) return;
+        if (!IsTarget(other))
+            return;
+        if (hitTargets.Contains(other))
+            return;
 
         BaseEnemy enemy = other.GetComponentInParent<BaseEnemy>();
 
@@ -95,16 +101,13 @@ public class ShurikenOrbit : ProjectileBase
 
         enemy.TakeDamage(damage);
     }
+
     private void RotateVisual()
     {
         if (visual == null)
             return;
 
-        visual.Rotate(
-            spinAxis,
-            spinSpeed * Time.deltaTime,
-            Space.Self
-        );
+        visual.Rotate(spinAxis, spinSpeed * Time.deltaTime, Space.Self);
     }
 
     private void OnTriggerExit(Collider other)
