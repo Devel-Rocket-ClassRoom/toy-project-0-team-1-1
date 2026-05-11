@@ -5,9 +5,14 @@ using UnityEngine.UIElements;
 public class SlashProjectile : ProjectileBase
 {
     [Header("Slash")]
-    [SerializeField] private float lifeTime = 0.4f;
-    [SerializeField] private float radius = 2f;
-    [SerializeField] private float swingAngle = 120f;
+    [SerializeField]
+    private float lifeTime = 0.4f;
+
+    [SerializeField]
+    private float radius = 2f;
+
+    [SerializeField]
+    private float swingAngle = 120f;
 
     private float timer;
     private Quaternion baseRotation;
@@ -64,7 +69,7 @@ public class SlashProjectile : ProjectileBase
 
         float t = timer / lifeTime;
         float angle = Mathf.Lerp(-swingAngle * 0.5f, swingAngle * 0.5f, t);
-        
+
         transform.rotation = baseRotation * Quaternion.Euler(0f, angle, 0f);
         transform.position = owner.position + transform.forward * radius;
 

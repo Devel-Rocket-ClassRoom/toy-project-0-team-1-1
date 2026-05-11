@@ -48,8 +48,10 @@ public abstract class ProjectileBase : MonoBehaviour
 
     protected virtual void Hit(Collider other)
     {
-        if (!IsTarget(other)) return;
-        if (_hitTargets.Contains(other)) return; 
+        if (!IsTarget(other))
+            return;
+        if (_hitTargets.Contains(other))
+            return;
         _hitTargets.Add(other);
         other.GetComponent<BaseEntity>()?.TakeDamage(damage);
         other.GetComponent<BaseEnemy>()?.KnockBack(_knockBack);
@@ -57,7 +59,8 @@ public abstract class ProjectileBase : MonoBehaviour
 
     protected void ReturnToPool()
     {
-        if (_prefab == null) return;
+        if (_prefab == null)
+            return;
         PoolManager.Instance.Despawn(_prefab, gameObject);
     }
 }

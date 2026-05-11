@@ -54,10 +54,11 @@ public abstract class BaseEntity : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        if (isDead) return;
+        if (isDead)
+            return;
         float finalDamage = Mathf.Max(1, damage - stats[StatType.Defense].FinalValue);
         currentHp -= finalDamage;
-        if (currentHp <= 0 && !isDead) // Áßº¹ Die() ¹æÁö
+        if (currentHp <= 0 && !isDead) // ï¿½ßºï¿½ Die() ï¿½ï¿½ï¿½ï¿½
         {
             Die();
         }
@@ -65,12 +66,14 @@ public abstract class BaseEntity : MonoBehaviour
 
     protected virtual void Die()
     {
-        if (isDead) return;
+        if (isDead)
+            return;
         isDead = true;
         animator.SetTrigger("Die");
         animator.SetBool("Run", false);
         StartCoroutine(DieRoutine());
     }
+
     protected virtual IEnumerator DieRoutine()
     {
         yield return null;

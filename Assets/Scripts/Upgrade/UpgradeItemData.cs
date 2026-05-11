@@ -8,14 +8,17 @@ public class UpgradeItemData : ScriptableObject, IUpgrade
     public string itemName;
     public int maxLevel = 5;
     public List<LevelStats> levelStats = new List<LevelStats>();
-    
+
     public string Name => itemName;
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Passive;
+
     public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
-        int currentLevel = playerStatus.upgradeItems.ContainsKey(this) ? playerStatus.upgradeItems[this] : 0;
-        
+        int currentLevel = playerStatus.upgradeItems.ContainsKey(this)
+            ? playerStatus.upgradeItems[this]
+            : 0;
+
         if (currentLevel < maxLevel)
         {
             LevelStats stats = levelStats[currentLevel];

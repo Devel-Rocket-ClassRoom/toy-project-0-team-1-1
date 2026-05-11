@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class SwordAuraProjectile : ProjectileBase
 {
-    [SerializeField] private float lifeTime = 5f;
+    [SerializeField]
+    private float lifeTime = 5f;
     private float _timer;
 
     public override void Init(ProjectileInitData data)

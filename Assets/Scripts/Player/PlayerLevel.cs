@@ -22,6 +22,7 @@ public class PlayerLevel : MonoBehaviour
             LevelUp();
         }
     }
+
     public void LevelUp()
     {
         _level++;
@@ -29,7 +30,7 @@ public class PlayerLevel : MonoBehaviour
         _maxExp *= _expMultiplier;
         OnLevelUp?.Invoke();
 
-        if(_currentExp >= _maxExp)
+        if (_currentExp >= _maxExp)
         {
             LevelUp();
         }

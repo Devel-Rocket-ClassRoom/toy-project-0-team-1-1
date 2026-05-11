@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemySpawner2 : MonoBehaviour
@@ -14,7 +14,7 @@ public class EnemySpawner2 : MonoBehaviour
     [System.Serializable]
     public class Wave
     {
-        public EnemySpawnInfo[] enemies;  // 프리팹별 스폰 수
+        public EnemySpawnInfo[] enemies; // 프리팹별 스폰 수
         public float spawnInterval;
         public int chestCount = 1;
 
@@ -30,17 +30,25 @@ public class EnemySpawner2 : MonoBehaviour
         }
     }
 
-    [SerializeField] private Wave[] waves;
-    [SerializeField] private float waveCooldown = 5f;
-    [SerializeField] private float minSpawnDist = 15f;
-    [SerializeField] private float spawnRangeFromPlayer = 40f;
+    [SerializeField]
+    private Wave[] waves;
 
-    [SerializeField] private BreakableObject treasureChestData;
+    [SerializeField]
+    private float waveCooldown = 5f;
+
+    [SerializeField]
+    private float minSpawnDist = 15f;
+
+    [SerializeField]
+    private float spawnRangeFromPlayer = 40f;
+
+    [SerializeField]
+    private BreakableObject treasureChestData;
 
     private int _currentWave = 0;
     private int _spawnedCount = 0;
     private int _spawnedChestCount = 0;
-    private int[] _spawnedCountPerType;   // 타입별 스폰 수 추적
+    private int[] _spawnedCountPerType; // 타입별 스폰 수 추적
     private float _timer;
     private bool _isWaveActive = false;
     private Transform _player;
@@ -57,7 +65,8 @@ public class EnemySpawner2 : MonoBehaviour
 
     private void Update()
     {
-        if (!_isWaveActive) return;
+        if (!_isWaveActive)
+            return;
 
         _timer += Time.deltaTime;
         if (_timer >= waves[_currentWave].spawnInterval)
@@ -70,10 +79,11 @@ public class EnemySpawner2 : MonoBehaviour
 
     private void StartWave()
     {
-        if (_currentWave >= waves.Length) return;
+        if (_currentWave >= waves.Length)
+            return;
 
         _spawnedCount = 0;
-        _spawnedChestCount = 0;  // 웨이브 전환 시 상자 카운터도 리셋
+        _spawnedChestCount = 0; // 웨이브 전환 시 상자 카운터도 리셋
         _spawnedCountPerType = new int[waves[_currentWave].enemies.Length];
         _timer = 0f;
         _isWaveActive = true;
@@ -102,10 +112,12 @@ public class EnemySpawner2 : MonoBehaviour
 
         // 아직 한도가 남은 타입 중에서 선택
         int selectedIndex = SelectRandomAvailableEnemy(wave);
-        if (selectedIndex < 0) return;
+        if (selectedIndex < 0)
+            return;
 
         Vector3 spawnPos = GetSpawnPos();
-        if (spawnPos == Vector3.positiveInfinity) return;
+        if (spawnPos == Vector3.positiveInfinity)
+            return;
 
         GameObject prefab = wave.enemies[selectedIndex].prefab;
         GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
@@ -132,7 +144,8 @@ public class EnemySpawner2 : MonoBehaviour
             if (_spawnedCountPerType[i] < wave.enemies[i].count)
                 availableCount++;
         }
-        if (availableCount == 0) return -1;
+        if (availableCount == 0)
+            return -1;
 
         int target = Random.Range(0, availableCount);
         int counted = 0;
@@ -140,7 +153,8 @@ public class EnemySpawner2 : MonoBehaviour
         {
             if (_spawnedCountPerType[i] < wave.enemies[i].count)
             {
-                if (counted == target) return i;
+                if (counted == target)
+                    return i;
                 counted++;
             }
         }
@@ -151,7 +165,8 @@ public class EnemySpawner2 : MonoBehaviour
     {
         Wave wave = waves[_currentWave];
 
-        if (_spawnedChestCount >= wave.chestCount) return;
+        if (_spawnedChestCount >= wave.chestCount)
+            return;
 
         float progress = (float)_spawnedCount / wave.TotalEnemyCount;
         int expectedChests = Mathf.FloorToInt(progress * wave.chestCount);
@@ -165,7 +180,8 @@ public class EnemySpawner2 : MonoBehaviour
 
     private void SpawnChest()
     {
-        if (treasureChestData == null || treasureChestData.prefab == null) return;
+        if (treasureChestData == null || treasureChestData.prefab == null)
+            return;
 
         Vector3 spawnPos = GetSpawnPos();
         PoolManager.Instance.Spawn(treasureChestData.prefab, spawnPos, Quaternion.identity);
@@ -194,7 +210,14 @@ public class EnemySpawner2 : MonoBehaviour
             maxAttempts--;
         } while (maxAttempts > 0);
 
-        if (NavMesh.SamplePosition(_player.position, out NavMeshHit fallbackHit, 30f, NavMesh.AllAreas))
+        if (
+            NavMesh.SamplePosition(
+                _player.position,
+                out NavMeshHit fallbackHit,
+                30f,
+                NavMesh.AllAreas
+            )
+        )
         {
             return fallbackHit.position;
         }

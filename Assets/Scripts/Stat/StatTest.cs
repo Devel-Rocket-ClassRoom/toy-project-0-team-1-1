@@ -1,9 +1,10 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StatTest : MonoBehaviour
 {
     public Dictionary<string, StatContainer> stats = new Dictionary<string, StatContainer>();
+
     void Awake()
     {
         stats[StatName.Health] = new StatContainer(1000);
@@ -20,21 +21,21 @@ public class StatTest : MonoBehaviour
                 type = ModType.Flat,
                 category = ModCategory.Default,
                 value = 300f,
-                source = this
+                source = this,
             };
             var healthModifier2 = new StatModifier
             {
                 type = ModType.Percent,
                 category = ModCategory.Default,
                 value = 0.1f,
-                source = this
+                source = this,
             };
             var healthModifier3 = new StatModifier
             {
                 type = ModType.Percent,
                 category = ModCategory.Default,
                 value = 0.15f,
-                source = this
+                source = this,
             };
             stats[StatName.Health].AddModifier(healthModifier1);
             stats[StatName.Health].AddModifier(healthModifier2);

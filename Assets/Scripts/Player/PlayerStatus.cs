@@ -10,15 +10,26 @@ public class PlayerStatus : BaseEntity
     public event Action<float> OnHpChange;
     public event Action OnDead;
     public Dictionary<UpgradeItemData, int> upgradeItems = new Dictionary<UpgradeItemData, int>();
-    private List<(StatType type, StatModifier mod)> weaponModifiers = new List<(StatType type, StatModifier mod)>();
+    private List<(StatType type, StatModifier mod)> weaponModifiers =
+        new List<(StatType type, StatModifier mod)>();
     private Renderer[] _renderers;
-    [SerializeField] private float invincibleTime = 0.5f;
-    [SerializeField] private ParticleSystem hitEffect;
+
+    [SerializeField]
+    private float invincibleTime = 0.5f;
+
+    [SerializeField]
+    private ParticleSystem hitEffect;
     private bool _isInvincible = false;
     private AudioSource audioSource;
-    [SerializeField] private AudioClip hitClip;
-    [SerializeField] private AudioClip screamClip;
-    [SerializeField] private AudioClip deathClip;
+
+    [SerializeField]
+    private AudioClip hitClip;
+
+    [SerializeField]
+    private AudioClip screamClip;
+
+    [SerializeField]
+    private AudioClip deathClip;
     private PlayerLevel playerLevel;
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
@@ -30,21 +41,25 @@ public class PlayerStatus : BaseEntity
         playerLevel = GetComponent<PlayerLevel>();
         playerLevel.OnLevelUp += Heal;
     }
+
     public void Update()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats[StatType.LootingArea].FinalValue, LayerMask.GetMask("Item"));
+        Collider[] hitColliders = Physics.OverlapSphere(
+            transform.position,
+            stats[StatType.LootingArea].FinalValue,
+            LayerMask.GetMask("Item")
+        );
         foreach (Collider collider in hitColliders)
         {
             collider.GetComponent<ILootable>()?.StartLooting(this.transform);
         }
-
 
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    OnDead?.Invoke();
         //}
     }
-    
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -61,7 +76,8 @@ public class PlayerStatus : BaseEntity
 
     public override void TakeDamage(float damage)
     {
-        if (_isInvincible || isDead) return;
+        if (_isInvincible || isDead)
+            return;
         base.TakeDamage(damage);
         OnHpChange?.Invoke(currentHp);
 
@@ -100,6 +116,7 @@ public class PlayerStatus : BaseEntity
         currentHp = Mathf.Min(currentHp + amount, stats[StatType.MaxHp].FinalValue);
         OnHpChange?.Invoke(currentHp);
     }
+
     public void Heal()
     {
         Heal(stats[StatType.MaxHp].FinalValue * 0.05f);
@@ -115,10 +132,12 @@ public class PlayerStatus : BaseEntity
         }
         audioSource.PlayOneShot(deathClip);
     }
+
     protected override void OnDie()
     {
         OnDead?.Invoke();
     }
+
     private IEnumerator InvincibleRoutine()
     {
         _isInvincible = true;

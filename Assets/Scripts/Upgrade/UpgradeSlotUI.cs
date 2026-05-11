@@ -4,17 +4,30 @@ using UnityEngine.UI;
 
 public class UpgradeSlotUI : MonoBehaviour
 {
-    [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI descText;
-    [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private Button button;
+    [SerializeField]
+    private Image iconImage;
+
+    [SerializeField]
+    private TextMeshProUGUI nameText;
+
+    [SerializeField]
+    private TextMeshProUGUI descText;
+
+    [SerializeField]
+    private TextMeshProUGUI levelText;
+
+    [SerializeField]
+    private Button button;
 
     private IUpgrade upgrade;
     private System.Action<IUpgrade> onSelect;
 
-    public void Setup(IUpgrade upgrade, System.Action<IUpgrade> onSelect,
-                      string description, string levelLabel)
+    public void Setup(
+        IUpgrade upgrade,
+        System.Action<IUpgrade> onSelect,
+        string description,
+        string levelLabel
+    )
     {
         this.upgrade = upgrade;
         this.onSelect = onSelect;

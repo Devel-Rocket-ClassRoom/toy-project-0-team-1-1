@@ -5,15 +5,27 @@ public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance { get; private set; }
 
-    [SerializeField] private int poolSize = 16;
-    [SerializeField] private float minInterval = 0.05f;
-    [SerializeField] private int maxConcurrentPerClip = 3;
-    [SerializeField, Range(0f, 1f)] private float masterVolume = 1f;
+    [SerializeField]
+    private int poolSize = 16;
+
+    [SerializeField]
+    private float minInterval = 0.05f;
+
+    [SerializeField]
+    private int maxConcurrentPerClip = 3;
+
+    [SerializeField, Range(0f, 1f)]
+    private float masterVolume = 1f;
 
     [Header("3D Rolloff")]
-    [SerializeField] private float minDistance = 3f;
-    [SerializeField] private float maxDistance = 10f;
-    [SerializeField] private AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
+    [SerializeField]
+    private float minDistance = 3f;
+
+    [SerializeField]
+    private float maxDistance = 10f;
+
+    [SerializeField]
+    private AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
 
     private AudioSource source2D;
     private AudioSource[] pool3D;
@@ -43,10 +55,12 @@ public class SFXManager : MonoBehaviour
 
     public void Play2D(AudioClip clip, float volume = 1f)
     {
-        if (clip == null) return;
+        if (clip == null)
+            return;
 
         float now = Time.unscaledTime;
-        if (lastPlay.TryGetValue(clip, out float t) && now - t < minInterval) return;
+        if (lastPlay.TryGetValue(clip, out float t) && now - t < minInterval)
+            return;
         lastPlay[clip] = now;
 
         source2D.PlayOneShot(clip, volume * masterVolume);
@@ -54,14 +68,16 @@ public class SFXManager : MonoBehaviour
 
     public void Play3D(AudioClip clip, Vector3 position, float volume = 1f)
     {
-        if (clip == null) return;
+        if (clip == null)
+            return;
 
         float now = Time.unscaledTime;
-        if (lastPlay.TryGetValue(clip, out float t) && now - t < minInterval) return;
+        if (lastPlay.TryGetValue(clip, out float t) && now - t < minInterval)
+            return;
         lastPlay[clip] = now;
 
         AudioSource src = PickSource(clip);
-        src.Stop();                 // 점유 중이던 사운드 즉시 컷 (= voice stealing)
+        src.Stop(); // 점유 중이던 사운드 즉시 컷 (= voice stealing)
         src.clip = clip;
         src.volume = volume * masterVolume;
         src.transform.position = position;
@@ -90,7 +106,8 @@ public class SFXManager : MonoBehaviour
             if (pool3D[idx].clip == clip && pool3D[idx].isPlaying)
             {
                 sameCount++;
-                if (stealIdx == -1) stealIdx = idx;
+                if (stealIdx == -1)
+                    stealIdx = idx;
             }
         }
         if (sameCount >= maxConcurrentPerClip && stealIdx >= 0)

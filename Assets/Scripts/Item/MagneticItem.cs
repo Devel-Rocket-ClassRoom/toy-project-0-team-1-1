@@ -1,11 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MagneticItem : Item
 {
     private float areaSize = 100f;
     private float duration = 5f;
     private Coroutine coMagnetic = null;
+
     public override void GetEffect(Transform player)
     {
         base.GetEffect(player);
@@ -17,9 +18,13 @@ public class MagneticItem : Item
         }
         coMagnetic = status.StartCoroutine(CoMagneticRoutine(status));
     }
+
     private IEnumerator CoMagneticRoutine(PlayerStatus status)
     {
-        status.AddModifier(StatType.LootingArea, new StatModifier(ModType.Flat, areaSize, itemData));
+        status.AddModifier(
+            StatType.LootingArea,
+            new StatModifier(ModType.Flat, areaSize, itemData)
+        );
         yield return new WaitForSeconds(duration);
         status.RemoveBySource(StatType.LootingArea, itemData);
     }

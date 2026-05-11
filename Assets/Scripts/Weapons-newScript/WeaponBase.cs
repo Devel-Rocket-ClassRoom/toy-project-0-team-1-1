@@ -1,12 +1,17 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Target")]
-    [SerializeField] protected LayerMask targetLayer;
-    [SerializeField] protected LayerMask obstacleLayer;
-    [SerializeField] protected WeaponData weaponData;
+    [SerializeField]
+    protected LayerMask targetLayer;
+
+    [SerializeField]
+    protected LayerMask obstacleLayer;
+
+    [SerializeField]
+    protected WeaponData weaponData;
 
     public WeaponData WeaponData => weaponData;
     public bool IsActive { get; private set; }
@@ -14,14 +19,21 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected Dictionary<StatType, StatContainer> stats = new Dictionary<StatType, StatContainer>();
 
-    public float Damage => stats.ContainsKey(StatType.Attack) ? stats[StatType.Attack].FinalValue : 0f;
-    public float Cooldown => stats.ContainsKey(StatType.Cool) ? Mathf.Max(0.01f, stats[StatType.Cool].FinalValue) : 1f;
+    public float Damage =>
+        stats.ContainsKey(StatType.Attack) ? stats[StatType.Attack].FinalValue : 0f;
+    public float Cooldown =>
+        stats.ContainsKey(StatType.Cool) ? Mathf.Max(0.01f, stats[StatType.Cool].FinalValue) : 1f;
     public float Range => stats.ContainsKey(StatType.Range) ? stats[StatType.Range].FinalValue : 0f;
-    public float ExistTime => stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
+    public float ExistTime =>
+        stats.ContainsKey(StatType.ExistTime) ? stats[StatType.ExistTime].FinalValue : 0f;
     public float Size => stats.ContainsKey(StatType.Size) ? stats[StatType.Size].FinalValue : 0f;
-    public float KnockBack => stats.ContainsKey(StatType.KnockBack) ? stats[StatType.KnockBack].FinalValue : 0f;
+    public float KnockBack =>
+        stats.ContainsKey(StatType.KnockBack) ? stats[StatType.KnockBack].FinalValue : 0f;
 
-    public int ProjectileCount => stats.ContainsKey(StatType.ProjectileCount) ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue) : 0;
+    public int ProjectileCount =>
+        stats.ContainsKey(StatType.ProjectileCount)
+            ? Mathf.RoundToInt(stats[StatType.ProjectileCount].FinalValue)
+            : 0;
 
     private float _timer;
 
@@ -42,7 +54,7 @@ public abstract class WeaponBase : MonoBehaviour
     {
         stats[StatType.Attack] = new StatContainer(weaponData.damage);
         stats[StatType.Cool] = new StatContainer(weaponData.cooldown);
-        stats[StatType.Range] = new StatContainer(weaponData.range); 
+        stats[StatType.Range] = new StatContainer(weaponData.range);
         stats[StatType.ExistTime] = new StatContainer(weaponData.existTime);
         stats[StatType.Size] = new StatContainer(weaponData.size);
         stats[StatType.ProjectileCount] = new StatContainer(weaponData.projectileCount);
@@ -51,8 +63,10 @@ public abstract class WeaponBase : MonoBehaviour
 
     private void Update()
     {
-        if (!IsActive) return;
-        if (!CanAttack) return;
+        if (!IsActive)
+            return;
+        if (!CanAttack)
+            return;
 
         _timer += Time.deltaTime;
         if (_timer >= Cooldown)
@@ -70,7 +84,9 @@ public abstract class WeaponBase : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"{type} 스탯이 이 무기({weaponData.weaponName})에 존재하지 않습니다.");
+            Debug.LogWarning(
+                $"{type} 스탯이 이 무기({weaponData.weaponName})에 존재하지 않습니다."
+            );
         }
     }
 
@@ -82,10 +98,10 @@ public abstract class WeaponBase : MonoBehaviour
         }
     }
 
-
     public virtual void Activate()
     {
-        if (IsActive) return;
+        if (IsActive)
+            return;
         IsActive = true;
         _timer = 0f;
         OnActivate();
@@ -93,7 +109,8 @@ public abstract class WeaponBase : MonoBehaviour
 
     public virtual void Deactivate()
     {
-        if (!IsActive) return;
+        if (!IsActive)
+            return;
         IsActive = false;
         OnDeactivate();
     }
@@ -101,7 +118,9 @@ public abstract class WeaponBase : MonoBehaviour
     public void LevelUp() => Level++;
 
     protected abstract void Attack();
+
     protected virtual void OnActivate() { }
+
     protected virtual void OnDeactivate() { }
 
     protected Collider[] FindTargetsInRange(Vector3 center, float radius)
@@ -130,7 +149,8 @@ public abstract class WeaponBase : MonoBehaviour
     protected Vector3 GetDirectionToNearestTarget()
     {
         Transform target = FindNearestTarget();
-        if (target == null) return transform.forward;
+        if (target == null)
+            return transform.forward;
 
         Vector3 dir = target.position - transform.position;
         //dir.y = 0f;

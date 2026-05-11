@@ -3,8 +3,10 @@ using UnityEngine.Audio;
 
 public class BgmPlayerStart : MonoBehaviour
 {
-    [SerializeField] private AudioClip audioClip;
+    [SerializeField]
+    private AudioClip audioClip;
     private AudioSource audioSource;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();

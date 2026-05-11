@@ -1,21 +1,35 @@
-using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class Item : MonoBehaviour, ILootable
 {
-    [SerializeField] private float pullbackDistance = 1.5f;
-    [SerializeField] private float pullbackDuration = 0.25f;
-    [SerializeField] private float rushSpeed = 15f;
-    [SerializeField] private float rushAcceleration = 30f;
-    [SerializeField] private float arriveDistance = 0.3f;   // 도착 판정 거리
-    [SerializeField] protected ItemData itemData;
-    [SerializeField] protected AudioClip getClip;
+    [SerializeField]
+    private float pullbackDistance = 1.5f;
+
+    [SerializeField]
+    private float pullbackDuration = 0.25f;
+
+    [SerializeField]
+    private float rushSpeed = 15f;
+
+    [SerializeField]
+    private float rushAcceleration = 30f;
+
+    [SerializeField]
+    private float arriveDistance = 0.3f; // 도착 판정 거리
+
+    [SerializeField]
+    protected ItemData itemData;
+
+    [SerializeField]
+    protected AudioClip getClip;
 
     private Transform target;
     private Vector3 p0;
     private Vector3 p1;
     private float timer;
+
     //private float floatPhase;
     //private Vector3 basePosition;
     private Coroutine coPickedUp;
@@ -27,13 +41,22 @@ public class Item : MonoBehaviour, ILootable
         phase = LootPhase.Idle;
         transform.localScale = Vector3.one;
     }
-    private enum LootPhase { Idle, Pullback, Rush, PickedUp }
+
+    private enum LootPhase
+    {
+        Idle,
+        Pullback,
+        Rush,
+        PickedUp,
+    }
+
     private LootPhase phase = LootPhase.Idle;
     private float currentSpeed;
 
     private void Update()
     {
-        if (phase == LootPhase.PickedUp) return;
+        if (phase == LootPhase.PickedUp)
+            return;
 
         if (phase == LootPhase.Pullback)
         {
@@ -96,7 +119,8 @@ public class Item : MonoBehaviour, ILootable
 
     public void StartLooting(Transform player)
     {
-        if (phase != LootPhase.Idle) return;
+        if (phase != LootPhase.Idle)
+            return;
         target = player;
         timer = 0f;
         p0 = transform.position;
@@ -110,10 +134,7 @@ public class Item : MonoBehaviour, ILootable
     private static Vector3 CubicBezier(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
         float u = 1f - t;
-        return u * u * u * p0
-             + 3f * u * u * t * p1
-             + 3f * u * t * t * p2
-             + t * t * t * p3;
+        return u * u * u * p0 + 3f * u * u * t * p1 + 3f * u * t * t * p2 + t * t * t * p3;
     }
 
     public virtual void GetEffect(Transform player)

@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class MolotovWeapon : WeaponBase
 {
-    [SerializeField] private GameObject molotovProjectilePrefab;
-    [SerializeField] private float throwRange = 8f;
-    [SerializeField] private AudioClip throwClip;
+    [SerializeField]
+    private GameObject molotovProjectilePrefab;
+
+    [SerializeField]
+    private float throwRange = 8f;
+
+    [SerializeField]
+    private AudioClip throwClip;
+
     protected override void Attack()
     {
         int count = ProjectileCount;
@@ -12,9 +18,14 @@ public class MolotovWeapon : WeaponBase
         for (int i = 0; i < count; i++)
         {
             Vector3 targetPos = GetThrowPosition(i, count, startAngle);
-            GameObject obj = PoolManager.Instance.Spawn(molotovProjectilePrefab, transform.position, Quaternion.identity);
+            GameObject obj = PoolManager.Instance.Spawn(
+                molotovProjectilePrefab,
+                transform.position,
+                Quaternion.identity
+            );
             SFXManager.Instance.Play3D(throwClip, transform.position);
-            obj.GetComponent<MolotovProjectile>().Init(molotovProjectilePrefab, targetPos, Damage, Size, ExistTime);
+            obj.GetComponent<MolotovProjectile>()
+                .Init(molotovProjectilePrefab, targetPos, Damage, Size, ExistTime);
         }
     }
 

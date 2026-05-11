@@ -4,12 +4,18 @@ using UnityEngine;
 public class ShurikenTrap : ProjectileBase
 {
     [Header("Trap")]
-    [SerializeField] private float tickInterval = 0.5f;
+    [SerializeField]
+    private float tickInterval = 0.5f;
 
     [Header("Visual")]
-    [SerializeField] private Transform visual;
-    [SerializeField] private Vector3 rotateAxis = Vector3.up;
-    [SerializeField] private float rotateSpeed = 180f;
+    [SerializeField]
+    private Transform visual;
+
+    [SerializeField]
+    private Vector3 rotateAxis = Vector3.up;
+
+    [SerializeField]
+    private float rotateSpeed = 180f;
 
     private float duration;
     private float timer;
@@ -24,7 +30,8 @@ public class ShurikenTrap : ProjectileBase
         LayerMask targetLayer,
         LayerMask obstacleLayer,
         GameObject prefab,
-        float knockBack)
+        float knockBack
+    )
     {
         //Init(
         //    owner,
@@ -64,11 +71,7 @@ public class ShurikenTrap : ProjectileBase
         if (visual == null)
             return;
 
-        visual.Rotate(
-            rotateAxis,
-            rotateSpeed * Time.deltaTime,
-            Space.Self
-        );
+        visual.Rotate(rotateAxis, rotateSpeed * Time.deltaTime, Space.Self);
     }
 
     private void UpdateDamage()

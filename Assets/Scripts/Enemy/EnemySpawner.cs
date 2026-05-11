@@ -7,17 +7,25 @@ public class EnemySpawner : MonoBehaviour
     public class Wave
     {
         public GameObject[] enemyPrefabs; // 이 웨이브에서 나올 몬스터 종류
-        public int enemyCount;            // 총 스폰 수
-        public float spawnInterval;       // 스폰 간격
-        public int chestCount = 1;        // 웨이브당 상자 갯수
+        public int enemyCount; // 총 스폰 수
+        public float spawnInterval; // 스폰 간격
+        public int chestCount = 1; // 웨이브당 상자 갯수
     }
 
-    [SerializeField] private Wave[] waves;
-    [SerializeField] private float waveCooldown = 5f; // 웨이브 사이 간격
-    [SerializeField] private float minSpawnDist = 15f;
-    [SerializeField] private float spawnRangeFromPlayer = 40f;
+    [SerializeField]
+    private Wave[] waves;
 
-    [SerializeField] private BreakableObject treasureChestData;
+    [SerializeField]
+    private float waveCooldown = 5f; // 웨이브 사이 간격
+
+    [SerializeField]
+    private float minSpawnDist = 15f;
+
+    [SerializeField]
+    private float spawnRangeFromPlayer = 40f;
+
+    [SerializeField]
+    private BreakableObject treasureChestData;
 
     private int _currentWave = 0;
     private int _spawnedCount = 0;
@@ -38,7 +46,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!_isWaveActive) return;
+        if (!_isWaveActive)
+            return;
 
         _timer += Time.deltaTime;
         if (_timer >= waves[_currentWave].spawnInterval)
@@ -51,7 +60,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartWave()
     {
-        if (_currentWave >= waves.Length) return;
+        if (_currentWave >= waves.Length)
+            return;
 
         _spawnedCount = 0;
         _timer = 0f;
@@ -80,7 +90,8 @@ public class EnemySpawner : MonoBehaviour
         }
 
         Vector3 spawnPos = GetSpawnPos();
-        if (spawnPos == Vector3.positiveInfinity) return;// 유효하지 않으면 스폰 안 함
+        if (spawnPos == Vector3.positiveInfinity)
+            return; // 유효하지 않으면 스폰 안 함
         GameObject prefab = wave.enemyPrefabs[Random.Range(0, wave.enemyPrefabs.Length)];
         GameObject obj = PoolManager.Instance.Spawn(prefab, spawnPos, Quaternion.identity);
 
@@ -93,11 +104,13 @@ public class EnemySpawner : MonoBehaviour
         obj.GetComponent<BaseEnemy>().SetPrefab(prefab);
         _spawnedCount++;
     }
+
     private void TrySpawnChest()
     {
         Wave wave = waves[_currentWave];
 
-        if (_spawnedChestCount >= wave.chestCount) return;
+        if (_spawnedChestCount >= wave.chestCount)
+            return;
 
         // 웨이브 진행도에 따라 상자 스폰
         float progress = (float)_spawnedCount / wave.enemyCount;
@@ -109,14 +122,15 @@ public class EnemySpawner : MonoBehaviour
             _spawnedChestCount++;
         }
     }
+
     private void SpawnChest()
     {
-        if (treasureChestData == null || treasureChestData.prefab == null) return;
+        if (treasureChestData == null || treasureChestData.prefab == null)
+            return;
 
         Vector3 spawnPos = GetSpawnPos();
         PoolManager.Instance.Spawn(treasureChestData.prefab, spawnPos, Quaternion.identity);
     }
-
 
     private Vector3 GetSpawnPos()
     {
@@ -144,7 +158,14 @@ public class EnemySpawner : MonoBehaviour
         } while (maxAttempts > 0);
 
         // 실패하면 플레이어 근처 NavMesh 위치 강제 검색
-        if (NavMesh.SamplePosition(_player.position, out NavMeshHit fallbackHit, 30f, NavMesh.AllAreas))
+        if (
+            NavMesh.SamplePosition(
+                _player.position,
+                out NavMeshHit fallbackHit,
+                30f,
+                NavMesh.AllAreas
+            )
+        )
         {
             return fallbackHit.position;
         }

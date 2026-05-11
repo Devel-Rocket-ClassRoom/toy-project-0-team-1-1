@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] private int maxWeaponCount = 6;
+    [SerializeField]
+    private int maxWeaponCount = 6;
+
     //[SerializeField] private WeaponData defaultWeapon;
     public Dictionary<WeaponData, WeaponBase> Weapons = new Dictionary<WeaponData, WeaponBase>();
 
     public bool IsFull => Weapons.Count >= maxWeaponCount;
 
-    //Å×½ºÆ®¿ë
-    // [SerializeField] private WeaponData[] testWeaponDatas; // ÀÎ½ºÆåÅÍ¿¡¼­ ¿¬°á
+    //ï¿½×½ï¿½Æ®ï¿½ï¿½
+    // [SerializeField] private WeaponData[] testWeaponDatas; // ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void Start()
     {
@@ -23,35 +25,43 @@ public class PlayerWeapon : MonoBehaviour
         //}
         //else
         //{
-        //    Debug.LogError("UpgradeManager.Instance°¡ nullÀÔ´Ï´Ù.");
+        //    Debug.LogError("UpgradeManager.Instanceï¿½ï¿½ nullï¿½Ô´Ï´ï¿½.");
         //}
     }
-    //¿©±â±îÁö
+
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void Equip(WeaponData weaponData)
     {
-        if (IsFull) return;
+        if (IsFull)
+            return;
 
         if (weaponData == null)
         {
-            Debug.LogError("Equip ½ÇÆÐ: weaponData°¡ nullÀÔ´Ï´Ù. PlayerWeaponÀÇ Default WeaponÀ» È®ÀÎÇÏ¼¼¿ä.");
+            Debug.LogError(
+                "Equip ï¿½ï¿½ï¿½ï¿½: weaponDataï¿½ï¿½ nullï¿½Ô´Ï´ï¿½. PlayerWeaponï¿½ï¿½ Default Weaponï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½."
+            );
             return;
         }
 
         if (WeaponManager.Instance == null)
         {
-            Debug.LogError("Equip ½ÇÆÐ: WeaponManager.Instance°¡ nullÀÔ´Ï´Ù. ¾À¿¡ WeaponManager°¡ ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+            Debug.LogError(
+                "Equip ï¿½ï¿½ï¿½ï¿½: WeaponManager.Instanceï¿½ï¿½ nullï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ WeaponManagerï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½."
+            );
             return;
         }
 
         if (WeaponManager.Instance.Weapons == null)
         {
-            Debug.LogError("Equip ½ÇÆÐ: WeaponManager.Instance.Weapons µñ¼Å³Ê¸®°¡ nullÀÔ´Ï´Ù.");
+            Debug.LogError("Equip ï¿½ï¿½ï¿½ï¿½: WeaponManager.Instance.Weapons ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ nullï¿½Ô´Ï´ï¿½.");
             return;
         }
 
         if (!WeaponManager.Instance.Weapons.ContainsKey(weaponData))
         {
-            Debug.LogError($"Equip ½ÇÆÐ: WeaponManager¿¡ {weaponData.name} ¹«±â°¡ µî·ÏµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogError(
+                $"Equip ï¿½ï¿½ï¿½ï¿½: WeaponManagerï¿½ï¿½ {weaponData.name} ï¿½ï¿½ï¿½â°¡ ï¿½ï¿½ÏµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½."
+            );
             return;
         }
 
@@ -59,7 +69,7 @@ public class PlayerWeapon : MonoBehaviour
 
         if (prefab == null)
         {
-            Debug.LogError($"Equip ½ÇÆÐ: {weaponData.name}ÀÇ ÇÁ¸®ÆÕÀÌ nullÀÔ´Ï´Ù.");
+            Debug.LogError($"Equip ï¿½ï¿½ï¿½ï¿½: {weaponData.name}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nullï¿½Ô´Ï´ï¿½.");
             return;
         }
 
@@ -69,7 +79,7 @@ public class PlayerWeapon : MonoBehaviour
 
         if (weapon == null)
         {
-            Debug.LogError($"Equip ½ÇÆÐ: {prefab.name} ÇÁ¸®ÆÕ¿¡ WeaponBase ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogError($"Equip ï¿½ï¿½ï¿½ï¿½: {prefab.name} ï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½ WeaponBase ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
@@ -83,7 +93,9 @@ public class PlayerWeapon : MonoBehaviour
         weapon.Activate();
     }
 
-    public WeaponBase GetWeaponByData(WeaponData data) => Weapons.ContainsKey(data) ? Weapons[data] : null;
+    public WeaponBase GetWeaponByData(WeaponData data) =>
+        Weapons.ContainsKey(data) ? Weapons[data] : null;
+
     public bool HasWeapon(WeaponData data) => Weapons.ContainsKey(data);
 
     public void DeactivateAllWeapons()

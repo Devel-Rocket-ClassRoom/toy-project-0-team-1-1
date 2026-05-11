@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Game/WeaponData")]
 public class WeaponData : ScriptableObject, IUpgrade
@@ -24,14 +23,15 @@ public class WeaponData : ScriptableObject, IUpgrade
     public Sprite Icon => icon;
     public UpgradeItemType type => UpgradeItemType.Weapon;
 
-
     public int Apply(PlayerStatus playerStatus, PlayerWeapon playerWeapon)
     {
         var weapon = playerWeapon.GetWeaponByData(this);
-        if (weapon == null) return 0;
+        if (weapon == null)
+            return 0;
 
         Debug.Log($"{weaponName} 현재 레벨: {weapon.Level}, 최대 레벨: {maxLevel}");
-        if (weapon.Level >= maxLevel) return weapon.Level;
+        if (weapon.Level >= maxLevel)
+            return weapon.Level;
 
         Debug.Log($"levelStats 개수: {levelStats.Count}, 현재 레벨: {weapon.Level}");
         var stats = levelStats[weapon.Level - 1];

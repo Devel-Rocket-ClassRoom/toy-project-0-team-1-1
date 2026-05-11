@@ -1,6 +1,3 @@
 using UnityEngine;
 
-public class AssasinEnemy : BaseEnemy
-{
-    
-}
+public class AssasinEnemy : BaseEnemy { }

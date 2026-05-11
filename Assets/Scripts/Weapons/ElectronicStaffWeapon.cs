@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class ElectronicStaffWeapon : WeaponBase
 {
-    [SerializeField] private GameObject lightningPrefab;
-    [SerializeField] private AudioClip lightningClip;
-    [SerializeField] private float chainDelay = 0.08f;   // 호핑 간격
-    [SerializeField] private float lightningLifetime = 0.3f;
+    [SerializeField]
+    private GameObject lightningPrefab;
+
+    [SerializeField]
+    private AudioClip lightningClip;
+
+    [SerializeField]
+    private float chainDelay = 0.08f; // 호핑 간격
+
+    [SerializeField]
+    private float lightningLifetime = 0.3f;
+
     protected override void Attack()
     {
         //var targets = FindTargetsInRange(transform.position, Range);
@@ -15,7 +23,8 @@ public class ElectronicStaffWeapon : WeaponBase
         for (int i = 0; i < ProjectileCount; i++)
         {
             var target = FindRandomEnemyInRange(transform.position, Range);
-            if (target == null) continue;
+            if (target == null)
+                continue;
             StartCoroutine(ChainAttackRoutine(target));
         }
         //BaseEnemy firstTarget = FindRandomEnemyInRange(transform.position, Range);
@@ -33,18 +42,21 @@ public class ElectronicStaffWeapon : WeaponBase
 
         for (int i = 0; i < 5; i++)
         {
-            if (current == null) break;
+            if (current == null)
+                break;
 
             current.TakeDamage(Damage);
             attacked.Add(current);
             SFXManager.Instance.Play3D(lightningClip, current.transform.position, 0.5f);
 
             BaseEnemy next = FindNextTarget(current, attacked);
-            if (next == null) break;
+            if (next == null)
+                break;
 
             yield return new WaitForSeconds(chainDelay);
 
-            if (current == null || next == null) break;
+            if (current == null || next == null)
+                break;
 
             SpawnLightning(current.transform, current.transform.position, next);
             current = next;
@@ -53,9 +65,14 @@ public class ElectronicStaffWeapon : WeaponBase
 
     private void SpawnLightning(Transform parent, Vector3 pos, BaseEnemy target)
     {
-        if (lightningPrefab == null) return;
+        if (lightningPrefab == null)
+            return;
 
-        GameObject lightning = PoolManager.Instance.Spawn(lightningPrefab, pos, Quaternion.identity);
+        GameObject lightning = PoolManager.Instance.Spawn(
+            lightningPrefab,
+            pos,
+            Quaternion.identity
+        );
         lightning.transform.SetParent(parent);
 
         Transform hostTransform = lightning.transform.Find("Host");
@@ -80,11 +97,13 @@ public class ElectronicStaffWeapon : WeaponBase
         foreach (Collider hit in hits)
         {
             BaseEnemy enemy = hit.GetComponent<BaseEnemy>();
-            if (enemy == null || attacked.Contains(enemy)) continue;
+            if (enemy == null || attacked.Contains(enemy))
+                continue;
             candidates.Add(enemy);
         }
 
-        if (candidates.Count == 0) return null;
+        if (candidates.Count == 0)
+            return null;
         return candidates[Random.Range(0, candidates.Count)];
     }
 
@@ -96,12 +115,15 @@ public class ElectronicStaffWeapon : WeaponBase
         foreach (Collider hit in hits)
         {
             BaseEnemy enemy = hit.GetComponent<BaseEnemy>();
-            if (enemy != null) enemies.Add(enemy);
+            if (enemy != null)
+                enemies.Add(enemy);
         }
 
-        if (enemies.Count == 0) return null;
+        if (enemies.Count == 0)
+            return null;
         return enemies[Random.Range(0, enemies.Count)];
     }
+
     private System.Collections.IEnumerator DespawnAfterDelay(GameObject obj, float delay)
     {
         yield return new WaitForSeconds(delay);

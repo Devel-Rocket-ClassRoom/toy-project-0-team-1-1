@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class UITest : MonoBehaviour
 {
-    [SerializeField] private PlayerLevel playerLevel;
+    [SerializeField]
+    private PlayerLevel playerLevel;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

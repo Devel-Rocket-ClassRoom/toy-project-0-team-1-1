@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ShotgunWeapon : ProjectileWeaponBase
 {
-    [SerializeField] GameObject fireEffectPrefab;
-    [SerializeField] AudioClip shotClip;
+    [SerializeField]
+    GameObject fireEffectPrefab;
+
+    [SerializeField]
+    AudioClip shotClip;
     private float SpreadAngle => Range; // 발사 각도
     private int BulletCount => ProjectileCount;
 
@@ -15,7 +18,11 @@ public class ShotgunWeapon : ProjectileWeaponBase
         {
             Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
             spawnPos.z += 1f;
-            GameObject flash = PoolManager.Instance.Spawn(fireEffectPrefab, spawnPos, Quaternion.identity);
+            GameObject flash = PoolManager.Instance.Spawn(
+                fireEffectPrefab,
+                spawnPos,
+                Quaternion.identity
+            );
             SFXManager.Instance.Play3D(shotClip, transform.position, 0.2f);
             StartCoroutine(ReturnFlashToPool(flash));
         }
@@ -28,6 +35,7 @@ public class ShotgunWeapon : ProjectileWeaponBase
             SpawnProjectile(dir);
         }
     }
+
     private IEnumerator ReturnFlashToPool(GameObject flash)
     {
         yield return new WaitForSeconds(1f);

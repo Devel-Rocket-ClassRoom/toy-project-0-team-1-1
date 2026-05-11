@@ -4,10 +4,17 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshPro))]
 public class DamagePopup : MonoBehaviour
 {
-    [SerializeField] private float lifetime = 1f;
-    [SerializeField] private float floatSpeed = 1.5f;
-    [SerializeField] private Vector3 randomOffsetRange = new(0.3f, 0.2f, 0f);
-    [SerializeField] private DamagePopupData popupData;
+    [SerializeField]
+    private float lifetime = 1f;
+
+    [SerializeField]
+    private float floatSpeed = 1.5f;
+
+    [SerializeField]
+    private Vector3 randomOffsetRange = new(0.3f, 0.2f, 0f);
+
+    [SerializeField]
+    private DamagePopupData popupData;
 
     private TextMeshPro _text;
     private Camera _cam;
@@ -55,7 +62,7 @@ public class DamagePopup : MonoBehaviour
         c.a = Mathf.Lerp(1f, 0f, t);
         _text.color = c;
 
-        if (_elapsed >= lifetime) 
-            PoolManager.Instance.Despawn(popupData.damagePopup, this.gameObject); 
+        if (_elapsed >= lifetime)
+            PoolManager.Instance.Despawn(popupData.damagePopup, this.gameObject);
     }
 }

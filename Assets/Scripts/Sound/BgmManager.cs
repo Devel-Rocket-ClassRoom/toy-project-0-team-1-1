@@ -1,9 +1,10 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class BgmManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] audioClips;
+    [SerializeField]
+    private AudioClip[] audioClips;
     private AudioSource audioSource;
 
     private void Awake()

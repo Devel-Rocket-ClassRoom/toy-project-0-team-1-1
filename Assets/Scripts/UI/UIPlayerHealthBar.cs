@@ -4,8 +4,11 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(10000)]
 public class UIPlayerHealthBar : MonoBehaviour
 {
-    [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private float pixelOffsetY = 60f;
+    [SerializeField]
+    private PlayerStatus playerStatus;
+
+    [SerializeField]
+    private float pixelOffsetY = 60f;
 
     private Slider HpBar;
     private Camera cam;
@@ -14,6 +17,7 @@ public class UIPlayerHealthBar : MonoBehaviour
     private Canvas canvas;
     private Camera uiCam; // null이면 Overlay, 아니면 Canvas의 worldCamera
     private RectTransform parentRect;
+
     private void Awake()
     {
         cam = Camera.main;
@@ -23,9 +27,7 @@ public class UIPlayerHealthBar : MonoBehaviour
 
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();
-        uiCam = canvas.renderMode == RenderMode.ScreenSpaceOverlay
-            ? null
-            : canvas.worldCamera;
+        uiCam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
     }
 
     private void Start()
@@ -44,7 +46,8 @@ public class UIPlayerHealthBar : MonoBehaviour
 
         bool visible = viewport.z > 0f;
         rt.gameObject.SetActive(visible);
-        if (!visible) return;
+        if (!visible)
+            return;
 
         Vector2 canvasSize = canvasRect.rect.size;
         rt.anchoredPosition = new Vector2(

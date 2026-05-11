@@ -4,8 +4,12 @@ public class ExplosiveProjectile : ProjectileBase
 {
     private float lifeTime = 5f;
     private float explosionRadius; //= 5f;
-    [SerializeField] private GameObject explosionEffectPrefab;
-    [SerializeField] private AudioClip explosionClip;
+
+    [SerializeField]
+    private GameObject explosionEffectPrefab;
+
+    [SerializeField]
+    private AudioClip explosionClip;
 
     private float _timer;
 
@@ -13,6 +17,7 @@ public class ExplosiveProjectile : ProjectileBase
     {
         explosionRadius = size;
     }
+
     private void OnEnable()
     {
         _timer = 0f;
@@ -36,7 +41,8 @@ public class ExplosiveProjectile : ProjectileBase
             return;
         }
 
-        if (!IsTarget(other)) return;
+        if (!IsTarget(other))
+            return;
 
         Explode();
         ReturnToPool();
@@ -52,7 +58,11 @@ public class ExplosiveProjectile : ProjectileBase
         if (explosionEffectPrefab != null)
         {
             SFXManager.Instance.Play3D(explosionClip, transform.position, 0.7f);
-            GameObject effect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(
+                explosionEffectPrefab,
+                transform.position,
+                Quaternion.identity
+            );
             ParticleSystem ps = effect.GetComponent<ParticleSystem>();
             if (ps != null)
                 Destroy(effect, ps.main.duration);
