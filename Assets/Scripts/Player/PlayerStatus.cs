@@ -19,6 +19,7 @@ public class PlayerStatus : BaseEntity
     [SerializeField] private AudioClip hitClip;
     [SerializeField] private AudioClip screamClip;
     [SerializeField] private AudioClip deathClip;
+    private PlayerLevel playerLevel;
     public List<(StatType type, StatModifier mod)> WeaponModifiers => weaponModifiers;
 
     protected override void Awake()
@@ -26,6 +27,8 @@ public class PlayerStatus : BaseEntity
         base.Awake();
         _renderers = GetComponentsInChildren<Renderer>();
         audioSource = GetComponent<AudioSource>();
+        playerLevel = GetComponent<PlayerLevel>();
+        playerLevel.OnLevelUp += Heal;
     }
     public void Update()
     {
@@ -96,6 +99,10 @@ public class PlayerStatus : BaseEntity
     {
         currentHp = Mathf.Min(currentHp + amount, stats[StatType.MaxHp].FinalValue);
         OnHpChange?.Invoke(currentHp);
+    }
+    public void Heal()
+    {
+        Heal(stats[StatType.MaxHp].FinalValue * 0.05f);
     }
 
     protected override void Die()

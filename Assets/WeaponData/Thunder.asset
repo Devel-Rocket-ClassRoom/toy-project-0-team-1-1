@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 30
   projectileSpeed: 0
   size: 3
-  range: 0
+  range: 15
   cooldown: 3
   projectileCount: 5
   maxLevel: 8

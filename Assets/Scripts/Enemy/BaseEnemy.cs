@@ -31,7 +31,7 @@ public abstract class BaseEnemy : BaseEntity
         _player = GameObject.FindWithTag("Player").transform;
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = stats[StatType.Speed].FinalValue;
-        _agent.stoppingDistance = attackDistance;
+        _agent.stoppingDistance = enemyData.attackDistance;
 
         _renderers = GetComponentsInChildren<Renderer>();
     }
@@ -95,6 +95,7 @@ public abstract class BaseEnemy : BaseEntity
         if (_agent == null || !_agent.enabled || !_agent.isOnNavMesh)
             return;
         animator.SetBool("Run", true);
+        _agent.isStopped = false;
         _agent.SetDestination(_player.position);
     }
 
@@ -106,7 +107,9 @@ public abstract class BaseEnemy : BaseEntity
             return;
         }
         _attackTimer = attackInterval;
-
+        _agent.isStopped = true;
+        _agent.ResetPath();
+        _agent.velocity = Vector3.zero;
         var playerStatus = _player.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
