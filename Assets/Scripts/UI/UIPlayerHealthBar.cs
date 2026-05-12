@@ -16,7 +16,6 @@ public class UIPlayerHealthBar : MonoBehaviour
     private RectTransform canvasRect;
     private Canvas canvas;
     private Camera uiCam; // null이면 Overlay, 아니면 Canvas의 worldCamera
-    private RectTransform parentRect;
 
     private void Awake()
     {
@@ -28,6 +27,10 @@ public class UIPlayerHealthBar : MonoBehaviour
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();
         uiCam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+        HpBar.interactable = false;
+        var nav = HpBar.navigation;
+        nav.mode = Navigation.Mode.None;
+        HpBar.navigation = nav;
     }
 
     private void Start()
