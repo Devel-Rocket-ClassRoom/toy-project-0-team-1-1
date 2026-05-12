@@ -50,7 +50,8 @@ public abstract class BaseEnemy : BaseEntity
     protected override void OnEnable()
     {
         base.OnEnable();
-        _agent.isStopped = false;
+        if (_agent != null && _agent.isOnNavMesh)
+            _agent.isStopped = false;
         foreach (var renderer in _renderers)
         {
             foreach (var mat in renderer.materials)
