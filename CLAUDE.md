@@ -2,89 +2,63 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Project
 
-Unity 6000.3.11f1 roguelike survival game (Vampire Survivors-style). Players fight waves of enemies, collect experience, and choose weapon/passive upgrades on level-up. Up to 6 weapons can be equipped simultaneously.
+Unity 6 (6000.3.11f1, URP) 3D top-down "vampire-survivors" style game. Player auto-attacks with multiple weapons, kills waves of enemies for EXP, picks upgrades on level-up. Comments and most identifiers in source are Korean; preserve that style when editing existing files.
 
-## Build & Development
+There is no command-line test/build runner configured. Build and play through the Unity Editor (open `Assets/Scenes/GameStart.unity` or `SampleScene.unity`). A pre-built Windows binary lives in `Build/ToyProject.exe`.
 
-This is a Unity project — there is no CLI build command for day-to-day scripting work. Use the Unity Editor directly:
+`.editorconfig` enforces LF endings + final newline on `*.cs` — on Windows, be careful that editors don't rewrite to CRLF.
 
-- **Open project:** Unity Hub → Add → select repo root
-- **Play in Editor:** Press Play in the Unity Editor (main scene: `Assets/Scenes/GameStart.unity`)
-- **Test scenes:** Each developer has their own `TestScene-[name].unity` under `Assets/Scenes/`
-- **Build:** Unity Editor → File → Build Settings
+Branch naming convention: `features/<issue#>-<slug>`. Commit messages are written in Korean.
 
-There are no automated test runners or linting tools configured. `StatTest.cs` is a manual in-editor test script.
+## Code Architecture
 
-## Architecture
+### Stat system (`Assets/Scripts/Stat/`)
+Central to every entity. `BaseEntity` holds `Dictionary<StatType, StatContainer> stats`. Each `StatContainer` has a baseValue + a list of `StatModifier`s and lazily recomputes `FinalValue` when `isDirty`.
 
-### Entity Hierarchy
+Modifier math order in `StatContainer.ReCalculate`:
+1. Sum all `ModType.Flat` modifiers, add to base.
+2. Sum all `ModType.Percent` + `ModCategory.Default` (additive percent), multiply once.
+3. Each `ModType.Percent` + `ModCategory.Multiply` is applied as a *separate* multiplier (compounding).
 
-```
-BaseEntity (abstract) — stat dictionary, damage calc with defense mitigation
-├── PlayerStatus — HP, stat upgrades, invincibility frames, loot radius
-└── BaseEnemy (abstract) — NavMeshAgent pathfinding, attack interval, knockback, death/loot
-    └── NormalEnemy, HeavyEnemy, RangedEnemy, EliteEnemy, AssasinEnemy,
-        SuicideEnemy, FinalEnemy, … (11 variants total)
-```
+Modifiers carry a `source` reference so they can be removed in bulk via `RemoveBySource(source)`. Use this rather than mutating values directly when stacking/unstacking buffs.
 
-### Stat System
+### Entity hierarchy
+- `BaseEntity` (abstract MonoBehaviour) → defines stats dictionary, `currentHp`, `TakeDamage`, `Die` → `DieRoutine` → `OnDie` template.
+- `PlayerStatus : BaseEntity` — has invincibility frames, hit FX, weapon-modifier cache (`weaponModifiers`) that re-applies passive stats to newly equipped weapons in `PlayerWeapon.Equip`.
+- `BaseEnemy : BaseEntity` — drives NavMeshAgent toward `_player`, distance-gated attack via `attackDistance`/`attackInterval`. Subclasses (Assasin/Heavy/Ranged/Elite/Final/Suicide/Triple…) override `Move`/`DoAttak`/`Update`. Enemies return themselves to the pool in `OnDie` via the prefab handle set by `EnemySpawner.SetPrefab`.
 
-All entities store stats as `Dictionary<StatType, StatContainer>` where `StatType` is a 14-value enum (MaxHp, Defense, Speed, Attack, Cool, KnockBack, Resistance, etc.).
+`PlayerStatus.AddModifier` has a special path: if the stat key doesn't exist on the player, it's assumed to be a *weapon* stat — it's cached in `weaponModifiers` and forwarded to every currently equipped `WeaponBase`. New weapons replay the cache on `Equip`. Don't bypass this by directly mutating weapon stats from upgrade code.
 
-`StatContainer` uses a dirty-flag lazy recalculation pattern. `StatModifier` structs are applied in order: **Flat → Percent(Default) → Percent(Multiply)**. This system is also used by `WeaponBase` for weapon stats.
+### Weapons — two trees, only one is live
+- `Assets/Scripts/Weapons/` — older base classes (`AreaWeaponBase`, `DirectinalWeaponBase`, `ElectronicStaffWeapon`, `ShotgunWeapon`, plus `MolotovWeapon/`, `SwordAura/` subfolders).
+- `Assets/Scripts/Weapons-newScript/` — **the active system.** Contains `WeaponBase` (abstract), `WeaponManager` (singleton WeaponData→prefab map), `WeaponData` ScriptableObject, and the in-use concrete weapons (Shuriken, Slasher, Thunder, ExplosiveProjectile, ElectronicField…).
 
-### Weapon System
+`WeaponBase` runs a single `_timer` that fires `Attack()` every `Cooldown` seconds while `IsActive` and `CanAttack`. New weapons subclass it and implement `Attack()`. Stats come from `WeaponData` via `InitStats()`; per-level upgrades push `StatModifier`s through `weapon.AddModifier(...)` (see `WeaponData.Apply` reading `levelStats[weapon.Level - 1]`).
 
-```
-WeaponBase (abstract) — stat dict, cooldown loop, IUpgrade
-├── ProjectileWeaponBase — spawns ProjectileBase via PoolManager
-│   └── (most ranged weapons)
-└── SlasherWeapon, ThunderWeapon, ShurikenWeapon, ElectronicFieldWeapon
-```
+`PlayerWeapon` caps active weapons at 6 (`IsFull`). `Equip` instantiates the prefab from `WeaponManager.Weapons[data]`, then replays `PlayerStatus.WeaponModifiers` onto the new instance before `Activate()`.
 
-`ProjectileBase` is the abstract poolable projectile. Concrete types: `SlashProjectile`, `ExplosiveProjectile`, `ThunderProjectile`, `ShurikenOrbit`, `ShurikenTrap`.
+### Upgrade flow
+`PlayerLevel.OnLevelUp` → `UpgradeManager.ShowUpgradeSelection` → `GetRandomChoices(3)` filtering out maxed weapons/passives → `UpgradeUI.Show(choices, ApplyUpgrade)`. Both `WeaponData` and `UpgradeItemData` implement `IUpgrade` and return their new level from `Apply` so the manager can fire `OnFirstGet` (icon unlocks) only on level 1. Starting weapon is chosen the same way via `ShowStartingWeaponSelection` on `Start`.
 
-`ProjectileInitData` (struct) carries owner, direction, damage, speed, layer mask, size, and knockback from weapon to projectile at spawn time.
+### Pooling
+`PoolManager.Instance` (singleton) wraps `ObjectPool<Transform>` keyed by prefab `GameObject`. Always go through `PoolManager.Instance.Spawn(prefab, pos, rot)` / `Despawn(prefab, obj)` — many systems (enemy spawning, projectiles, damage popups, EXP drops, items) rely on `OnEnable`-based reset, so any pooled component must restore its state in `OnEnable` rather than `Awake`/`Start`. `BaseEntity.OnEnable` already resets `isDead` and `currentHp`; subclasses calling `base.OnEnable()` is mandatory.
 
-`Assets/Scripts/Weapons/` contains **legacy** weapon classes (ShotgunWeapon, MolotovWeapon, etc.) that are superseded by `Assets/Scripts/Weapons-newScript/`. Prefer the new system for any changes.
+`PoolManager` lazily creates pools for prefabs that weren't pre-configured (`preloadCount = 0`), so missing inspector entries don't crash but lose the warmup.
 
-### Upgrade System
-
-`IUpgrade` is implemented by both `WeaponData` and `UpgradeItemData` (ScriptableObjects). `UpgradeManager` (singleton) picks 3 random `IUpgrade` candidates on level-up and calls `Apply()` on the player's choice. `LevelStats` stores per-level `List<StatModifier>` plus a display description string.
-
-### Object Pooling
-
-`PoolManager` (singleton) holds a `Dictionary<GameObject, ObjectPool<T>>` and auto-creates missing pools on first `Spawn()` call. All projectiles and damage popups use this pool. Always return objects via `PoolManager.Despawn()` rather than `Destroy()`.
-
-### Singletons
-
-`WeaponManager`, `PoolManager`, `UpgradeManager`, `SFXManager` — all use the standard Unity singleton pattern.
-
-### Key ScriptableObjects
-
-| Asset type | Location | Defines |
-|---|---|---|
-| `WeaponData` | `Assets/Scripts/Weapons-newScript/` | damage, cooldown, range, speed, size, knockBack, existTime, projectileCount, maxLevel, levelStats |
-| `EnemyData` | `Assets/Scripts/Enemy/` | maxHp, defense, speed, attack, attackDistance, attackInterval, resistance |
-| `UpgradeItemData` | `Assets/Scripts/Upgrade/` | icon, itemName, maxLevel, per-level StatModifier lists |
-| `ItemData` | `Assets/Scripts/Item/` | itemName, effectValue, prefab |
-
-### Wave / Spawn System
-
-`EnemySpawner` drives waves; each wave config specifies enemy types, count, spawn interval, and chest count. Chests spawn proportionally as the wave progresses. `BreakableObject` handles chest drops.
-
-### Leveling Formula
-
-Experience threshold per level: `100 × 1.2^(level − 1)`. Max weapon level: 8. Max passive item level: 5.
+### Spawning
+`EnemySpawner` runs wave-based spawning: each `Wave` has prefabs, count, interval, and chest count. `GetSpawnPos` rejects samples closer than `minSpawnDist` from the player and uses `NavMesh.SamplePosition` to keep enemies on the mesh. Returns `Vector3.positiveInfinity` as a "no valid position" sentinel — callers must check before using. `EnemySpawner2.cs` is a separate variant; check which is wired into the active scene before editing.
 
 ### Audio
+`SFXManager.Instance` — hand-rolled 3D voice pool (`pool3D[]`) with min-interval deduping and per-clip concurrency cap (voice stealing). Call `Play3D(clip, pos, vol)` for world sounds, `Play2D(clip, vol)` for UI/global. `BgmManager` plays a sequential playlist coroutine; not a singleton.
 
-`SFXManager` maintains a pool of 16 `AudioSource` components with voice-stealing. `BgmManager` loops a playlist. Use `SFXManager.Instance.Play(clip, position)` for spatial SFX.
+### Data assets
+ScriptableObjects under `Assets/EnemyData/`, `Assets/WeaponData/`, `Assets/UpgradeData/`, `Assets/ItemData/`, `Assets/UIData/`. Authored via the `Game/...` `CreateAssetMenu` entries on the respective classes.
 
-## Code Conventions
+## Gotchas
 
-- Comments and some variable names are in Korean — this is intentional for the team.
-- `EnemySpawner2.cs` is unused; do not extend it.
-- Avoid `Destroy()` for pooled objects (projectiles, items, popups) — always `Despawn()`.
+- `Assets/Scripts/Player/PlayerWeapon.cs` contains corrupted/mojibake Korean strings in `Debug.LogError` messages and comments (visible as `�` characters). Don't "fix" them blindly — they're encoding artifacts in the file as committed. Only touch if explicitly cleaning encoding.
+- Multiple `TestScene-*.unity` scenes exist (one per developer initials: `kkh`, `mj`, `ss`, `map`). `GameStart.unity` and `SampleScene.unity` are the canonical entry scenes.
+- `PoolManager.Spawn` returns the spawned `GameObject`, not a typed component — callers commonly `GetComponent<BaseEnemy>()` immediately after. If the prefab is missing the expected component this will null-ref silently.
+- `BaseEnemy.Awake` calls `GameObject.FindWithTag("Player")` — the Player must exist before enemies spawn, and the Player GameObject must carry the `Player` tag.
