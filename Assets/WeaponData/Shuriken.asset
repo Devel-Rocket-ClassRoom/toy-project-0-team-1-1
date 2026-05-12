@@ -22,7 +22,7 @@ MonoBehaviour:
   projectileCount: 2
   maxLevel: 8
   existTime: 5
-  knockBack: 0
+  knockBack: 0.5
   Description: "\uACF5\uC804\uD615 \uC218\uB9AC\uAC80 \uD68C\uC804\uACF5\uACA9"
   levelStats:
   - modifiers:

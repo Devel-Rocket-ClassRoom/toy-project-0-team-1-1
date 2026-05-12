@@ -237,7 +237,9 @@ public abstract class BaseEnemy : BaseEntity
         }
 
         float elapsed = 0f;
-        float duration = 0.2f * resistance;
+        // duration은 저항에 영향받지 않게 고정. 거리만 저항에 비례해서 줄어들면
+        // 저항 높은 적은 같은 시간 동안 더 짧게 밀려 시각적으로 차이가 보임.
+        float duration = 0.2f;
         Vector3 startPos = transform.position;
 
         while (elapsed < duration)

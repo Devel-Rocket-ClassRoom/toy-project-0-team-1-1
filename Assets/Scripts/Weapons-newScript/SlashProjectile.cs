@@ -14,6 +14,10 @@ public class SlashProjectile : ProjectileBase
     [SerializeField]
     private float swingAngle = 120f;
 
+    [Header("Lifesteal")]
+    [SerializeField, Range(0f, 1f)]
+    private float lifestealRatio = 0.05f; // 적중당 데미지의 몇 % 회복
+
     private float timer;
     private Quaternion baseRotation;
     private readonly HashSet<Collider> hitTargets = new();
@@ -89,5 +93,16 @@ public class SlashProjectile : ProjectileBase
 
         hitTargets.Add(other);
         Hit(other);
+        TryLifesteal();
+    }
+
+    private void TryLifesteal()
+    {
+        if (lifestealRatio <= 0f || owner == null) return;
+        var status = owner.GetComponentInParent<PlayerStatus>();
+        if (status != null && !status.IsDead)
+        {
+            status.Heal(damage * lifestealRatio);
+        }
     }
 }

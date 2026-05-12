@@ -10,10 +10,17 @@ public class ElectricFieldWeapon : WeaponBase
     [SerializeField]
     private float visualRadiusAtScaleOne = 2f;
 
+    [Header("Lifesteal")]
+    [SerializeField, Range(0f, 1f)]
+    private float lifestealRatio = 0.05f; // 적 한 마리 적중당 데미지의 몇 % 회복
+
+    private PlayerStatus _ownerStatus;
+
     protected override void Awake()
     {
         base.Awake();
         effectObject = transform.Find("ElectronicFieldEffect")?.gameObject;
+        _ownerStatus = GetComponentInParent<PlayerStatus>();
         UpdateEffectSize();
     }
 
@@ -37,7 +44,13 @@ public class ElectricFieldWeapon : WeaponBase
         var targets = FindTargetsInRange(transform.position, damageRadius);
         foreach (var target in targets)
         {
-            target.GetComponent<BaseEntity>()?.TakeDamage(Damage);
+            var entity = target.GetComponent<BaseEntity>();
+            if (entity == null || entity.IsDead) continue;
+            entity.TakeDamage(Damage);
+            if (_ownerStatus != null && lifestealRatio > 0f)
+            {
+                _ownerStatus.Heal(Damage * lifestealRatio);
+            }
         }
     }
 
