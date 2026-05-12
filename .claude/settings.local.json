@@ -1,7 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\kimseongsoo\\\\toy-project-0-team-1-1\" | Where-Object { -not \\($_.Name -match 'Library|obj|\\\\.git'\\) } | Select-Object Name)"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\kimseongsoo\\\\toy-project-0-team-1-1\" | Where-Object { -not \\($_.Name -match 'Library|obj|\\\\.git'\\) } | Select-Object Name)",
+      "Skill(update-config)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$j = $input -join '' | ConvertFrom-Json; $f = $j.tool_input.file_path; if ($f -and $f -match '\\.cs$') { dotnet csharpier format $f } 2>$null",
+            "shell": "powershell",
+            "statusMessage": "CSharpier 포매팅 중...",
+            "timeout": 30
+          }
+        ]
+      }
     ]
   }
 }
