@@ -112,6 +112,8 @@ MonoBehaviour:
     weight: 1
   - itemPrefab: {fileID: 4808722692184877589, guid: 488e8fcc15945c84c884dd3dfdcdd647, type: 3}
     weight: 1
+  - itemPrefab: {fileID: 8123521297956042281, guid: 064e809af5ec6a347ba41fe761097bbc, type: 3}
+    weight: 1
 --- !u!65 &1634640696362900960
 BoxCollider:
   m_ObjectHideFlags: 0

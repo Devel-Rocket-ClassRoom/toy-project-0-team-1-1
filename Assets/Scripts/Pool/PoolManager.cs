@@ -46,6 +46,9 @@ public class PoolManager : MonoBehaviour
 
     public void Despawn(GameObject prefab, GameObject obj)
     {
-        pools[prefab].Return(obj.transform);
+        if (prefab != null && pools.ContainsKey(prefab))
+            pools[prefab].Return(obj.transform);
+        else
+            Destroy(obj);
     }
 }
